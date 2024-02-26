@@ -1,0 +1,87 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper wrapper_page">
+    <div class="page-breadcrumb bg-white white_bg">
+        <div class="row align-items-center">
+            <div class="col-lg-9 col-md-4 col-sm-4 col-xs-12 mb-3">
+                <h2 class="page-title title_page ">Dashboard</h2>
+            </div>
+        </div>
+        <div class="dashboardBox">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <a href="" class="col-lg-4 round_box col-md-4 col-lg-1" style="text-decoration: none;">
+                        <div class="white-box analytics-info box_white counter" style="background-color: lightgrey;">
+                            <h3 style="text-align: center;" class="text-info"> <b>Total Users</b> </h3>
+                            <p style="text-align: center; font-size: 35px; color: black;" class="fw-bold">{{total_user}}
+                            </p>
+                        </div>
+                    </a>
+                    <a href="" class="col-lg-4 round_box col-md-4 col-sm-1" style="text-decoration: none;">
+                        <div class="white-box analytics-info box_white counter" style="background-color: lightgrey;">
+                            <h3 style="text-align: center;" class="text-info"><b>Active Users</b></h3>
+                            <p style="text-align: center; font-size: 35px; color: black;" class="fw-bold">{{active}}</p>
+
+                        </div>
+                    </a>
+                    <a href="" class="col-lg-4 round_box col-md-4 col-sm-1" style="text-decoration: none;">
+                        <div class="white-box analytics-info box_white counter" style="background-color: lightgrey;">
+                            <h3 style="text-align: center;" class="text-info"><b>InActive Users</b></h3>
+                            <p style="text-align: center; font-size: 35px; color: black;" class="fw-bold">{{in_active}}
+                            </p>
+                        </div>
+                    </a>
+                    <a href="" class="col-lg-4 round_box col-md-4 col-sm-1" style="text-decoration: none;">
+                        <div class="white-box analytics-info box_white counter" style="background-color: lightgrey;">
+                            <h3 style="text-align: center;" class="text-info"><b>Total Restaurant</b></h3>
+                            <p style="text-align: center; font-size: 35px; color: black;" class="fw-bold">
+                                {{total_restaurant}}</p>
+                        </div>
+                    </a>
+                    <a href="" class="col-lg-4 round_box col-md-4 col-sm-1" style="text-decoration: none;">
+                        <div class="white-box analytics-info box_white counter" style="background-color: lightgrey;">
+                            <h3 style="text-align: center;" class="text-info"><b>Active Restaurant</b></h3>
+                            <p style="text-align: center; font-size: 35px; color: black;" class="fw-bold">
+                                {{active_restaurant}}</p>
+                        </div>
+                    </a>
+                    <a href="" class="col-lg-4 round_box col-md-4 col-sm-1" style="text-decoration: none;">
+                        <div class="white-box analytics-info box_white counter" style="background-color: lightgrey;">
+                            <h3 style="text-align: center;" class="text-info"><b>Inactive Restaurant</b></h3>
+                            <p style="text-align: center; font-size: 35px; color: black;" class="fw-bold">
+                                {{inactive_restaurant}}</p>
+                        </div>
+                    </a>
+
+                    <!-- <a href="./notification.html" class="col-lg-3 round_box col-md-4 col-sm-1">
+                        <div class="white-box analytics-info box_white counter">
+                            <h3 class="box-title">Total Withdraw</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash4">
+                                        <p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0">
+                                                <i class="fa fa-arrow-up"></i> 16.24 %
+                                            </span> vs. previous month</p>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-purple counter-value">869</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </a> -->
+                </div>
+                <!-- Emd box -->
+
+
+
+                <!-- ============================================================== -->
+                <!-- Recent Comments -->
+
+                <!-- ============================================================== -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

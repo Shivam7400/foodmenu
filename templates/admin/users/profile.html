@@ -1,0 +1,69 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="page-wrapper wrapper_page" style="min-height: 250px;">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="container-fluid fluid_container responsive_container pt-3 white_bg">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="application-detail-heading-area">
+                    <h2 class="noti_detail">Profile</h2>
+                </div>
+                <div class="contact-detail-main-area main_area_contact_detail">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form class="contact-form-main-area" method="POST" id="paymentFrm"
+                                enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group text-center">
+                                            {% if datas.choose_profilepic %}
+                                                <img src="{{ datas.choose_profilepic.url }}" alt="Image Here" style="height: 1.7in; width: 5cm;">
+                                            {% else %}
+                                                <h2>No Image</h2>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                        
+                                            <label>Full Name</label>
+                                            <input type="text" class="form-control field change_border" value="{{datas.full_name}}" disabled
+                                                name="full_name" id="name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control field change_border" name="email_id" value="{{datas.email_id}}" disabled
+                                                 id="email_id">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="number" class="form-control field change_border"  value="{{datas.phone_number}}" disabled
+                                                name="phone_number" id="phone_number">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-lg-12">
+                                        <div class="contact-form-submint-btn-area">
+                                            <a href="{% url 'show-users' %}" class="btn btn-success">Back</a>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
