@@ -3,17 +3,11 @@
 
 
 {% block content %}
-<style>
-    span.select2-selection.select2-selection--single{
-
-    border-color: #97d3e8;
-    }
-</style>
 <div class="page-wrapper wrapper_page" style="min-height: 250px;">
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-    <div class="container-fluid fluid_container responsive_container">
+    <div class="container-fluid fluid_container responsive_container pt-3 white_bg">
         <div class="row">
             <div>
                 {% if messages %}
@@ -40,13 +34,22 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select name="receiver" id="receiver"  class="form-control select2"
-                                                 multiple>
+                                            <select name="receiver" id="receiver"  class="form-control  select2" 
+                                                multiple required>
                                                 <option  value="">All Users</option>
                                                 {% for user in datas %}
                                                 <option class="users" value="{{user.id}}">{{user.email_id}}</option>
                                                 {% endfor %}
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold">Heading : </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control field change_border" name="heading" required
+                                                placeholder="Enter Heading" id="heading">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
@@ -76,6 +79,5 @@
 <script>
     $('.select2').select2();
 </script>
-
 
 {% endblock %}
