@@ -18,12 +18,7 @@ urlpatterns=[
    
 #######################  Restaurants Show #################
 
-    path('add-restaurant/',views.Add_Rastaurant.as_view(),name='add-restaurant'),
-    path('show-restaurant/',views.Show_Restaurant.as_view(),name='show-restaurant'),
-    path('detail-restaurant/<int:id>',views.Restaurant_detail.as_view(),name='detail-restaurant'),
     path('payament_details',views.User_Payment.as_view(),name='payament_details'),
-    path('delete-restaurant/<int:id>',views.Delete_Restaurant,name='delete-restaurant'),
-    path('restaurant-active-inactive/',views.Restaurant_Active_inActive.as_view(),name='restaurant-active-inactive'),
 
     
 
@@ -38,4 +33,14 @@ urlpatterns=[
     path('delete-notification/<int:id>',views.delete_notifications,name='delete-notification'),
     path('delete-all-notification/',views.delete_all_notifications,name='delete-all-notification'),
     path('404/', views.handler404, name='handler404'),
+###term And condition
+    path('add-termandcondition',views.Termsandconditions_add.as_view(),name='add-termandcondition'),
+    path('show-termandcondition',views.Termsandconditions_show.as_view(),name='show-termandcondition'),
+    path('edit-termandcondition/<int:id>',views.Termsandconditions_Edit.as_view(),name='edit-termandcondition'),
+    path('delete-termandcondition/<int:id>',views.delete_Termsandconditions,name='delete-termandcondition'),
+####Privacy and Policy
+    path('add-privacyandpolicy',views.Privacyandpolicy_add.as_view(),name='add-privacyandpolicy'),
+    path('show-privacyandpolicy',views.Privacyandpolicy_show.as_view(),name='show-privacyandpolicy'),
+    path('edit-privacyandpolicy/<int:id>',views.Privacyandpolicy_Edit.as_view(),name='edit-privacyandpolicy'),
+    path('delete-privacyandpolicy/<int:id>',views.delete_Privacyandpolicy,name='delete-privacyandpolicy'),
 ]
