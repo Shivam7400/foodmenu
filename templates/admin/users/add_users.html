@@ -21,21 +21,21 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Add Profile: </label>
+                                        <label class="fw-bold" style="margin-top: 10px;">Restaurant Name: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="file" class="form-control field change_border" alt="img"
-                                                name="choose_profilepic" autofocus="" id="choose_profilepic">
+                                            <input type="text" id="form2Example17" name="restaurant_name" required
+                                                class="form-control form-control-lg" />
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Full Name: </label>
+                                        <label class="fw-bold" style="margin-top: 10px;">Restaurant Logo: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control field change_border" alt="img"
-                                                name="full_name" autofocus="" id="name">
+                                            <input type="file" class="form-control field change_border" alt="img" required
+                                                name="restaurant_logo" autofocus="">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="email" class="form-control field change_border" name="email_id"
+                                            <input type="email" class="form-control field change_border" name="email_id" 
                                                 autofocus="" required id="email_id">
                                         </div>
                                     </div>
@@ -52,23 +52,34 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="number" class="form-control field change_border" alt="img"
+                                            <input type="number" class="form-control field change_border" alt="img" required
                                                 name="phone_number" autofocus="" id="phone_number">
                                         </div>
                                     </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Address/City: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control field change_border" alt="img" required
+                                                name="restaurant_address" autofocus="">
+                                        </div>
+                                    </div>
                                 </div>
+
+
                                 <div class="col-lg-12">
                                     <div class="contact-form-submint-btn-area">
                                         <button class="contact-form-submint-btn btn_submit">Submit</button>
                                     </div>
                                 </div>
-
-                            </form>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

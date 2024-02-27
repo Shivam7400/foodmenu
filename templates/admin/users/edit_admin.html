@@ -25,15 +25,16 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
+                                            
                                             {% if datas.choose_profilepic %}
-                                                <img src="{{datas.choose_profilepic.url}}" alt="Image Here" style="height: 1.5in; width: 8cm;">
+                                                <img src="{{datas.choose_profilepic.url}}"  style="height: 1.5in; width: 8cm;">
+                                            {% else %}
+                                            <img src="{% static 'images/default.png' %}" alt="Image Here" style="height: 1.7in; width: 5cm;">
                                             {% endif %}
-                                            <div class="change-photo-btn-area">
-                                                <label for="edit" class="change-poto-btn edit_btn">
-                                                    <i class="fa fa-camera" aria-hidden="true"></i>
-                                                </label>
-                                                <input type="file" name="choose_profilepic" id="edit" class="edit-file">
-                                            </div>
+                                                <input type="file" name="choose_profilepic"  class="form-control field change_border">
+                                                <input type="checkbox" name="deletepic"  class=" change_border">Delete Profile
+                                                
+                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">

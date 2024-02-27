@@ -141,9 +141,9 @@
                     <thead>
                       <tr>
                         <th>S.N.</th>
-                        <th>Full Name</th>
-                        <th>Contact</th>
+                        <th>Restaurant_name</th>
                         <th>Email</th>
+                        <th>Contact</th>
                         <th>Profile</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -157,9 +157,11 @@
                         <td>
                           <a href=""> {{forloop.counter}}</a>
                         </td>
-                        <td>{{head.full_name}}</td>
-                        <td>{{head.phone_number}}</td>
+                        {% for heads in head.cat.all %}
+                        <td>{{heads.restaurant_name}}</td>
+                        {% endfor %}
                         <td>{{head.email_id}}</td>
+                        <td>{{head.phone_number}}</td>
                         <td><a href="{% url 'show-profile' head.id %}"><i class="eyeBlack fa fa-eye"></i></a></td>
                         <td>
                           <label class="active-switch"> <input
