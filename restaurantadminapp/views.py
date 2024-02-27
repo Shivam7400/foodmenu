@@ -5,8 +5,6 @@ from django.contrib.auth.decorators import login_required
 from Adminapp.models import *
 from .models import *
 from django.contrib import messages
-import razorpay
-from foodmenu.settings import RAZORPAY_API_KEY,RAZORPAY_API_SECRET_KEY
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
@@ -19,12 +17,12 @@ class User_Login(View):
         if not request.user.is_authenticated:
             return render(request,'restaurent_admin/login.html')
         else:
-            if  RestaurentDetails.objects.filter(payment_status='Successfull',user_id=request.user).exists():
+            # if  RestaurentDetails.objects.filter(payment_status='Successfull',user_id=request.user).exists():
                 return redirect('user-dashboard')
-            elif  RestaurentDetails.objects.filter(payment_status='pending',user_id=request.user).exists():
-                return redirect('subscription')
-            else: 
-                return redirect('add-restaurant-details')
+            # elif  RestaurentDetails.objects.filter(payment_status='pending',user_id=request.user).exists():
+            #     return redirect('subscription')
+            # else: 
+            #     return redirect('add-restaurant-details')
             
 
     def post(self,request):
@@ -37,12 +35,12 @@ class User_Login(View):
         if user is not None:
             if CustomUser.objects.filter(email_id=email_id, is_superuser=False):
                 login(request, user)
-                if RestaurentDetails.objects.filter(payment_status='Successfull',user_id=request.user).exists():
-                    return redirect('user-dashboard')
-                elif RestaurentDetails.objects.filter(payment_status='pending',user_id=request.user).exists():
-                    return redirect('subscription')
-                else:
-                    return redirect('add-restaurant-details')
+                # if RestaurentDetails.objects.filter(payment_status='Successfull',user_id=request.user).exists():
+                return redirect('user-dashboard')
+                # elif RestaurentDetails.objects.filter(payment_status='pending',user_id=request.user).exists():
+                #     return redirect('subscription')
+                # else:
+                #     return redirect('add-restaurant-details')
             else:
                 messages.warning(request, 'You Are Not User')
         else:
@@ -53,14 +51,16 @@ class UserDashboard(View):
     def get(self,request):
         
         if request.user.is_authenticated:
-            if RestaurentDetails.objects.filter(user_id=request.user).exists():
+            if request.user.is_superuser is False:
                 category=FoodCategories.objects.filter(user_id=request.user).all().count()
                 item=FoodName.objects.all().filter(user_id=request.user).count()
                 noti=Notification.objects.all().filter(receiver=request.user).count()
+                rname=RestaurentDetails.objects.get(user_id=request.user.id)
                 
-                return render(request,'restaurent_admin/dashboard.html',{'category':category,'item':item,'noti':noti})
+                return render(request,'restaurent_admin/dashboard.html',context= {'category':category,'item':item,'noti':noti,'rname':rname})
             else:
-                return redirect('add-restaurant-details')
+                return redirect('admin-login')
+            
         else:        
             return redirect('user-login')
         
@@ -70,16 +70,19 @@ def userlogout(request):
     if request.user.is_authenticated:
         logout(request)
         messages.success(request,'Log Out Successfully')
-        return redirect('user-login')
+        return redirect('home')
 
     else:
         return redirect('user-login')
     
+
+
+
 class Change_password(View):
     
     def get(self, request):
         if  request.user.is_authenticated:
-            return render(request, 'restaurent_admin/password_reset.html')
+            return render(request, 'restaurent_admin/change_password.html')
         else:
             return redirect('user-dashboard') 
     def post(self, request):
@@ -116,15 +119,39 @@ class UserRegistration(View):
             return redirect('user-login')
         
     def post(self,request):
-        full_name=request.POST.get('full_name')
-        choose_profilepic=request.FILES.get('choose_profilepic')
+        rname=request.POST.get('Rname')
+        rlogo=request.FILES.get('Rlogo')
         email_id=request.POST.get('email_id')
         password=request.POST.get('password')
+        address=request.POST.get('address')
         phone_number=request.POST.get('phone_number')
-        print(choose_profilepic,full_name,'pic')
-        CustomUser.objects.create_user(full_name=full_name,choose_profilepic=choose_profilepic,email_id=email_id,password=password,phone_number=phone_number)
-        return redirect('user-login')
+        print(rlogo,'logo')
+        print(rname,'logo')
+        print(phone_number,'phone')
+        if not CustomUser.objects.filter(email_id=email_id).exists():
+            userdata=CustomUser.objects.create_user(email_id=email_id,password=password,phone_number=phone_number)
+            print(userdata)
+            RestaurentDetails.objects.create(restaurant_name=rname,restaurant_logo=rlogo,restaurant_address=address,user_id=userdata)
+
+            messages.success(request,'Account create Successfully!!!')
+            return redirect('user-login')
+        else:
+            messages.warning(request,'Email Alreday exists!!!')
+            return redirect('user-registration')
+        
+
+
     
+
+class HomePage(View):
+    def get(self,request):
+        if CustomUser.objects.filter(is_superuser=False):
+            if not request.user.is_authenticated:
+                return render(request,'restaurent_admin/homepage.html')
+            else:
+                return redirect('user-dashboard')
+        else:
+            return redirect('admin-login')    
 class Edit_Users_Profile(View):
     def get(self, request, id):
         if  request.user.is_authenticated:
@@ -137,16 +164,27 @@ class Edit_Users_Profile(View):
         choose_profilepic=request.FILES.get('choose_profilepic')
         full_name=request.POST.get('full_name')
         phone_number=request.POST.get('phone_number')
-        if choose_profilepic is not None:
-            
-            data=CustomUser(id=id,choose_profilepic=choose_profilepic,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
+        deletepic=request.POST.get('deletepic')
+        if choose_profilepic and deletepic:
+            messages.warning(request,'Either Select Add Picture or Remove Picture')
+            return redirect('edit-users-profile', id)
         else:
-            data =CustomUser.objects.get(pk=id)
-            data=CustomUser(id=id,choose_profilepic=data.choose_profilepic,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
-        messages.success(request,'Profile Update Successfully!!!')
-        return redirect('user-dashboard')
+            if deletepic is None:
+                if choose_profilepic is not None:
+                    
+                    data=CustomUser(id=id,choose_profilepic=choose_profilepic,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
+                else:
+                    data =CustomUser.objects.get(pk=id)
+                    data=CustomUser(id=id,choose_profilepic=data.choose_profilepic,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
+                messages.success(request,'Profile Update Successfully!!!')
+                return redirect('user-dashboard')
+            else:
+                print('True')
+                data =CustomUser.objects.get(pk=id)
+            
+                data=CustomUser(id=id,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
 
-
+                return redirect('user-dashboard')
 
 class Add_Category(View):
     def get(self,request,id):
@@ -262,34 +300,6 @@ def delete_item(request,id):
     else:
         return redirect('user-login')
 
-
-class Add_Restaurant_Deltails(View):
-    def get(self,request):
-        if request.user.is_authenticated:
-            return render(request,'restaurent_admin/restaurant_details/add_restaurent.html')
-        else:
-            return redirect('user-login')
-    def post(self,request):
-        restaurant_name=request.POST.get('restaurant_name')
-        restaurant_id=request.POST.get('restaurant_id')
-        restaurant_address=request.POST.get('restaurant_address')
-
-        if RestaurentDetails.objects.filter(user_id=request.user).exists():
-            if not RestaurentDetails.objects.filter(restaurant_id=restaurant_id).exists():
-
-                RestaurentDetails.objects.create(restaurant_address=restaurant_address,restaurant_name=restaurant_name,restaurant_id=restaurant_id,user_id=request.user)
-                return redirect('subscription')
-            else:
-                messages.warning(request,'Id already Exist')
-                return redirect('add-restaurant-details')
-        else:
-            if not RestaurentDetails.objects.filter(restaurant_id=restaurant_id).exists():
-
-                RestaurentDetails.objects.create(restaurant_address=restaurant_address,restaurant_name=restaurant_name,restaurant_id=restaurant_id,user_id=request.user)
-                return redirect('subscription')
-            else:
-                messages.warning(request,'Id already Exist')
-                return redirect('add-restaurant-details')
         
 class Show_Restaurant_Details(View):
     def get(self,request):
@@ -339,21 +349,34 @@ def delete_restaurant_details(request,id):
 
 class Restaurant_details(View):
     def get(self,request,id):
-      
-        data=RestaurentDetails.objects.get(id=id)
-        print(data.id,'name')
-        return render(request,'restaurent_admin/restaurant_details/restaurant_profile.html',{'data':data})
-
-
-class HomePage(View):
-    def get(self,request):
         if request.user.is_authenticated:
-            id=request.user
-            print(id,"id")
-            data=RestaurentDetails.objects.all().filter(user_id=id)
-            return render(request,'restaurent_admin/home.html',{'data':data})
+            print(id,'id')
+            data=RestaurentDetails.objects.get(user_id=id)
+            print(data.id,'name')
+            return render(request,'restaurent_admin/restaurant_details/restaurant_profile.html',{'datas':data})
         else:
             return redirect('user-login')
+        
+    def post(self,request,id):
+        print(id,'id')
+        rname=request.POST.get('restaurant_name')
+        rlogo=request.FILES.get('restaurant_logo')
+        address=request.POST.get('restaurant_address')
+        phone_number=request.POST.get('phone_number')
+        data=RestaurentDetails.objects.get(user_id=id)
+        data1=CustomUser.objects.get(id=id)
+        print(rname,rlogo,address)
+        if rlogo is not None:
+            CustomUser(id=id,email_id=data1.email_id,phone_number=phone_number,password=request.user.password).save()
+            RestaurentDetails(id=data.id,restaurant_name=rname,restaurant_logo=rlogo,restaurant_address=address,user_id=data.user_id).save()
+        else:
+            CustomUser(id=id,email_id=data1.email_id,phone_number=phone_number,password=request.user.password).save()
+            RestaurentDetails(id=data.id,restaurant_name=rname,restaurant_logo=data.restaurant_logo,restaurant_address=address,user_id=data.user_id).save()
+        
+        return redirect('user-dashboard')
+    
+
+
 
 
 
@@ -372,17 +395,21 @@ class Restaurant_Menu(View):
                 return HttpResponse("<h1>Page Not Found......<h1>")
         else:
             return HttpResponse("<h1>bad request...<h1>")
-
 class User_Subscription(View):
     
     def get(self,request):
-        client = razorpay.Client(auth=(RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY))
-        order_amount= 10000000
-        order_currency= "INR"
-        payment_order=client.order.create(dict(amount=order_amount,currency=order_currency,payment_capture=1))
-        payment_order_id=payment_order['id']
-        data=SubscriptionDetails.objects.all()
-        return render(request,'restaurent_admin/subscription.html',{'data':data,'api_key':RAZORPAY_API_KEY,'order_id':payment_order_id})
+        if request.user.is_authenticated:
+            # client = razorpay.Client(auth=(RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY))
+            # order_amount= 10000000
+            # order_currency= "INR"
+            # payment_order=client.order.create(dict(amount=order_amount,currency=order_currency,payment_capture=1))
+            # payment_order_id=payment_order['id']
+            # 'api_key':RAZORPAY_API_KEY,'order_id':payment_order_id
+            data=SubscriptionDetails.objects.all()
+            return render(request,'restaurent_admin/subscription.html',{'data':data})
+        else:
+            return redirect('user-login')
+
     def post(self,request):
         id=request.user
         data=RestaurentDetails.objects.get(user_id=id)
@@ -405,10 +432,15 @@ class Receive_Notification(View):
             return redirect('user-login')
 
 def delete_notification(request,id):
-    if request.method=='POST':
-        data=Notification.objects.get(id=id)
-        data.delete()
-    return redirect('receive-notification')
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            data=Notification.objects.get(id=id)
+            data.delete()
+        return redirect('receive-notification')
+    else:
+            return redirect('user-login')
+
+
 
 
 def generate_pdf(request,id):
@@ -429,3 +461,13 @@ def generate_pdf(request,id):
         response = HttpResponse(pdf_file, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="my_pdf_file.pdf"'
         return response
+    
+
+class TermandConditions(View):
+    def get(self,request):
+        data=Termandcondition.objects.all()
+        return render(request,'restaurent_admin/termandcondition.html',{'data':data})
+class Privacyandpolicies(View):
+    def get(self,request):
+        data=PrivacyAndPolicy.objects.all()
+        return render(request,'restaurent_admin/termandcondition.html',{'data':data})
