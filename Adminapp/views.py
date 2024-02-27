@@ -109,7 +109,7 @@ class Forget_password(View):
             if CustomUser.objects.filter(email_id=email_id,is_superuser=True).exists():
                 if new_password == confirm_password:
                     new_password = confirm_password
-                    user = CustomUser.objects.get(email_id=email_id,is_superuser=True   )
+                    user = CustomUser.objects.get(email_id=email_id,is_superuser=True)
                     user.set_password(new_password)
                     user.save()
                     messages.success(request,'Password Changed..!!!')
@@ -138,11 +138,14 @@ class Add_Users(View):
         else:
             return redirect('admin-login')
     def post(self,request):
-        choose_profilepic=request.FILES.get('choose_profilepic')
+        restaurant_name=request.POST.get('restaurant_name')
+        restaurant_logo=request.FILES.get('restaurant_logo')
         email_id=request.POST.get('email_id')
-        full_name=request.POST.get('full_name')
         phone_number=request.POST.get('phone_number')
-        CustomUser.objects.create(choose_profilepic=choose_profilepic,email_id=email_id,full_name=full_name,phone_number=phone_number,password=1234)
+        restaurant_address=request.POST.get('restaurant_address')
+        userdata=CustomUser.objects.create_user(email_id=email_id,phone_number=phone_number,password='1234')
+        print(userdata)
+        RestaurentDetails.objects.create(restaurant_name=restaurant_name,restaurant_address=restaurant_address,restaurant_logo=restaurant_logo,user_id=userdata)
         
         return redirect('show-users')
 
@@ -164,7 +167,7 @@ class Edit_Users(View):
     def get(self, request, id):
         if  request.user.is_authenticated:
             if request.user.is_superuser is True:
-                data = CustomUser.objects.get(pk=id)
+                data = RestaurentDetails.objects.get(user_id=id)
                 return render(request, 'admin/users/edit_users.html', {'datas': data})
             else:
                 messages.error(request,'You are not admin')
@@ -172,17 +175,19 @@ class Edit_Users(View):
         else:
             return redirect('admin-login')
     def post(self, request, id):
-        data=CustomUser()
-        choose_profilepic=request.FILES.get('choose_profilepic')
-        email_id=request.POST.get('email_id')
-        full_name=request.POST.get('full_name')
+        rname=request.POST.get('restaurant_name')
+        rlogo=request.FILES.get('restaurant_logo')
+        address=request.POST.get('restaurant_address')
         phone_number=request.POST.get('phone_number')
-        if choose_profilepic is not None:
-            data =CustomUser.objects.get(pk=id)
-            data=CustomUser(id=id,choose_profilepic=choose_profilepic,email_id=email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
+        data=RestaurentDetails.objects.get(user_id=id)
+        data1=CustomUser.objects.get(id=id)
+        print(rname,rlogo,address)
+        if rlogo is not None:
+            CustomUser(id=id,email_id=data1.email_id,phone_number=phone_number,password=request.user.password).save()
+            RestaurentDetails(id=data.id,restaurant_name=rname,restaurant_logo=rlogo,restaurant_address=address,user_id=data.user_id).save()
         else:
-            data =CustomUser.objects.get(pk=id)
-            data=CustomUser(id=id,choose_profilepic=data.choose_profilepic,email_id=email_id,full_name=full_name,phone_number=phone_number,password=request.user.password).save()
+            CustomUser(id=id,email_id=data1.email_id,phone_number=phone_number,password=request.user.password).save()
+            RestaurentDetails(id=data.id,restaurant_name=rname,restaurant_logo=data.restaurant_logo,restaurant_address=address,user_id=data.user_id).save()
         return redirect('show-users')
 
 
@@ -198,7 +203,7 @@ def Delete_Users(request ,id):
 def Show_Profile(request,id):
     if  request.user.is_authenticated:
         if request.user.is_superuser is True:
-            data = CustomUser.objects.get(pk=id)
+            data = RestaurentDetails.objects.get(user_id=id)
             return render(request, 'admin/users/profile.html', {'datas': data})
         else:
                 messages.error(request,'You are not admin')
@@ -242,67 +247,33 @@ class Edit_Admin(View):
         choose_profilepic=request.FILES.get('choose_profilepic')
         full_name=request.POST.get('full_name')
         phone_number=request.POST.get('phone_number')
-        if choose_profilepic is not None:
-            data =CustomUser.objects.get(pk=id)
-            data=CustomUser(id=id,choose_profilepic=choose_profilepic,full_name=full_name,email_id=request.user.email_id,phone_number=phone_number,password=request.user.password,   is_admin=True,is_superuser=True,is_active=True).save()
+        deletepic=request.POST.get('deletepic')
+        print(deletepic)
+        if choose_profilepic and deletepic:
+            messages.warning(request,'Either Select Add Picture or Remove Picture')
+            return redirect('edit-admin', id)
         else:
-            data =CustomUser.objects.get(pk=id)
-            data=CustomUser(id=id,choose_profilepic=data.choose_profilepic,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password,is_admin=True,is_superuser=True,is_active=True).save()
-        return redirect('admin-dashboard')
+            if deletepic is None:
+                print('Falsepic')
+                if choose_profilepic is not None:
+                    data =CustomUser.objects.get(pk=id)
+                    data=CustomUser(id=id,choose_profilepic=choose_profilepic,full_name=full_name,email_id=request.user.email_id,phone_number=phone_number,password=request.user.password,is_admin=True,is_superuser=True,is_active=True).save()
+                else:
+                    data =CustomUser.objects.get(pk=id)
+                
+                    data=CustomUser(id=id,choose_profilepic=data.choose_profilepic,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password,is_admin=True,is_superuser=True,is_active=True).save()
+            else:
+                    print('True')
+                    data =CustomUser.objects.get(pk=id)
+                
+                    data=CustomUser(id=id,email_id=request.user.email_id,full_name=full_name,phone_number=phone_number,password=request.user.password,is_admin=True,is_superuser=True,is_active=True).save()
+
+            
+            return redirect('admin-dashboard')
 
 
 
 
-class Add_Rastaurant(View):
-    def get(self,request):
-        if request.user.is_superuser is True:
-            data=CustomUser.objects.all().filter(is_superuser=False)
-            return render(request,'admin/manage_restaurent/add_restaurent.html',{'data':data})
-        else:
-                messages.error(request,'You are not admin')
-                return redirect('user-login')
-    def post(self,request):
-        id=request.POST.get('id')
-        
-        user_id=CustomUser.objects.get(id=id)
-        print(user_id)
-        restaurant_name=request.POST.get('restaurant_name')
-        restaurant_id=request.POST.get('restaurant_id')
-        restaurant_address=request.POST.get('restaurant_address')
-        RestaurentDetails.objects.create(user_id=user_id,restaurant_name=restaurant_name,restaurant_id=restaurant_id,restaurant_address=restaurant_address)
-        return redirect('show-restaurant')
-    
-class Show_Restaurant(View):
-    def get(self,request):
-        if request.user.is_superuser is True:
-            data=RestaurentDetails.objects.all()
-            return render(request,'admin/manage_restaurent/show_restaurant.html',{'data':data})
-        else:
-                messages.error(request,'You are not admin')
-                return redirect('user-login')
-    
-
-class Restaurant_detail(View):
-    def get(self,request,id):
-        if request.user.is_superuser is True:
-            data=RestaurentDetails.objects.get(id=id)
-            print(data.qr_code,'name')
-            return render(request,'admin/manage_restaurent/show_details.html',{'data':data})
-        else:
-                messages.error(request,'You are not admin')
-                return redirect('user-login')
-    
-
-def Delete_Restaurant(request ,id):
-    if request.user.is_superuser is True:
-        if request.method=='POST':
-            pi=RestaurentDetails.objects.get(pk=id)
-            print(pi,'ppi')
-            pi.delete()
-        return redirect('show-restaurant')
-    else:
-                messages.error(request,'You are not admin')
-                return redirect('user-login')
 
 
 class User_Payment(View):
@@ -378,31 +349,6 @@ def delete_subscriptionsdetails(request,id):
             messages.error(request,'You are not admin')
             return redirect('user-login')
             
-        
-
-class Restaurant_Active_inActive(View):
-
-    def post(self, request):
-        user_id = request.POST['id']
-
-        user = RestaurentDetails.objects.get(id=user_id)
-        if user.is_active is False:
-            user.is_active = True
-            user.save()
-            return redirect('show-restaurant')
-
-        elif user.is_active is True:
-            user.is_active = False
-            user.save()
-            return redirect('show-restaurant')
-
-   
-        else:
-            return HttpResponse("User Not Valid")
-        
-
-
-
 
 def handler404(request, exception):
     return render(request, 'admin/page404.html', status=404)
@@ -447,7 +393,7 @@ class Add_Notifiactions(View):
 class Notifiactions_show(View):
     def get(self,request):
         if request.user.is_superuser is True:    
-            users = Notification.objects.all().order_by('-created_by')
+            users = Notification.objects.all()
 
             return render(request,'admin/show_notification.html',{'Users':users})
         else:
@@ -477,3 +423,100 @@ def delete_all_notifications(request):
         else:
                 messages.error(request,'You are not admin')
                 return redirect('user-login')
+        
+
+class Termsandconditions_add(View):
+    def get(self,request):
+        if  request.user.is_authenticated:
+            return render(request,'admin/termandcondition/termandcom_add.html')
+        else:
+            return redirect('admin-login')
+        
+    def post(self,request):
+        description=request.POST.get('description')
+
+        Termandcondition.objects.create(description=description)
+        return redirect('show-termandcondition')
+
+class Termsandconditions_show(View):
+    def get(self,request):
+        if  request.user.is_authenticated:
+            users = Termandcondition.objects.all().order_by('-id')
+            return render(request,'admin/termandcondition/termandcon_view.html',{'Users':users})
+        else:
+            return redirect('admin-login')
+
+
+class Termsandconditions_Edit(View):
+    def get(self, request, id):
+        if  request.user.is_authenticated:
+            data = Termandcondition.objects.get(pk=id)
+            
+            return render(request, 'admin/termandcondition/termandcon_edit.html', {'datas': data})
+        else:
+            return redirect('admin-login')
+        
+
+
+    def post(self, request, id):
+        data = Termandcondition()
+        description=request.POST.get('description')
+        data = Termandcondition.objects.get(id=id)
+        Termandcondition(id=id,description=description, created_at=data.created_at).save()
+
+        return redirect('show-termandcondition')
+
+
+def delete_Termsandconditions(request ,id):
+        if request.method=='POST':
+            pi=Termandcondition.objects.get(pk=id)
+            pi.delete()
+        return redirect('show-termandcondition')
+
+class Privacyandpolicy_add(View):
+    def get(self,request):
+        if  request.user.is_authenticated:
+            return render(request,'admin/privcayandpolicy/privacyandpolicy_add.html')
+        else:
+            return redirect('admin-login')
+        
+    def post(self,request):
+        description=request.POST.get('description')
+
+        PrivacyAndPolicy.objects.create(description=description)
+        return redirect('show-termandcondition')
+
+class Privacyandpolicy_show(View):
+    def get(self,request):
+        if  request.user.is_authenticated:
+            users = PrivacyAndPolicy.objects.all().order_by('-id')
+            return render(request,'admin/privcayandpolicy/privacyandpolicy_view.html',{'Users':users})
+        else:
+            return redirect('admin-login')
+
+
+class Privacyandpolicy_Edit(View):
+    def get(self, request, id):
+        if  request.user.is_authenticated:
+            data = PrivacyAndPolicy.objects.get(pk=id)
+            
+            return render(request, 'admin/privcayandpolicy/privacyandpolicy_edit.html', {'datas': data})
+        else:
+            return redirect('admin-login')
+        
+
+
+    def post(self, request, id):
+        data = PrivacyAndPolicy()
+        description=request.POST.get('description')
+        data = PrivacyAndPolicy.objects.get(id=id)
+        PrivacyAndPolicy(id=id,description=description, created_at=data.created_at).save()
+
+        return redirect('show-termandcondition')
+
+
+def delete_Privacyandpolicy(request ,id):
+        if request.method=='POST':
+            pi=PrivacyAndPolicy.objects.get(pk=id)
+            pi.delete()
+        return redirect('show-termandcondition')
