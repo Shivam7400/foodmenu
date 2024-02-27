@@ -41,12 +41,10 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Sender</th>
                         <th>Receiver</th>
                         <th>Heading</th>
                         <th>Descriptions</th>
-                        <th>Created_at</th>
-                        <th>Updated_at</th>
+                        <th>Created at</th>
                         <th>Action</th>
 
                       </tr>
@@ -58,12 +56,10 @@
                         <td>
                           <a href=""> {{forloop.counter}}</a>
                         </td>
-                        <td>{{head.sender}}</td>
                         <td>{{head.receiver}}</td>
                         <td>{{head.heading}}</td>
                         <td>{{head.description}}</td>
                         <td>{{head.created_at}}</td>
-                        <td>{{head.updated_at}}</td>
                         <td>
                           <form action="{% url 'delete-notification' head.id %}" method="post"
                             onclick="return confirm('Are You Sure to Delete')">
