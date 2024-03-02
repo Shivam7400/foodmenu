@@ -12,14 +12,15 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="application-detail-heading-area">
-          <h2 class="noti_detail">List of Subscriptions</h2>
+          <h2 class="noti_detail">Privacy and Policy</h2>
           <div>
             {% for message in messages %}
             <b style="color:#084615; margin-left: 22px;">{{message}}</b>
             {% endfor %}
           </div>
         </div>
-        {% if data %}
+        <a href="{% url 'add-privacyandpolicy'  %}" class="btn btn-info">Add New</a>
+        {% if Users %}
         <div class="contact-detail-main-area main_area_contact_detail">
           <div class="row">
             <div class="col-lg-12">
@@ -29,44 +30,47 @@
 
               <div class="terms-conditions-detail-area">
                 <div class="table-responsive">
-                  <table class="table table-hover table-bordered table-warning" id="example1" style="width:100%">
+                  <table class="table table-hover table-bordered table-warning">
 
                     <thead>
                       <tr>
-                        <th>S.N.</th>
-                        <th>Package</th>
-                        <th>Price</th>
-                        <th>Duration</th>
+                        <th>#</th>
+                        <th>Description</th>
+                        <th>Created_at</th>
+                        <th>Updated_at</th>
                         <th>Action</th>
 
                       </tr>
                     </thead>
 
                     <tbody>
-                      {% for head in data %}
+                      {% for head in Users %}
                       <tr>
                         <td>
                           <a href=""> {{forloop.counter}}</a>
                         </td>
-                        <td>{{head.heading}}</td>
-                        <td>$ {{head.subscription_price}}</td>
-                        <td>{{head.subscription_duration}} Month</td>
+                        <td>{{head.description}}</td>
+                        <td>{{head.created_at}}</td>
+                        <td>{{head.updated_at}}</td>
                         <td>
                           <div style="display: inline-flex;">
-                            <a class="delbutton btn btn-warning " href="{% url 'edit-subscription' head.id %}">Edit</i></a>
-                            <!-- &nbsp;&nbsp;&nbsp;
-                            <form action="" method="post"
-                            onclick="return confirm('Are You Sure to Delete')">
-                            {% csrf_token %}
-                            <input type="submit" class="delbutton btn btn-danger" value="Delete">
-                          
-                            </form> -->
+                            <a class="delbutton btn btn-warning " href="{% url 'edit-privacyandpolicy' head.id %}">Edit</a>&nbsp;&nbsp;&nbsp;
+                            <form action="{% url 'delete-privacyandpolicy' head.id %}" method="post"
+                              onclick="return confirm('Are You Sure to Delete')">
+                              {% csrf_token %}
+                              <input type="submit" class="delbutton btn btn-danger " value="Delete">
+                            </form>
                           </div>
                         </td>
                       </tr>
                       {% endfor %}
                     </tbody>
+
+
                   </table>
+
+
+
                 </div>
               </div>
             </div>
@@ -79,6 +83,38 @@
     </div>
 
   </div>
+  <script>
+
+
+    function Userstatus(id) {
+
+
+
+      if ($("#status" + id).is(":checked")) {
+
+        Userstatus = "True";
+      } else {
+
+        Userstatus = "False";
+      }
+
+
+      $.ajax({
+        type: 'POST',
+        url: '/Active_inActive/',
+        data: {
+          id: id,
+          Userstatus: Userstatus,
+
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+
+        },
+        success: function (data) {
+        }
+      });
+    }
+
+  </script>
 </div>
 
 {% endblock %}

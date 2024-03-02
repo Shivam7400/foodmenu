@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
 <html dir="ltr" lang="en">
-
-<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,14 +37,14 @@
             </div> -->
             <div class="forget-password-input-area right_area_back-image">
                 <div class="forget-password-left-area">
-                    <a href="./dashboard.html">
-                        <img src="" alt="">
+                    <a href="">
+                        <img src="{% static 'images\food-logo.png' %}" alt="">
                     </a>
                 </div>
                 <!-- <h2>Login</h2> -->
                 <div class="right_area">
                     <div class="login">
-                        <h2>Log In</h2>
+                        <h2 class="loginclr">Log In</h2>
                     </div>
                     <form action="" method="post">
                         {% csrf_token %}
@@ -66,7 +64,7 @@
 
                     </form>
                     <div class="email-submit-btn-area forget_login">
-                        <a href="{% url 'forgot-password' %}" class="email-submit-btn btn_login">Forgot Password?</a>
+                        <a href="{% url 'password_reset' %}" class="email-submit-btn btn_login">Forgot Password?</a>
                     </div>
                     <div>
                         {% if messages %}
@@ -77,10 +75,10 @@
                         {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="footer-copyright-main-area copyright_area">
+                    <!-- <div class="footer-copyright-main-area copyright_area">
                         <p class="change_color">2023 © All rights reserved. <a href=" "
                                 class="footer_link">Food Menu</a></p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

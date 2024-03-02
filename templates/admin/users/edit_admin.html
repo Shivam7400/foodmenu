@@ -27,9 +27,9 @@
                                         <div class="form-group">
                                             
                                             {% if datas.choose_profilepic %}
-                                                <img src="{{datas.choose_profilepic.url}}"  style="height: 1.5in; width: 8cm;">
+                                                <img src="{{datas.choose_profilepic.url}}"  style="height: 1.7in; width: 5cm;"class="rounded-circle">
                                             {% else %}
-                                            <img src="{% static 'images/default.png' %}" alt="Image Here" style="height: 1.7in; width: 5cm;">
+                                            <img src="{% static 'images/default.png' %}" alt="Image Here"  style="height: 1.7in; width: 5cm;" class="rounded-circle">
                                             {% endif %}
                                                 <input type="file" name="choose_profilepic"  class="form-control field change_border">
                                                 <input type="checkbox" name="deletepic"  class=" change_border">Delete Profile

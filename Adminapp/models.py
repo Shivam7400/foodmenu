@@ -13,6 +13,7 @@ class CustomuserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
+        print(user)
         return user
     
 
@@ -79,14 +80,18 @@ class Notification(models.Model):
     description = models.TextField(null=True,blank=True)
     heading = models.CharField(max_length=1000,null=True,blank=True)
     sender = models.CharField(max_length=1000,null=True,blank=True)
-    receiver = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)\
+    receiver = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     
+
+
 class Termandcondition(models.Model):
+    img=models.ImageField(null=True,blank=True,upload_to='condition')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(null=True,blank=True)
 
 class PrivacyAndPolicy(models.Model):
+    img=models.ImageField(null=True,blank=True,upload_to='condition')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(null=True,blank=True)

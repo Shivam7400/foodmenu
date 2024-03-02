@@ -12,11 +12,12 @@ urlpatterns=[
     path('change-user-password/',views.Change_password.as_view(),name='change-user-password'),
     # path('edit-user-profile/<int:id>',views.Edit_Users_Profile.as_view(),name='edit-users-profile'),
     # path('add-restaurant-details/',views.Add_Restaurant_Deltails.as_view(),name='add-restaurant-details'),
-    path('show-restaurant-details/',views.Show_Restaurant_Details.as_view(),name='show-restaurant-details'),
-    path('edit-restaurant-details/<int:id>',views.Edit_Restaurant_Details.as_view(),name='edit-restaurant-details'),
-    path('restaurant-details/<int:id>',views.Restaurant_details.as_view(),name='restaurant-details'),
-    path('delete-restaurant-details/<int:id>',views.delete_restaurant_details,name='delete-restaurant-details'),
-    path('subscription',views.User_Subscription.as_view(),name='subscription'),
+  
+    
+    path('restaurant-details/',views.Restaurant_details.as_view(),name='restaurant-details'),
+ 
+    path('subscription/',views.User_Subscription.as_view(),name='subscription'),
+    path('Payment/',views.Payment.as_view(),name='Payment'),
     path('user-logout/',views.userlogout,name='user-logout'),
     # path('user-forgot-password/',views.Forget_password.as_view(),name='user-forgot-password'),
     
@@ -34,7 +35,7 @@ urlpatterns=[
     path('edit-item/<int:id>',views.Edit_Item.as_view(),name='edit-item'),
     path('delete-item/<int:id>',views.delete_item,name='delete-item'),
 
-    path('menu/<str:menu>',views.Restaurant_Menu.as_view(),name='restaurant-menu'),
+    path('menu/<str:id>',views.Restaurant_Menu.as_view(),name='restaurant-menu'),
     # path('food-item/<int:id>',views.Food_Items.as_view(),name='food-item')
 
     path('receive-notification/',views.Receive_Notification.as_view(),name='receive-notification'),
@@ -46,6 +47,6 @@ urlpatterns=[
 
     path('password_reset/',auth_views.PasswordResetView.as_view(template_name='restaurent_admin/password_reset.html'),name='password_reset'),
     path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='restaurent_admin/password_reset_done.html'),name='password_reset_done'),
-    path('password-reset-confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='restaurent_admin/password_reset_confirm.html'),name='password_reset_confirm'),
+    path('password-reset-confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='restaurent_admin\password_reset_confirm.html'),name='password_reset_confirm'),
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='restaurent_admin/password_reset_complete.html'),name='password_reset_complete'),
 ]   

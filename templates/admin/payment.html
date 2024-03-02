@@ -38,6 +38,8 @@
                         <th>Email</th>
                         <th>Restaurant Name</th>
                         <th>Package</th>
+                        <th>Subscription Date</th>
+                        <th>Subscription Expire Date</th>
                         <th>Status</th>
                     </thead>
 
@@ -49,7 +51,24 @@
                         </td>
                         <td>{{head.user_id.email_id}}</td>
                         <td>{{head.restaurant_name}}</td>
-                        <td>{{head.payment_price}}</td>
+                        <td>
+                          {% if head.payment_status == 'Successfull' %}
+                          {{head.package}}
+                          {% else %}
+                          <p>-</p>
+                          {% endif %}</td>
+                        <td>
+                          {% if head.payment_status == 'Successfull' %}
+                          {{head.subscription_date}}
+                          {% else %}
+                          <p>-</p>
+                          {% endif %}</td>
+                        <td>
+                          {% if head.payment_status == 'Successfull' %}
+                          {{head.subscritpion_expire_date}}
+                          {% else %}
+                          <p>-</p>
+                          {% endif %}</td>
                         <td>{{head.payment_status}}</td>
                       </tr>
                       {% endfor %}
