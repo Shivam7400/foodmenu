@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+{% load static %}
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Food Menu</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin/images/favicon.png' %}">
+    <!-- Custom CSS -->
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="{% static 'admin/css/style.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin/css/fontawesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin/css/responsive.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<style>
+    table tbody td {
+        color: black;
+
+    }
+
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 10%;
+        background-color: red;
+        color: white;
+
+    }
+</style>
+
+<body>
+    <div class="text-center bg-info">
+        <h1><b>Food Menu</b></h1>
+
+    </div>
+    <br>
+    <br>
+    {% if category %}
+
+    {% for food in category %}
+    
+    <a type="button" class="btn btn-primary" onclick="myFunction('{{food.category_name}}')"><h1>{{food.category_name}}</h1></a>&nbsp;&nbsp;
+  
+    {% endfor %}
+
+
+    {% for food in category %}
+
+    <div id="{{food.category_name}}" style="display: none;">
+        <h1 class="text-center alert alert-danger" style="color: red;">{{food.category_name}}</h1>
+        <table class="table table-bordered border-primary">
+
+            <thead>
+                <tr>
+                    <th>Items</th>
+                    <th>Full</th>
+                    <th>Medium</th>
+                    <th>Small</th>
+                    <th>Food Image</th>
+                </tr>
+                </a>
+            </thead>
+
+            <tbody>
+                {% for food_item in food.cat.all %}
+                <tr>
+                    <td>{{food_item.food_name}}</td>
+                    <td>
+                        {% if food_item.full_price %}
+                        {{food_item.full_price}}</td>
+                        {% else %}
+                        <h4>-</h4>
+                        {% endif %}
+                    <td>
+                        {% if food_item.medium_price %}
+                        {{food_item.medium_price}}
+                        {% else %}
+                        <h4>-</h4>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if food_item.small_price %}
+                        {{food_item.small_price}}
+                        {% else %}
+                        <h4>-</h4>
+                        {% endif %}
+                    </td>
+                    <td>{% if food_item.food_image %}
+                        <img src="{{ food_item.food_image.url }}" alt="Image Here" style="height: .6in; width: 2.5cm;">
+                        {% else %}
+                        <h3>No Image</h3>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        <br>
+        <hr>
+    </div>
+    <br>
+
+
+    {% endfor %}
+    {% else %}
+    <h1>No Data</h1>
+    {% endif %}
+    <footer>
+        <h3>Restaurant Name:&nbsp;{{idd.restaurant_name}}</h3>
+        <h3>Address:&nbsp;{{idd.restaurant_address}}</h3>
+    </footer>
+    <script>
+        function myFunction(food) {
+            var id = food;
+            // alert(id);
+
+            var x = document.getElementById(id);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+    <!-- <script>
+        var element = document.getElementById(id);
+
+        // To hide the element
+        element.style.display = "none";
+
+        // To show the element
+        element.style.display = "block";
+    </script> -->
+
+
+
+
+    <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static 'admin/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static 'admin/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static 'admin/js/custom.js' %}"></script>
+    <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
+    <script src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+
+
+</body>
+<script>
+    $(document).ready(function () {
+        $(".onclickmenu").click(function () {
+            $(".clickShowmenu").toggle();
+        });
+    });
+</script>
+
+</html>
