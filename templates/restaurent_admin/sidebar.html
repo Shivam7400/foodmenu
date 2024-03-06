@@ -1,0 +1,92 @@
+{% load static %}
+<aside class="left-sidebar left_aside" data-sidebarbg="skin6">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav" class="nav_bar_side">
+                <!-- User Profile-->
+                <li class="sidebar-item pt-2">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar"
+                        href="{% url 'user-dashboard' %}" aria-expanded="false">
+                        <i class="fas fa-tachometer-alt  leftside_icon"></i>
+                        <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li>
+                 <li class="sidebar-item onclickmenu commomShow">
+                    <a href="{% url 'show-category'  %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
+                        <i class="fas fa-list leftside_icon"></i>
+                        <span class="hide-menu">Category</span>
+                    </a>
+                </li>
+                
+                <li class="sidebar-item onclickmenu5 commomShow">
+                    <a href="{% url 'receive-notification' %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" 
+                        aria-expanded="false">
+                        <i class="fas fa-bell leftside_icon"></i>
+                        <span class="hide-menu">Notifications</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item onclickmenu6 commomShow">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
+                        <i class="fas fa-gear leftside_icon"></i>
+                        <span class="hide-menu">Setting</span>
+                    </a>
+                    <ul class="clickShowmenu6 commom ">
+                        <li><a href="{% url 'restaurant-details' request.user.id %}" class="text-decoration-none" ><i class="fas fa-user leftside_icon"></i>&nbsp; Profile</a></li>
+                        <li><a href="{% url 'change-user-password' %}" class="text-decoration-none" ><i class="fas fa-key leftside_icon"></i>&nbsp; Change Password</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-item onclickmenu5 commomShow">
+                    <a href="{% url 'user-logout' %}"
+                        class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar"
+                        onclick="return confirm('Are You Sure to LogOut')" aria-expanded="false">
+                        <i class="fas fa-sign-out-alt leftside_icon"></i>
+                        <span class="hide-menu">Log Out</span>
+                    </a>
+                </li>
+                <!-- <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href="term-condition.html"
+                        aria-expanded="false">
+                        <i class="fas fa-certificate leftside_icon" aria-hidden="true"></i>
+                        <span class="hide-menu">Terms & Conditions</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href="privacy-policy.html"
+                        aria-expanded="false">
+                        <i class="fas fa-file-alt leftside_icon"></i>
+                        <span class="hide-menu">Privacy & Policy</span>
+                    </a>
+                </li> -->
+                <!-- <li class="sidebar-item onclickmenu6 commomShow">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
+                        <i class="fas fa-bell leftside_icon"></i>
+                        <span class="hide-menu">Setting</span>
+                    </a>
+                    <ul class="clickShowmenu6 commom ">
+                        <li><a href="">Edit Profile</a></li>
+                        <li><a href="{% url 'change-password' %}">Change Password</a></li>
+                        
+
+                    </ul>
+                </li> -->
+                <!-- <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href=""
+                        aria-expanded="false">
+                        <i class="fas fa-power-off leftside_icon"></i>
+                        <span class="hide-menu">Log Out</span>
+                    </a>
+                </li> -->
+            </ul>
+
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+
+
+
+
