@@ -24,55 +24,199 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <style>
+    
+
+
+    .submitBtn {
+      background-color: #0ea8ad;
+      color: #fff !important;
+    }
+
+    .submitBtn:hover {
+      background-color: #f17830;
+      color: #000;
+      transition: 0.6s;
+    }
+
+    .forget {
+      color: #ff9945;
+    }
+
+    .orIcon {
+      position: relative;
+      top: -15px;
+      background-color: #fff;
+      padding: 7px;
+      left: 197px;
+    }
+
+    .google {
+      border: 1px solid gray;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 0;
+      margin: 12px 0;
+      color: #000;
+    }
+
+    .google:hover {
+      color: #1fa8ae;
+      text-decoration: none !important;
+    }
+
+    .google img {
+      height: 17px;
+      padding: 0 10px;
+    }
+
+    .rectangleimg {
+      padding: 30px;
+    }
+
+    .emailicon {
+      position: relative;
+      top: 36px;
+      left: -27px;
+      color: grey;
+      font-size: 13px;
+    }
+
+    .emailicon2 {
+      position: relative;
+      top: 36px;
+      font-size: 13px;
+      left: -58px;
+      color: grey;
+    }
+
+    .eyeicon {
+      position: relative;
+      top: -34px;
+      right: -389px;
+      color: grey;
+      font-size: 13px;
+    }
+
+    .form-control {
+      padding-left: 40px;
+      margin-bottom: 5px;
+    }
+
+    .img-fluid {
+      height: 90vh;
+      width: 100%;
+    }
+    .forgetpass{
+      padding-left: 139px;
+      color: #626370;
+    }
+    hr{
+      margin-bottom: 0;
+    }
+    input[type="text"]{
+      font-size: 12px;
+    }
+    .companion h4{
+      font-size: 25px;
+    }
+    .companion p{
+      font-size: 16px;
+      color: #626370;
+    }
+  </style>
+
 </head>
 
 <body>
+  <section>
+    <div class="container vh-100">
+      <div class="row g-0">
+        <div class="col-lg-6 col-sm-12 px-0 vh-100">
+          <div class="rectangleimg">
+            <img src="{% static 'images/Rectangle 1.png' %}" alt="login form" class="img-fluid">
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 px-0 vh-100 px-4">
+          <div class="card-body text-black px-5 me-2">
 
-  <form method="post">
-    {% csrf_token %}
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email_id"
-        placeholder="Enter email" required>
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <form method="post">
+              {% csrf_token %}
+              <div class="mt-5 mb-2 companion">
+                <!-- <img height="90" src="{% static 'images\food-logo.png' %}" alt=""> -->
+                <h4>Welcome Back!</h4>
+                <p>Start Managing your restaurant faster and better</p>
+              </div>
+
+              <!-- <h5 class="fw-normal mb-4 " style="letter-spacing: 1px;">Sign into your account</h5> -->
+
+              <div class="form-outline mb-2">
+
+                <label class="form-label" for="form2Example17">Email</label>
+                <i class="fa fa-envelope emailicon" aria-hidden="true"></i>
+                <input type="text" id="form2Example17" name="email_id" class="form-control" placeholder="Restaurant@gmail.com"/>
+              </div>
+
+              <div class="form-outline">
+
+                <label class="form-label" for="form2Example27">Password</label>
+                <i class="fa fa-lock emailicon2" aria-hidden="true"></i>
+                <input type="password" id="form2Example27" name="password" class="form-control" placeholder="At least 8 characters" />
+                <a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true"></i></a>
+                <input type="checkbox" id="Remember" name="Remember" value="Remember">
+                <label for="Remember">Remember me</label>
+                <a class="forgetpass" href="{% url 'password_reset' %}">Forget Password?</a>
+              </div>
+              
+             
+
+              <div class="pt-4">
+                <button class="btn submitBtn btn-block" type="submit">Login</button>
+              </div>
+
+              <!-- <a class="small text-muted" href="{% url 'password_reset' %}">Forgot password?</a> -->
+              <p class="my-3 text-center" style="color: #000000; font-size: 13px;">Don't have an account? <a
+                  href="{% url 'user-registration' %}" style="color: #1fa8ae;">Sign Up</a></p>
+            </form>
+            <div class="mt-4">
+              <hr>
+              <span class="orIcon">or</span>
+            </div>
+            <div>
+              <a href="#" class="google">
+                <div>
+                  <img src="{% static 'images/google.png' %}">
+                  <span>Continue with Google</span>
+                </div>
+              </a>
+              <a href="#" class="google">
+                <div>
+                  <img src="{% static 'images/facebook.png' %}">
+                  <span>Continue with Facebook</span>
+                </div>
+              </a>
+            </div>
+
+
+
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.tags %}
+            <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password"
-        required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-    <a class="btn btn-info" href="{% url 'user-registration' %}">Registration</a>
-  </form>
-  <div>
-    {% if messages %}
-    {% for message in messages %}
-    {% if message.tags %}
-    <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-  </div>
+  </section>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <!-- Bootstrap tether Core JavaScript -->
   <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>

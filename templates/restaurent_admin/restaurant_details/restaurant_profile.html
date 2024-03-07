@@ -17,60 +17,120 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form class="contact-form-main-area" method="POST" id="paymentFrm"
-                                enctype="multipart/form-data">
+                                enctype="multipart/form-data" onsubmit="return myfun()">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12  text-center">
-                                        <div class="form-group text-center">
-                                            {% if data.qr_code %}
-                                            <a href="{% url 'generate-pdf' data.id %}" download><img src="http://127.0.0.1:8000/media/{{data.qr_code}}"  alt="Image Here" style="height: 1.7in; width: 5cm;" ></a>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;"> </label>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12 ">
+                                        <div class="form-group ">
+                                            {% if datas.restaurant_logo %}
+                                            <img src="{{datas.restaurant_logo.url}}" alt="Image Here"
+                                                style="height: 130px;" class="rounded-circle ">
                                             {% else %}
-                                                <h2>No Image</h2>
+                                            <div class="mx-auto d-flex">
+                                                <img src="{% static 'images/default.png' %}" alt="Image Here"
+                                                style="height: 1in; width: 8cm;" class="rounded-circle">
+                                            </div>
+                                            
                                             {% endif %}
+                                            <input type="file" class="form-control field change_border mt-4" alt="img"
+                                                name="restaurant_logo" autofocus="" id="choose_profilepic">
 
                                         </div>
                                     </div>
-                                    
-                                   
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Owner Name</label>
-                                            <input type="text" class="form-control field change_border" value="{{data.user_id.full_name}}" disabled
-                                                >
-                                        </div>
+
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Restaurant Name: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>Owner Email</label>
-                                            <input type="email" class="form-control field change_border" name="email_id" value="{{data.user_id.email_id}}" disabled
-                                                 id="email_id">
+                                            <input type="text" class="form-control field change_border"
+                                                value="{{datas.restaurant_name}}" name="restaurant_name"
+                                                id="restaurant_name" oninput="return myval()">
+                                            <span id="namemessage" class="text-danger"> </span>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Email: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label> Restaurant Name</label>
-                                            <input type="text" class="form-control field change_border"  value="{{data.restaurant_name}}" disabled
-                                                >
+                                            <input type="email" class="form-control field change_border" name="email_id"
+                                                disabled value="{{datas.user_id.email_id}}" id="email_id">
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="gender" >Restaurant Address</label><br>
-                                            <input type="text" class="form-control field change_border"  disabled value="{{data.restaurant_address}}"  >
-                                        </div>
+
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Phone Number: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label> Restaurant Id</label>
-                                            <input type="number" class="form-control field change_border"  value="{{data.restaurant_id}}" disabled
-                                                >
+                                            <input type="number" class="form-control field change_border"
+                                                value="{{datas.user_id.phone_number}}"  name="phone_number"
+                                                id="phone" oninput="return mynum()">
+                                                <span id="nummessage" class="text-danger"> </span>
                                         </div>
                                     </div>
-                    
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Address/city: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control field change_border"
+                                                value="{{datas.restaurant_address}}" name="restaurant_address"
+                                                id="phone_number">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Pacakge: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control field change_border"
+                                                value="{{datas.package}}" name="package" id="package" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Subscription Date: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control field change_border"
+                                                value="{{datas.subscription_date}}" name="subscription_date"
+                                                id="subscription_date" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Expire Date: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control field change_border"
+                                                value="{{datas.subscritpion_expire_date}}"
+                                                name="subscritpion_expire_date" id="subscritpion_expire_date" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;"> </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {% if datas.qr_code %}
+                                            <img src="{{datas.qr_code.url}}" alt="Image Here"
+                                                style="height: .5in; width: 2cm;">
+                                            {% endif %}
+                                            <a href="{% url 'generate-pdf' datas.id %}" class="btn btn-info">Download
+                                                Qrcode</a>
+                                            <a href="{% url 'restaurant-menu' datas.user_id.id  %}"
+                                                class="btn btn-warning" target="_blank">Show Menu</a>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="contact-form-submint-btn-area">
-                                            <a href="{% url 'show-restaurant-details' %}" class="btn btn-success">Back</a>
+                                            <button class="contact-form-submint-btn btn_submit">Update</button>
+
                                         </div>
                                     </div>
                             </form>
@@ -81,4 +141,80 @@
         </div>
     </div>
 </div>
+<script>
+    function myfun() {
+        var restaurant_name = document.getElementById('restaurant_name').value;
+        var correct_way = /^[a-zA-Z ]*$/;
+        var num = document.getElementById('phone').value;
+        if (restaurant_name.match(correct_way)) {
+            true;
+        }
+
+        else {
+
+            return false
+        }
+        if (restaurant_name.length > 51) {
+            return false
+        }
+
+
+        if (num.length != 10) {
+            return false
+        }
+
+
+    }
+    function myval() {
+        var restaurant_name = document.getElementById('restaurant_name').value;
+        var correct_way = /^[a-zA-Z ]*$/;
+
+
+        if (restaurant_name.match(correct_way))
+            document.getElementById("namemessage").innerHTML = ""
+        else {
+            if (restaurant_name.length != 0) {
+                document.getElementById("namemessage").innerHTML = "**Name contains only alphabets"
+            } else {
+                document.getElementById("namemessage").innerHTML = ""
+            }
+        }
+
+        if (restaurant_name.length > 51) {
+            if (restaurant_name.match(correct_way)) {
+                document.getElementById("namemessage").innerHTML = "**Name is too long"
+            }
+        } else {
+            if (!restaurant_name.match(correct_way)) {
+                if (restaurant_name.length != 0) {
+                    document.getElementById("namemessage").innerHTML = "**Name contains only alphabets"
+                } else {
+                    document.getElementById("namemessage").innerHTML = ""
+                }
+            } else {
+                document.getElementById("namemessage").innerHTML = ""
+            }
+        }
+
+      
+
+
+    }
+    function mynum() {
+        
+        var num = document.getElementById('phone').value;
+        if (num.length != 10) {
+            if (num.length == 0) {
+                document.getElementById("nummessage").innerHTML = " "
+            }
+            else {
+                document.getElementById("nummessage").innerHTML = "**Phone Number Should be 10 digit"
+            }
+        }
+        else {
+            document.getElementById("nummessage").innerHTML = " "
+        }
+    }
+
+</script>
 {% endblock %}
