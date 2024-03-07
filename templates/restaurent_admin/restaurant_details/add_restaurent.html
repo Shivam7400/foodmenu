@@ -28,7 +28,7 @@
 
 <body>
 
-    <form method="post" autocomplete="off"  enctype="multipart/form-data">
+    <!-- <form method="post" autocomplete="off"  enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label for="exampleInputEmail1">Restaurant Name</label>
@@ -49,12 +49,61 @@
         {% if messages %}
         {% for message in messages %}
         {% if message.tags %}
-        <script>swal("Mediapulse!", "{{message}}", "{{message.tags}}");</script>
+        <script>swal("Mediapulse!", "{{message}}", "{{messrestaurant_nameage.tags}}");</script>
         {% endif %}
         {% endfor %}
         {% endif %}
-    </div>
+    </div> -->
+    <section  style="background-color: #9A616D;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+              <div class="card" style="border-radius: 1rem;">
+                <div class="row g-0">
+                  <div class="col-md-6 col-lg-5 d-none d-md-block">
+                    <img src="{% static 'images/mainlogo.jpeg' %}"
+                      alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; height: 797px;"  />
+                  </div>
+                  <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                    <div class="card-body p-4 p-lg-5 text-black">
+      
+                      <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex align-items-center mb-3 pb-1">
+                          <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                          <span class="h1 fw-bold mb-0">Food Menu</span>
+                        </div>
+      
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Add Restaurant</h5>
+      
+                        <div class="form-outline mb-1">
+                          <input type="text" id="form2Example17" name="restaurant_name" class="form-control form-control-lg" />
+                          <label class="form-label" for="form2Example17">Restaurant Name</label>
+                        </div>
+      
+                        <div class="form-outline mb-1">
+                          <input type="text" id="form2Example27" name="restaurant_id" class="form-control form-control-lg" required />
+                          <label class="form-label" for="form2Example27">Restaurant Id</label>
+                        </div>
+      
+                        <div class="form-outline mb-1">
+                          <input type="text" id="form2Example27" name="restaurant_address" class="form-control form-control-lg" required /> 
+                          <label class="form-label" for="form2Example27">Address</label>
+                        </div>
+                        <div class="pt-1 mb-4">
+                          <button class="btn btn-dark btn-lg btn-block" type="submit">Create</button>
+                        <a href="{% url 'user-logout' %}" class="btn btn-lg btn-danger">Cancel</a>
 
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
 
 
