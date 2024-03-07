@@ -3,15 +3,160 @@
 
 
 {% block content %}
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <div class="container-fluid fluid_container responsive_container pt-3 white_bg">
-        <div class="row">
+<!-- <div class="page-wrapper" style="min-height: 250px;"> -->
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- <div class="container-fluid fluid_container responsive_container pt-3 white_bg"> -->
+
+<section style="background-color: #eee; margin-top: 60px;">
+    <div class="page-wrapper">
+        <div class="page-breadcrumb container-fluid responsive_container">
+            <div class="menuitem">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="itembox">
+                            <h5>Item Details</h5>
+                            <form>
+                                <div>
+                                    <label class="form-label" for="item">Item Name</label>
+                                    <input type="text" id="item" name="email_id" class="form-control" />
+                                </div>
+                                <div>
+                                    <label class="form-label" for="item">Item Description</label>
+                                    <input type="text" id="item" name="email_id" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="itembox">
+                            <h5>Images</h5>
+                            <p>Upload Image</p>
+                            <div class="uploadbox">
+                                <label class="upload-btn">
+                                    <input type="file" />Upload Images</label>
+                            </div>
+                        </div>
+                        <div class="itembox">
+                            <div>
+                                <label class="form-label" for="item">Item Name</label>
+                                <input type="text" id="item" name="email_id" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="addonsoverflow">
+                            <h5>Add-Ons</h5>
+                            <div class="d-flex">
+                                <div>
+                                    <a onclick="return myclick()"><img src="{% static 'images/Group 250.png' %}"></a>
+                                </div>
+                                <div style="display: none;" id="display">
+                                    <div id="addons" class=" d-flex justify-content-center ms-3 ">
+                                        <i class="fi fi-rr-cross-circle crossicon" onclick="return block()"></i>
+                                        <div class="addons1">
+                                            <div>
+                                                <label class="form-label" for="item">Name</label>
+                                                <input type="text" id="item" name="email_id" class="form-control mb-1"
+                                                    placeholder="Type Name Here..." />
+                                            </div>
+                                            <div class="mt-1">
+                                                <label class="form-label" for="item">Price</label>
+                                                <input type="text" id="item" name="email_id" class="form-control mb-1"
+                                                    placeholder="Type Price Here..." />
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="createadd">Create Add-Ons</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="addons" class=" d-flex justify-content-center ms-3 ">
+                                    <i class="fi fi-rr-cross-circle crossicon"></i>
+                                    <div class=" text-center addons1" style="padding-top: 60px;">
+                                        <h5>$8.00</h5>
+                                        <h5 class="tomato">Tomato</h5>
+                                    </div>
+                                </div>
+                                <div id="addons" class=" d-flex justify-content-center ms-3 ">
+                                    <i class="fi fi-rr-cross-circle crossicon"></i>
+                                    <div class=" text-center addons1" style="padding-top: 60px;">
+                                        <h5>$8.00</h5>
+                                        <h5 class="tomato">Tomato</h5>
+                                    </div>
+                                </div>
+                                <div id="addons" class=" d-flex justify-content-center ms-3 ">
+                                    <i class="fi fi-rr-cross-circle crossicon"></i>
+                                    <div class=" text-center addons1" style="padding-top: 60px;">
+                                        <h5>$8.00</h5>
+                                        <h5 class="tomato">Tomato</h5>
+                                    </div>
+                                </div>
+                                <div id="addons" class=" d-flex justify-content-center ms-3 ">
+                                    <i class="fi fi-rr-cross-circle crossicon"></i>
+                                    <div class=" text-center addons1" style="padding-top: 60px;">
+                                        <h5>$8.00</h5>
+                                        <h5 class="tomato">Tomato</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3" style="background-color: #eee;">
+                        <div class="sidebarfixed">
+                            <div class="itembox">
+                                <div class="d-flex justify-content-between">
+                                    <h5>Preview</h5>
+                                    <img width="15" height="15" src="{% static 'images/Frame 2570.png' %}">
+                                </div>
+                                <div class="blankimage">
+                                    <img src="{% static 'images/Rectangle 112.png' %}">
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <h6 class="mb-0">Pricing</h6>
+                                    <h6 class="mb-0">$0.00</h6>
+                                </div>
+                            </div>
+                            <div class="itembox">
+                                <h5 class="mb-0">Select Category</h5>
+
+                                <div class="dropdown-center">
+                                    <button class="itembox2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Category
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Lunch</a></li>
+                                      <li><a class="dropdown-item" href="#">Breakfast</a></li>
+                                      <li><a class="dropdown-item" href="#">Dinner</a></li>
+                                      <li><a class="dropdown-item" href="#">>Dissert</a></li>
+                                    </ul>
+                                  </div>
+
+                                
+                            </div>
+                            <div class="itembox">
+                                <a class="publish1">Publish item</a>
+                                <a class="publish2">Save Draft</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- <div class="row">
             <div class="col-lg-12">
                 <div class="application-detail-heading-area">
-                    <h2 class="noti_detail">Add New</h2>
+                    <h2 class="noti_detail ">Add New</h2>
                 </div>
                 <div class="contact-detail-main-area main_area_contact_detail">
                     <div class="row">
@@ -25,7 +170,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control field change_border" disabled value="{{data.category_name}}" autofocus="" >
+                                            <input type="text" class="form-control field change_border" disabled value="{{data.category_name}}" autofocus=""  >
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
@@ -34,7 +179,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control field change_border" placeholder="Enter Food Name"
-                                                name="food_name" autofocus="" >
+                                                name="food_name" autofocus="" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
@@ -84,7 +229,17 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> -->
 </div>
+</div>
+
+<script>
+    function myclick() {
+        document.getElementById('display').style.display = '';
+    }
+
+    function block() {
+        document.getElementById('display').style.display = 'none';
+    }
+</script>
 {% endblock %}
