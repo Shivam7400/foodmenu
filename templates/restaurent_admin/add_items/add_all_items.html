@@ -26,8 +26,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="item">Item Description</label>
-                                    <input type="text" id="description" name="description" class="form-control"
-                                        required />
+                                    <input type="text" id="description" name="description" class="form-control" />
                                 </div>
                             </div>
                             <div class="itembox">
@@ -35,14 +34,14 @@
                                 <p>Upload Image</p>
                                 <div class="uploadbox">
                                     <label class="upload-btn">
-                                        <input type="file" name="food_image" id="food_image" />Upload Images</label>
+                                        <input type="file" name="food_image" id="food_image" required />Upload Images</label>
                                 </div>
                             </div>
                             <div class="itembox">
                                 <div>
                                     <h5>Price Details</h5>
                                     <label class="form-label" for="item">Price Amount </label>
-                                    <input type="number" id="price" name="price" class="form-control" required />
+                                    <input type="text" id="price" name="price" class="form-control" required />
                                 </div>
                             </div>
 
@@ -54,7 +53,7 @@
                                             <img width="15" height="15" src="{% static 'images/Frame 2570.png' %}">
                                         </div>
                                         <div class="blankimage">
-                                            <img src="{% static 'images/Rectangle 112.png' %}" alt="">
+                                            <img src="{% static 'images/Rectangle 112.png' %}" alt="" id="imageee">
                                         </div>
                                         <div class="d-flex justify-content-between mt-2">
                                             <h6 class="mb-0">Pricing</h6>
@@ -63,13 +62,16 @@
                                     </div>
                                     <div class="itembox">
                                         <h5 class="mb-0">Select Category</h5>
-                                        <span> &nbsp;<i class="fas fa-angle-down selecticon"></i></span>
-                                        <select class="itembox2 py-1 px-3" name="category" required>
-                                            <option value="">Category </option>
-                                            {% for category in data %}
-                                            <option value="{{category.id}}">{{category.category_name}}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <div class="custom-select">
+                                            <select >
+                                                <option value=" ">
+                                                    Category</option>
+                                                {% for category in data %}
+                                                <option value="{{category.id}}">{{category.category_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        
                                     </div>
                                     <div class="itembox">
                                         <button class="itembox2 publish1" value="publish" name="submit_button"
@@ -87,4 +89,17 @@
         </div>
     </div>
 </section>
+<script>
+    document.getElementById('food_image').addEventListener('change', function(event) {
+        var selectedImage = event.target.files[0];
+        
+        if (selectedImage) {
+            var imageUrl = URL.createObjectURL(selectedImage);
+            
+            var imageElement = document.getElementById('imageee');
+            imageElement.src = imageUrl;
+            imageElement.style.display = 'block';
+        }
+    });
+</script>
 {% endblock %}
