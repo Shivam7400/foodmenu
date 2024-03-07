@@ -3,68 +3,333 @@
 <html dir="ltr" lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Registration</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin/images/favicon.png' %}">
-    <link href="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet"
-        href="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css' %}">
-    <!-- Custom CSS -->
-    <link href="{% static 'admin/css/style.min.css' %}" rel="stylesheet">
-    <link href="{% static 'admin/css/fontawesome.min.css' %}" rel="stylesheet">
-    <link href="{% static 'admin/css/responsive.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>FoodMenu.Registration</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin/images/favicon.png' %}">
+  <link href="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet"
+    href="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css' %}">
+  <!-- Custom CSS -->
+  <link href="{% static 'admin/css/style.min.css' %}" rel="stylesheet">
+  <link href="{% static 'admin/css/fontawesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'admin/css/responsive.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <style>
+    .submitBtn {
+      background-color: #0ea8ad;
+      color: #fff !important;
+    }
+
+    .submitBtn:hover {
+      background-color: #ff9945;
+      color: #000;
+      transition: 0.6s;
+    }
+
+    .forget {
+      color: #ff9945;
+    }
+    .img-fluid {
+      height: 90vh;
+      width: 100%;
+    }
+    .rectangleimg {
+      padding: 30px;
+    }
+    .dineqrlogo{
+      color:  #f17830;;
+    }
+    .orIcon {
+      position: relative;
+      top: -15px;
+      background-color: #fff;
+      padding: 7px;
+      left: 220px;
+    }
+    .google {
+      border: 1px solid gray;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 0;
+      margin: 0 0 12px 0;
+      color: #000;
+    }
+
+    .google:hover {
+      color: #1fa8ae;
+      text-decoration: none !important;
+    }
+
+    .google img {
+      height: 17px;
+      padding: 0 10px;
+    }
+    input[type="text"]
+    {
+    font-size: 12px;
+    }
+    .companion{
+      margin: 50px 0 20px 0;
+    }
+    .companion h4{
+      font-size: 30px;
+    }
+    .companion h5{
+      color: #626370;
+    }
+    .companion p{
+      font-size: 13px;
+      color: #626370;
+    }
+    .eyeicon{
+      position: relative;
+      top: 31px;
+      left: 363px;
+      color: #626370;
+    }
+    hr{
+      margin-bottom: 0;
+    }
+    .form-label{
+      margin-bottom: 2px;
+    }
+  </style>
+
 </head>
 
 <body>
 
-    <form method="post" autocomplete="off"  enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <label>Add Profile</label>
-            <input type="file" class="form-control field change_border" alt="img" name="choose_profilepic" autofocus="">
+  <section>
+    <div class="container vh-100">
+      <div class="row g-0">
+        <div class="col-lg-6 px-0 vh-100">
+          <div class="rectangleimg">
+            <img src="{% static 'images/Rectangle 1.png' %}" alt="login form" class="img-fluid">
+          </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Full Name</label>
-            <input type="text" class="form-control" name="full_name" placeholder="Enter name" required>
+        <div class="col-lg-6 px-0 vh-100">
+          <div class="card-body text-black px-5 me-2">
+            <form method="post" enctype="multipart/form-data" onsubmit="return myfun()">
+              {% csrf_token %}
+              <div class="companion">
+                <h4>Welcome to Dine<span class="dineqrlogo">QR</span></h4>
+                <h5>Your Ultimate Dining Companion!</h5>
+                <p>Are you tired of waiting in long queues or struggling to get a table at your favorite restaurant? Say goodbye to those dining woes with DineQR, the revolutionary restaurant app that will change the way you dine forever!</p>
+              </div>
+             
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example17">Restaurant Name</label>
+                <input type="text" oninput="return myval()" id="restaurant_name" name="Rname"
+                  class="form-control  " required />
+                <span id="namemessage" class="text-danger"> </span>
+              </div>
+
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Restaurant Logo</label>
+                <input type="file" id="form2Example27" name="Rlogo" class="form-control " required />
+              </div>
+
+
+
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Email</label>
+
+                <input type="email" id="form2Example27" name="email_id" class="form-control" required placeholder="Enter your Full Name here..." />
+              </div>
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Contact</label>
+
+                <input type="number" id="phone" name="phone_number" class="form-control " oninput="return mynum()"
+                  required />
+                <span id="nummessage" class="text-danger"> </span>
+              </div>
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Address/City</label>
+                <input type="text" id="form2Example27" name="address" class="form-control " required />
+              </div>
+
+              <div class="form-outline my-2">
+                <label class="form-label">Password</label><a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true"></i></a>
+                <input type="password" id="password" oninput="return myvalpass()" name="password"
+                  class="form-control " required  placeholder="Enter your Password here..."/>
+                <span id="valmessage" class="text-danger"> </span>
+              </div> 
+
+              <!-- <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Add Profile</label>
+                <input type="file" class="form-control field change_border" alt="img" name="choose_profilepic" autofocus="">
+              </div>
+
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Name/label>
+                <input type="text" class="form-control field change_border" placeholder="Enter your Full Name here..." name="full_name" autofocus="">
+              </div>
+
+
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Email</label>
+
+                <input type="email" id="form2Example27" name="email_id" placeholder="Enter your Email here..." class="form-control " required />
+              </div>
+              <div class="form-outline my-2">
+                <label class="form-label" for="form2Example27">Phone NUmber</label>
+
+                <input type="number" id="form2Example27" name="phone_number" placeholder="Enter your Phone Number here..." class="form-control " required />
+              </div> -->
+             
+             
+
+               <!-- <div class="form-outline my-2">
+                <label class="form-label">Password</label><a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true"></i></a>
+                <input type="text" id="password" oninput="return myvalpass()" placeholder="Enter your Password here..." name="password" class="form-control "
+                  required />
+                <span id="valmessage" class="text-danger"> </span>
+              </div>  -->
+              
+
+              <div class="pt-3 mb-4">
+                <button class="btn btn-block submitBtn" type="submit">Sign up</button>
+              </div>
+              <div class="mt-4">
+                <hr>
+                <span class="orIcon">or</span>
+              </div>
+              <div>
+                <a href="#" class="google">
+                  <div>
+                    <img src="{% static 'images/google.png' %}">
+                    <span>Continue with Google</span>
+                  </div>
+                </a>
+              </div>
+
+              <p style="text-align: center;">Already have an account? <a href="{% url 'user-login' %}" style="color: #1fa8ae;"><b>Log in</b></a></p>
+            </form>
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.tags %}
+            <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                name="email_id" placeholder="Enter email" required>
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Phone NUmber</label>
-            <input type="number" class="form-control" name="phone_number" placeholder="Enter number">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" name="password" id="exampleInputPassword1"
-                placeholder="Password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a class="btn btn-info" href="{% url 'user-login' %}">LogIn</a>
-    </form>
-    <div>
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.tags %}
-        <script>swal("Mediapulse!", "{{message}}", "{{message.tags}}");</script>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+      </div>
     </div>
+  </section>
+
+
+  <script>
+    function myfun() {
+      var password = document.getElementById("password").value;
+      var restaurant_name = document.getElementById('restaurant_name').value;
+      var correct_way = /^[a-zA-Z ]*$/;
+      var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      var num = document.getElementById('phone').value;
+      if (!password.match(pass_way)) {
+        return false
+      }
+
+      if (restaurant_name.match(correct_way)) {
+        true;
+
+      }
+      else {
+        return false
+      }
+      if (restaurant_name.length > 51) {
+        return false
+      }
+
+      if (num.length != 10) {
+        return false
+      }
+
+
+
+    }
+    function myvalpass() {
+      var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      var password = document.getElementById("password").value;
+
+      if (!password.match(pass_way)) {
+        document.getElementById("valmessage").innerHTML = "**Password must contain at least eight characters one numebr and one alphabet"
+      }
+      else {
+        document.getElementById("valmessage").innerHTML = "";
+      }
+
+
+
+
+
+    }
+    function myval() {
+      var restaurant_name = document.getElementById('restaurant_name').value;
+      var correct_way = /^[a-zA-Z ]*$/;
+
+
+
+
+      if (restaurant_name.match(correct_way)) {
+        document.getElementById("namemessage").innerHTML = ""
+      }
+      else {
+        if (restaurant_name.length != 0) {
+          document.getElementById("namemessage").innerHTML = "**Name contains only alphabets"
+        } else {
+          document.getElementById("namemessage").innerHTML = ""
+        }
+      }
+
+      if (restaurant_name.length > 51) {
+        if (restaurant_name.match(correct_way)) {
+          document.getElementById("namemessage").innerHTML = "**Name is too long"
+        }
+      } else {
+        if (!restaurant_name.match(correct_way)) {
+          if (restaurant_name.length != 0) {
+            document.getElementById("namemessage").innerHTML = "**Name contains only alphabets"
+          } else {
+            document.getElementById("namemessage").innerHTML = ""
+          }
+        } else {
+          document.getElementById("namemessage").innerHTML = ""
+        }
+      }
+
+
+
+    }
+    function mynum() {
+      var num = document.getElementById('phone').value;
+
+      if (num.length != 10) {
+        if (num.length == 0) {
+          document.getElementById("nummessage").innerHTML = " "
+        }
+        else {
+          document.getElementById("nummessage").innerHTML = "**Phone Number Should be 10 digit"
+        }
+      }
+      else {
+        document.getElementById("nummessage").innerHTML = " "
+      }
+    }
+
+  </script>
 
 
 
@@ -80,32 +345,27 @@
 
 
 
-
-
-
-
-
-    <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
-    <script src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
-    <!--Wave Effects -->
-    <script src="{% static 'admin/js/waves.js' %}"></script>
-    <!--Menu sidebar -->
-    <script src="{% static 'admin/js/sidebarmenu.js' %}"></script>
-    <!--Custom JavaScript -->
-    <script src="{% static 'admin/js/custom.js' %}"></script>
-    <!--This page JavaScript -->
-    <!--chartis chart-->
-    <script src="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.js' %}"></script>
-    <script
-        src="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script>
-    <script src="{% static 'admin/js/pages/dashboards/dashboard1.js' %}"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
-    <script src="{% static 'admin/js/char/t.js' %}"></script>
-    <script src="{% static 'admin/js/pie-chart.js' %}"></script>
+  <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
+  <script src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+  <!--Wave Effects -->
+  <script src="{% static 'admin/js/waves.js' %}"></script>
+  <!--Menu sidebar -->
+  <script src="{% static 'admin/js/sidebarmenu.js' %}"></script>
+  <!--Custom JavaScript -->
+  <script src="{% static 'admin/js/custom.js' %}"></script>
+  <!--This page JavaScript -->
+  <!--chartis chart-->
+  <script src="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.js' %}"></script>
+  <script
+    src="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script>
+  <script src="{% static 'admin/js/pages/dashboards/dashboard1.js' %}"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+  <script src="{% static 'admin/js/char/t.js' %}"></script>
+  <script src="{% static 'admin/js/pie-chart.js' %}"></script>
 </body>
 
 </html>
