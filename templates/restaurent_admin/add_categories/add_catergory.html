@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
+<div class="page-wrapper wrapper_page" style="min-height: 250px; margin-top: 91px;">
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -21,20 +21,11 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 6col-lg-6px;">Restaurant Name : </label>
+                                        <label class="fw-bold mt-3" style="margin-top: 6col-lg-6px;">Category : </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control field change_border" alt="img"
-                                                value="{{data.restaurant_name}}"  disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 6col-lg-6px;">Category : </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border" alt="img"
+                                            <input type="text" class="form-control field change_border" alt="img" required placeholder="Enter Category Name"
                                                 name="category_name" autofocus="" >
                                         </div>
                                     </div>
