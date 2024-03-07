@@ -3,7 +3,43 @@
 
 
 {% block content %}
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
+<style>
+    .profile-pic {
+    border-radius: 50%;
+    height: 180px;
+    width: 180px;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    vertical-align: middle;
+    text-align: center;
+    color: transparent;
+    transition: all .3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.profile-pic:hover {
+    background-color: rgba(0,0,0,.5);
+    z-index: 10000;
+    color: #fff;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+
+.profile-pic span {
+    display: inline-block;
+    padding-bottom: 6.5em;
+}
+
+form input[type="file"] {
+          display: none;
+          cursor: pointer;
+
+ }
+ 
+</style>
+<div class="page-wrapper wrapper_page">
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -20,49 +56,53 @@
                                 enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-4 text-center">
+                                    <div class="col-4 text-center">
                                         <label class="fw-bold" style="margin-top: 6col-lg-6px;"> </label>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            
-                                            {% if datas.choose_profilepic %}
-                                                <img src="{{datas.choose_profilepic.url}}"  style="height: 1.7in; width: 5cm;"class="rounded-circle">
+                                    <div class="col-lg-6 col-md-8 col-sm-12 ">
+                                        <label for="fileToUpload">
+                                            {% if datas.restaurant_logo %}
+                                            <div class="profile-pic" style="background-image: url('{{datas.restaurant_logo.url}}')">
+                                                <span class="glyphicon glyphicon-camera"></span>
+                                                <span>Change Image</span>
+                                            </div>
                                             {% else %}
-                                            <img src="{% static 'images/default.png' %}" alt="Image Here"  style="height: 1.7in; width: 5cm;" class="rounded-circle">
+                                            <div class="profile-pic" style="background-image: url('{% static 'images/default.png' %}')">
+                                                <span class="glyphicon glyphicon-camera"></span>
+                                                <span>Change Image</span></div>
                                             {% endif %}
-                                                <input type="file" name="choose_profilepic"  class="form-control field change_border">
-                                                <input type="checkbox" name="deletepic"  class=" change_border">Delete Profile
-                                                
-                                            
-                                        </div>
+                                        </label>
+                                        <input type="File" name="restaurant_logo" id="fileToUpload">
                                     </div>
-                                    <div class="col-lg-4 text-center">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 text-center mt-3">
                                         <label class="fw-bold" style="margin-top: 6col-lg-6px;"> Name: </label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-md-8 col-sm-12 mt-2" >
                                         <div class="form-group">
-                                            <input type="text" class="form-control field change_border" value="{{datas.full_name}}"
-                                                name="full_name" id="name">
+                                            <input type="text" class="form-control field change_border"
+                                                value="{{datas.full_name}}" name="full_name" id="name">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 text-center">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 text-center mt-2">
                                         <label class="fw-bold" style="margin-top: 6col-lg-6px;">Email: </label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-md-8 col-sm-12">
                                         <div class="form-group">
-                                            <input type="email" class="form-control field change_border" name="email_id" value="{{datas.email_id}}"
-                                                 id="email_id">
+                                            <input type="email" class="form-control field change_border" name="email_id"
+                                                value="{{datas.email_id}}" id="email_id">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 text-center">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 text-center mt-2">
                                         <label class="fw-bold" style="margin-top: 6col-lg-6px;">Phone Number: </label>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-md-8 col-sm-12">
                                         <div class="form-group">
-                                            <input type="number" class="form-control field change_border"  value="{{datas.phone_number}}"
-                                                name="phone_number" id="phone_number">
+                                            <input type="number" class="form-control field change_border"
+                                                value="{{datas.phone_number}}" name="phone_number" id="phone_number">
                                         </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 text-center mt-2">
+                                        <label class="fw-bold" style="margin-top: 6col-lg-6px;">Payment: </label>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="contact-form-submint-btn-area">
@@ -77,4 +117,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
