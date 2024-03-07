@@ -1,124 +1,140 @@
+<!DOCTYPE html>
 {% load static %}
-<footer class="footer text-center footer_text"> 2023 © All rights reserved. <a class="footer_link"
-    href="">Food Menu</a>
-</footer>
+<html dir="ltr" lang="en">
 
-<script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
-<!-- Bootstrap tether Core JavaScript -->
-<script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
-<script
-src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
-<!--Wave Effects -->
-<script src="{% static 'admin/js/waves.js' %}"></script>
-<!--Menu sidebar -->
-<script src="{% static 'admin/js/sidebarmenu.js' %}"></script>
-<!--Custom JavaScript -->
-<script src="{% static 'admin/js/custom.js' %}"></script>
-<!--This page JavaScript -->
-<!--chartis chart-->
-<script src="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.js' %}"></script>
-<script
-src="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script>
-<script src="{% static 'admin/js/pages/dashboards/dashboard1.js' %}"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
-<script src="{% static 'admin/js/char/t.js' %}"></script>
-<script src="{% static 'admin/js/pie-chart.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" ></script>
-<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js" ></script>
-<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" ></script>
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.colVis.min.js" ></script>
-<script src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js" ></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Mediapulse</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/FavIcon.png' %}">
+    <!-- Custom CSS -->
+    <link href="{% static 'admin/css/style.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin/css/responsive.css' %}" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        
+		.info {
+			color: #00529B;
+		}
+		.success {
+			color: #4F8A10;
+		}
+		.warning {
+			color: #9F6000;
+		}
+		.error{
+			color: #D8000C;
+		}
+		.validation{
+			color: #D63301;
+		}
+       
+    </style>
+</head>
 
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div> -->
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <div class="forget-password-detail-area">
+            <!-- <div class="forget-password-left-area left_area">
+                <a href="./dashboard.html">
+                    <img src="{% static 'admin/images/logopng.png' %}" alt="logo-img">
+                </a>
+            </div> -->
+            <div class="forget-password-input-area right_area_back-image">
+                <div class="forget-password-left-area">
+                    <a href="">
+                        <img src="{% static 'images/DineQR-Logo2.png' %}" alt="logo-img">
+                    </a>
+                </div>
+                <!-- <h2>Login</h2> -->
+                <div class="right_area">
+                    <div class="login">
+                        <h2>Forgot Password</h2>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                        <p class="text-danger" style="font-weight: bold;">
+                            {{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="col-lg-9">
+                            <div class="change-password-input-box">
+                                <input type="email" id="fname" name="email_id" class="form-control input_area"
+                                    placeholder="Enter Email ID" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-lg-9">
+                            <div class="change-password-input-box">
+                                <input type="password" id="fname" name="new_password" class="form-control change_border"
+                                    placeholder="Enter New Password" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-lg-9">
+                            <div class="change-password-input-box">
+                                <input type="password" id="fname" name="confirm_password"
+                                    class="form-control change_border" placeholder="confirm password" required>
+                            </div>
+                        </div>
+                        
+                        <div class="login-resset-btn-area">
+                            <div class="email-submit-btn-area submit_area">
+                                <button type="submit" class="email-submit-btn btn_submit">Submit</button>
+                            </div>
+                        </div>
+                        <div class="pb-4">
+                            <a href="{% url 'admin-login' %}" class=" cancelBtn">Cancel</a>
+                        </div>
 
-
-
-<script type="text/javascript">
-   $(document).ready(function() {
-     $('#example1').DataTable( {
-   
-      
-         dom: 'Bfrtip',
-         buttons: [
-              
-            
-         ],
-          language: {
-         searchPlaceholder: "Search here..."
-         
-   
-      }
-     } );
-   } );
-</script>
-<script type="text/javascript">
-   $(document).ready(function() {
-     $('#subscription').DataTable( {
-   
-      
-         dom: 'Bfrtip',
-     } );
-   } );
-</script>
-<script type="text/javascript">
-   $(document).ready(function() {
-     $('#notification').DataTable( {
-   
-      
-         dom: 'Bfrtip',
-     } );
-   } );
-</script>
-<script>
-$(document).ready(function () {
-    $('.counter-value').each(function () {
-        $(this).prop('Counter', 0).animate({
-            Counter: $(this).text()
-        }, {
-            duration: 3500,
-            easing: 'swing',
-            step: function (now) {
-                $(this).text(Math.ceil(now));
-            }
-        });
-    });
-});
-</script>
-<script>
-
-$(document).ready(function () {
-    $(".onclickmenu").click(function () {
-        $(".clickShowmenu").toggle();
-    });
-
-    $(".onclickmenu2").click(function () {
-        $(".clickShowmenu2").toggle();
-    });
-    $(".onclickmenu3").click(function () {
-        $(".clickShowmenu3").toggle();
-    });
-    $(".onclickmenu4").click(function () {
-        $(".clickShowmenu4").toggle();
-    });
-    $(".onclickmenu5").click(function () {
-        $(".clickShowmenu5").toggle();
-    });
-    $(".onclickmenu6").click(function () {
-        $(".clickShowmenu6").toggle();
-    });
-});
-</script>
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-
+                    </form>
+                    
+                    
+                </div>
+            </div>
+            <div class="text-center py-2">
+                <p >2023 © All rights reserved. <a href="">Food Menu</a></p>
+            </div>
+           
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <!-- <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
+    <!-- Bootstrap tether Core JavaScript -->
+    <!-- <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script> -->
+    <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static 'admin/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static 'admin/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static 'admin/js/custom.js' %}"></script>
 </body>
 
 </html>
