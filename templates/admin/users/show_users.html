@@ -108,6 +108,9 @@
 	-moz-transition: All 0.3s ease;
 	-o-transition: All 0.3s ease;
 }
+
+  
+
 </style>
 
 <div class="page-wrapper wrapper_page" style="min-height: 250px;">
@@ -118,14 +121,14 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="application-detail-heading-area">
-          <h2 class="noti_detail">List of Restaurants</h2>
+          <h2 class="noti_detail"><b>List of Restaurants</b></h2>
           <div>
             {% for message in messages %}
             <b style="color:#084615; margin-left: 22px;">{{message}}</b>
             {% endfor %}
           </div>
         </div>
-        <a href="{% url 'add-users'  %}"  class="btn btn-info mb-2">Add New</a>
+        <a href="{% url 'add-users'  %}"  class="btn btnadd mb-2">Add New</a>
         {% if Users %}
         <div class="contact-detail-main-area main_area_contact_detail">
           <div class="row">
@@ -239,6 +242,9 @@
 
         },
         success : function(data) {
+          $(document).ajaxStop(function(){
+          window.location.reload();
+          });
         }
       });
     }
