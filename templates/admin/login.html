@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Food Menu</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin/images/favicon.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/FavIcon.png' %}">
     <!-- Custom CSS -->
     <link href="{% static 'admin/css/style.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin/css/responsive.css' %}" rel="stylesheet">
@@ -38,7 +38,7 @@
             <div class="forget-password-input-area right_area_back-image">
                 <div class="forget-password-left-area">
                     <a href="">
-                        <img src="{% static 'images\food-logo.png' %}" alt="">
+                        <img src="{% static 'images/DineQR-Logo2.png' %}" alt="">
                     </a>
                 </div>
                 <!-- <h2>Login</h2> -->
@@ -64,7 +64,7 @@
 
                     </form>
                     <div class="email-submit-btn-area forget_login">
-                        <a href="{% url 'password_reset' %}" class="email-submit-btn btn_login">Forgot Password?</a>
+                        <a href="{% url 'forgot-password' %}" class="email-submit-btn btn_login">Forgot Password?</a>
                     </div>
                     <div>
                         {% if messages %}
@@ -92,9 +92,9 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <!-- <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script> -->
     <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
     <!--Wave Effects -->
     <script src="{% static 'admin/js/waves.js' %}"></script>
