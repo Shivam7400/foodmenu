@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
+<div class="page-wrapper wrapper_page" style="min-height: 250px;  margin-top: 91px;">
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -14,7 +14,7 @@
                 <div class="application-detail-heading-area">
                     <h2 class="noti_detail">List of Food Categories</h2>
                 </div>
-                <a href="{% url 'add-category' restaurant_id.id  %}" class="btn btn-info mb-2">Add New</a>
+                <a href="{% url 'add-category' restaurant_id.id  %}" class="btn btnadd mb-2">Add New</a>
                 {% if data %}
                 <div class="contact-detail-main-area main_area_contact_detail">
                     <div class="row">
@@ -50,9 +50,9 @@
                                                 <td>{{head.category_name}}</td>
                                                 <td>{{head.created_at}}</td>
                                                 <td>{{head.updated_at}}</td>
-                                                <td><a class="btn btn-info btn-sm"
+                                                <td><a class="btn btn-info px-2 btn-sm ms-3"
                                                         href="{% url 'add-item' head.id %}">Add Item</a></td>
-                                                <td><a class="btn btn-info btn-sm"
+                                                <td><a class="btn btn-info px-2 btn-sm ms-3"
                                                         href="{% url 'show-item' head.id %}">Show Item</a></td>
 
                                                 <td>
