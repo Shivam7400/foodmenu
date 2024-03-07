@@ -1,24 +1,55 @@
-<!doctype html>
-<html lang="en">
+{% load static %}
+<!DOCTYPE html>
+<html>
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
-  <title>FoodMenu.Subscription page</title>
-
+  <title>Subscription</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  
   <style>
-    .card {
-      border: none;
-      padding: 10px 50px;
+    .greenimg {
+      background-color: #0ea8ad;
+      height: 180px;
+      width: 100%;
+      border-bottom-right-radius: 740px 290px;
+      border-bottom-left-radius: 740px 290px;
     }
 
-    .card::after {
+    .dropdown {
+      bottom: -34px;
+      width: 24%;
+      margin: 0px 0 0 auto;
+    }
+
+    .basic {
+      text-align: center;
+      padding: 40px;
+      border-radius: 20px;
+      margin-top: 10px;
+      transition: 0.7s;
+    }
+
+    .standard {
+      position: relative;
+      bottom: 80px;
+      background-color: #fff;
+    }
+
+    .submitbtn {
+      background-color: #0ea8ad;
+      color: #fff;
+    }
+
+    .submitbtn:hover {
+      background: #ff9945;
+      transition: 0.6s;
+    }
+
+    .basic::after {
       position: absolute;
       z-index: -1;
       opacity: 0;
@@ -26,117 +57,142 @@
       transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    .card:hover {
-
-
+    .basic:hover {
       transform: scale(1.02, 1.02);
       -webkit-transform: scale(1.02, 1.02);
       backface-visibility: hidden;
       will-change: transform;
-      box-shadow: 0 1rem 3rem rgba(0, 0, 0, .75) !important;
+      box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.75) !important;
     }
 
-    .card:hover::after {
+    .basic:hover::after {
       opacity: 1;
     }
 
-    .card:hover .btn-outline-primary {
+    .basic:hover .btn-outline-primary {
       color: white;
       background: #007bff;
     }
-  </style>
 
+    .droptitle {
+      color: #000;
+      text-decoration: none;
+      font-size: 25px;
+    }
+
+    .droptitle:hover {
+      text-decoration: none;
+      color: #fff;
+     
+    }
+    
+    @media only screen and (max-width:700px) {
+      .standard {
+        position: inherit;
+        bottom: 0;
+        background-color: #fff;
+      }
+    
+    }
+  </style>
 </head>
 
 <body>
 
-
-  <div class="container-fluid" style="background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);">
-    <div class="container p-5">
+  <section>
+    <div class="greenimg">
+      <div class="container">
+        <div class="row justify-content-end">
+          <div class="col-lg-2 pt-5">
+            <a class="text-decoration-none text-dark fs-5" href="{% url 'user-logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div class="container">
       <div class="row">
-        {% for data in data %}
-        <div class="col-lg-4 col-md-12 mb-4">
-          <div class="card h-100 shadow-lg">
+        {% if standard.status == 1 %}
+        <div class="col-lg-4 col-sm-12">
+          <div class="basic border">
             <form method="post">
               {% csrf_token %}
-              <div class="card-body">
-                <div class="text-center p-3">
-                  <h5 class="card-title">{{data.heading}}</h5>
-                  <small>Individual</small>
-                  <br><br>
-                  <input type="hidden" name="payment" value="{{data.subscription_price}}">
-                  <span class="h2">{{data.subscription_price}}Rs</span>
-                  <br><br>
-                  <small>Duration: <h3>{{data.subscription_duration}}</h3></small>month
-                  <br><br>
-                </div>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-              </div>
-
-              <div class="card-body text-center">
-                <button class="btn btn-outline-primary btn-lg" style="border-radius:30px" id="rzp-button1">Select</button>
-                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-                <script>
-                  var options = {
-                    "key": "{{api_key}}", // Enter the Key ID generated from the Dashboard
-                    "name": "Vaibhav Rastogi", //your business name
-                    "description": "Test Transaction",
-                    "image": "https://example.com/your_logo",
-                    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                    "handler": function (response) {
-                      alert(response.razorpay_payment_id);
-                      alert(response.razorpay_order_id);
-                      alert(response.razorpay_signature)
-                    },
-                    "prefill": {
-                      "name": "Gaurav Kumar", //your customer's name
-                      "email": "gaurav.kumar@example.com",
-                      "contact": "8808278169"
-                    },
-                    "notes": {
-                      "address": "Razorpay Corporate Office"
-                    },
-                    "theme": {
-                      "color": "#3399cc"
-                    }
-                  };
-                  var rzp1 = new Razorpay(options);
-                  rzp1.on('payment.failed', function (response) {
-                    alert(response.error.code);
-                    alert(response.error.description);
-                    alert(response.error.source);
-                    alert(response.error.step);
-                    alert(response.error.reason);
-                    alert(response.error.metadata.order_id);
-                    alert(response.error.metadata.payment_id);
-                  });
-                  document.getElementById('rzp-button1').onclick = function (e) {
-                    rzp1.open();
-                    e.preventDefault();
-                  }
-                </script>
+              <h5>{{standard.heading}}</h5>
+              <p>Individual</p>
+              <h1>$ {{standard.subscription_price}}</h1>
+              <p>Duration:</p>
+              <h2>{{standard.subscription_duration}}</h2>
+              <p>month</p>
+              <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <input type="hidden" name="package" value="{{standard.heading}}">
+              <input type="hidden" name="payment" id="price" value="{{standard.subscription_price}}">
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn submitbtn">Select</button>
               </div>
             </form>
           </div>
         </div>
-        {% endfor %}
+        {% else %}
+        <div class="col-lg-4 col-sm-12">
+
+        </div>
+        {% endif %}
+        {% if basic.status == 1 %}
+        <div class="col-lg-4 col-sm-12">
+          <div class="basic standard border">
+            <form method="post">
+              {% csrf_token %}
+              <h5>{{basic.heading}}</h5>
+              <p>Individual</p>
+              <h1>$ {{basic.subscription_price}}</h1>
+              <p>Duration:</p>
+              <h2>{{basic.subscription_duration}}</h2>
+              <p>month</p>
+              <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <input type="hidden" name="package" value="{{basic.heading}}">
+              <input type="hidden" name="payment" id="price" value="{{basic.subscription_price}}">
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn submitbtn">Select</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <div class="col-lg-4 col-sm-12">
+
+        </div>
+        {% endif %}
+        {% if premium.status == 1 %}
+        <div class="col-lg-4 col-sm-12">
+          <div class="basic border">
+            <form method="post">
+              {% csrf_token %}
+              <h5>{{premium.heading}}</h5>
+              <p>Individual</p>
+              <h1>$ {{premium.subscription_price}}</h1>
+              <p>Duration:</p>
+              <h2>{{premium.subscription_duration}}</h2>
+              <p>month</p>
+              <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <input type="hidden" name="package" value="{{premium.heading}}">
+              <input type="hidden" name="payment" id="price" value="{{premium.subscription_price}}">
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn submitbtn">Select</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <div class="col-lg-4 col-sm-12">
+
+        </div>
+        {% endif %}
+        
       </div>
     </div>
-  </div>
-  <div>
-    <a href="{% url 'user-logout' %}" class="btn btn-outline-warning btn-lg" style="border-radius:30px">Cancel</a>
-  </div>
-
-
-</body>
-
-
-<!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
+  </section>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <script type="text/javascript" href="{% static 'admin/js/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+  <script type="text/javascript" href="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
 
