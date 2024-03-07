@@ -4,7 +4,7 @@
 
 {% block content %}
 <section>
-    <div class="page-wrapper main-page">
+    <div class="page-wrapper main-page mt-3">
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -18,7 +18,13 @@
                                 data-bs-target="#pills-{{data.id}}" type="button" role="tab" aria-controls="pills-{{data.id}}"
                                 aria-selected="true" onclick="return active('{{data.id}}')">{{data.category_name}}</button>
                         </li>
+                        
                         {% endfor %}
+                        <li>
+                            <a href="{% url 'show-all-item' %}">
+                                <img src="{% static 'images\publish.png' %}" height="50">
+                             </a>
+                        </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         {% for data in data %}
@@ -28,7 +34,7 @@
                             <div class="row">
                                 <div class="col-md-3 p-0 addNew">
                                     <a href="{% url 'add-item' data.id %}">
-                                        <div class="lunchimg pt-1">
+                                        <div class="foodimg">
                                             <div class="foodimg2 ">
                                                 <div class="vector">
                                                     <img src="{% static 'images\food1.png' %}" alt="">
@@ -39,28 +45,30 @@
                                         </div>
                                     </a>
                                 </div>
+                               
                                 {% for cats in data.cat.all %}
                                 {% if cats.status == 'Save' %}
                                 <div class="col-md-3 p-0 addNew"
                                     onclick="return myid('{{cats.id}}','{{cats.category_name.id}}')">
-                                    <div style="position: relative;">
+                                    <div class="bg-white text-center manuItem">
                                         <input type="checkbox" class="checkboxicon kuchbhi{{data.id}}" id="{{cats.id}}"
                                         onclick="return checkbox('{{data.id}}')" value="{{cats.id}}">
 
                                         <a data-bs-toggle="modal" onclick="popup()">
-                                            <div class="lunchimg ">
-
-                                                <div class="foodimg3">
+                                            <label >
+                                                <div>
                                                     {% if cats.food_image %}
-                                                    <img src="{{ cats.food_image.url }}" style="height: 60px;" alt="">
+                                                    <img src="{{ cats.food_image.url }}" alt="">
                                                     {% else %}
                                                     <p><img src="{%  static 'images/no-image-icon-23483.png' %}"
                                                             class="mt-2" height="75" alt=""></p>
                                                     {% endif %}
                                                 </div>
-                                                <p>${{cats.price}}</p>
-                                                <h4>{{cats.food_name}}</h4>
-                                            </div>
+                                                <div class=" changec pt-2">
+                                                    <p class="mb-1">{{cats.food_name}}</p>
+                                                    <h6 class="clrfood">${{cats.price}}</h6>
+                                                </div>
+                                            </label>
                                         </a>
                                     </div>
                                 </div>
@@ -88,11 +96,7 @@
                     </div>
 
                 </div>
-                <div class="col-1">
-                    <a href="{% url 'show-all-item' %}">
-                    Publish
-                </a>
-                </div>
+             
                 
             </div>
 
@@ -109,7 +113,7 @@
                             <img src="{% static 'images\Rectangle 136.png' %}" id="change_image">
                             <a id="myLink"><i class="fi fi-rr-pencil"></i></a>
                         </div>
-                        <div>
+                        <div class="px-4">
                             <div class="text-center py-3">
                                 <h5 class="clrfood" id="foodname"></h5>
                                 <h5>$<span id="price"></span></h5>
@@ -154,7 +158,6 @@
 
         // Get references to all the checkboxes
         var checkboxes = document.querySelectorAll(".kuchbhi"+id);
-        alert()
             // Loop through each checkbox and set its checked property to true
         checkboxes.forEach(function (checkbox) {
             checkbox.checked = true;
