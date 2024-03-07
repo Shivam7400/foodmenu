@@ -6,7 +6,7 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav" class="nav_bar_side">
                 <!-- User Profile-->
-                <li class="sidebar-item pt-2">
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar"
                         href="{% url 'admin-dashboard' %}" aria-expanded="false">
                         <i class="fas fa-tachometer-alt  leftside_icon"></i>
@@ -16,7 +16,7 @@
                 
                 <li class="sidebar-item onclickmenu commomShow">
                     <a href="{% url 'show-users' %}"
-                        class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar " aria-expanded="false">
+                        class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
                         <i class="fas fa-users leftside_icon"></i>
                         <span class="hide-menu">Manage Restaurants</span>
                     </a>
@@ -69,14 +69,7 @@
 
                     </ul>
                 </li>
-                <li class="sidebar-item onclickmenu5 commomShow">
-                    <a href="{% url 'admin-logout' %}"
-                        class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar"
-                        onclick="return confirm('Are You Sure to LogOut')" aria-expanded="false">
-                        <i class="fas fa-sign-out-alt leftside_icon"></i>
-                        <span class="hide-menu">Logout</span>
-                    </a>
-                </li>
+
 
                 <!-- <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href=""
