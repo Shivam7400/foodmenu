@@ -3,21 +3,155 @@
 
 
 {% block content %}
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <div class="container-fluid fluid_container responsive_container pt-3 white_bg">
+<style>
+    .changeimage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .changeimage input[type=file] {
+        display: none;
+        cursor: pointer;
+    }
+
+    .changeimage img {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .changeimage span {
+        display: inline-block;
+        position: absolute;
+        left: 20px;
+        bottom: 63px;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .changeimage span:hover {
+        background-color: rgba(0, 0, 0, .5);
+        z-index: 10000;
+        color: #fff;
+        text-decoration: none;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+    }
+</style>
+<section class="page-wrapper wrapper_page">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-10 ">
+                <form action="">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="changeimage">
+                                <div class="form-group">
+                                    <label for="imagechange"><img src="{% static 'images/default.png' %}" alt="">
+                                        <span>Change Image</span>
+                                        <input type="file" name="" id="imagechange">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Name"><strong>Name</strong></label>
+                                <input type="text" name="name" id="Name" class="bg-white" placeholder="Enter name">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Email"><strong>Email</strong></label>
+                                <input type="text" name="Email" id="Email" class="bg-white" placeholder="Enter Email">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Password"><strong>Password</strong></label>
+                                <input type="text" name="Password" id="Password" class="bg-white"
+                                    placeholder="Enter Password">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Enable"><strong>Enable Password</strong></label>
+                                <input type="text" name="Enable" id="Enable" class="bg-white"
+                                    placeholder="Enter Password">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Phone"><strong>Phone</strong></label>
+                                <input type="text" name="Phone" id="Phone" class="bg-white" placeholder="Enter Phone">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Address"><strong>Address</strong></label>
+                                <input type="text" name="Address" id="Address" class="bg-white"
+                                    placeholder="Enter Address">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <span class="me-4"><strong>Gender</strong></span>
+                            <form>
+                                <input name="gender" id="male" type="radio">
+                                <label for="male">Male</label>
+
+                                <input name="gender" id="female" type="radio" class="ms-4">
+                                <label for="femail">Female</label>
+                            </form>
+                        </div>
+                        <div class="col-12">
+                            <div class="updatedbtn">
+                                <button class="Submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="page-wrapper wrapper_page" style="min-height: 250px;"> -->
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!--  <div class="container-fluid fluid_container responsive_container pt-3 white_bg">
         <div class="row">
             <div class="col-lg-12">
                 <div class="application-detail-heading-area">
-                    <h2 class="noti_detail">Add User</h2>
+                    <h2 class="noti_detail">Add Restaurant</h2>
                 </div>
                 <div class="contact-detail-main-area main_area_contact_detail">
                     <div class="row">
                         <div class="col-lg-12">
                             <form class="contact-form-main-area" method="POST" id="paymentFrm"
-                                enctype="multipart/form-data">
+                                enctype="multipart/form-data" onsubmit="return onsub()">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-4 text-center">
@@ -25,8 +159,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" id="form2Example17" name="restaurant_name" required placeholder="Enter restaurant name"
-                                                class="form-control " />
+                                            <input type="text" id="form2Example17" name="restaurant_name" required placeholder="Enter Restaurant name"
+                                                class="form-control field change_border " />
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
@@ -57,12 +191,22 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Address/City: </label>
+                                        <label class="fw-bold" style="margin-top: 10px;">Address: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control field change_border" alt="img" required placeholder="Enter Address"
                                                 name="restaurant_address" autofocus="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                        <label class="fw-bold" style="margin-top: 10px;">Password: </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control field change_border"  required placeholder="Enter Password" oninput="return myval()" id="password"
+                                                name="password" autofocus="" >
+                                            <span id="valmessage" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -81,5 +225,29 @@
         </div>
     </div>
 </div>
-</div>
+</div> -->
+
+<script>
+    function onsub() {
+        var a = document.getElementById('password').value;
+        var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+
+        if (!a.match(pass_way)) {
+            return false
+        }
+    }
+    function myval() {
+        var a = document.getElementById('password').value;
+        var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+
+        if (!a.match(pass_way)) {
+            document.getElementById("valmessage").innerHTML = "**Password must contain at least eight characters one numebr and one alphabet"
+            return false
+        }
+        else {
+            document.getElementById("valmessage").innerHTML = " ";
+            return true
+        }
+    }
+</script>
 {% endblock %}
