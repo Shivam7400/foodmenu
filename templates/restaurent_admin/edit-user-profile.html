@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
+<div class="page-wrapper wrapper_page" style="min-height: 250px; margin-top: 91px;">
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -27,12 +27,14 @@
                                         <div class="form-group">
                                             {% if datas.choose_profilepic %}
                                                 <img src="{{datas.choose_profilepic.url}}" alt="Image Here" style="height: 1.5in; width: 8cm;">
+                                            {% else %}
+                                            <img src="{% static 'images/default.png' %}" alt="Image Here" style="height: 1.7in; width: 5cm;">
                                             {% endif %}
-                                            <input type="file" class="form-control field change_border" alt="img"
-                                                name="choose_profilepic" autofocus="" id="choose_profilepic">
+                                            <input type="file" class="form-control field change_border" alt="img" name="choose_profilepic" autofocus="" id="choose_profilepic">
+                                            <input type="checkbox" name="deletepic"  class=" change_border">Delete Profile
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 text-center">
+                                    <!-- <div class="col-lg-4 text-center">
                                         <label class="fw-bold" style="margin-top: 6col-lg-6px;">Name: </label>
                                     </div>
                                     <div class="col-lg-6">
@@ -40,7 +42,7 @@
                                             <input type="text" class="form-control field change_border" value="{{datas.full_name}}"
                                                 name="full_name" id="name">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-4 text-center">
                                         <label class="fw-bold" style="margin-top: 6col-lg-6px;">Email: </label>
                                     </div>
