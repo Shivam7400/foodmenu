@@ -1,0 +1,94 @@
+{% extends 'mobile_view/base.html' %}
+{% load static %}
+{% block content %}
+<main class="mobMain1">
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="mainheading">
+                <span>Lunch</span>
+                <span><i class="fi fi-rr-angle-right px-2"></i></span>
+                <span class="list3">{{data.food_name}}</span>
+            </div>
+            <div class="imagefull">
+                {% if data.food_image %}
+                <img src="{{data.food_image.url}}" alt="">
+                {% endif %}
+            </div>
+            <h2 class="py-3">{{data.food_name}}</h2>
+            <div class="spice">
+                {% if data.category_name.cat_type == 'Food' %}
+                <p>Spice Level</p>
+                <input class=" spicelevel1" type="button" id="inputButton" value="Mild">
+                <input class=" spicelevel2" type="button" id="submitButton" value="Medium"> 
+                <input class=" spicelevel1" type="button" id="resetButton" value="Hot">
+                <input type="hidden" name="selected_button" id="selectedButton" value="Medium">
+                {% else %}
+                <p>Temperature</p>
+                <input class=" spicelevel1" type="button" id="inputButton" value="Cold">
+                <input class=" spicelevel2" type="button" id="submitButton" value="Moderate"> 
+                <input class=" spicelevel1" type="button" id="resetButton" value="Hot">
+                <input type="hidden" name="selected_button" id="selectedButton" value="Moderate">
+                {% endif %}
+            </div>
+            <div>
+                <h6 class="m-0">Addon</h6>
+                <p>Choose items to add to your food</p>
+                {% for addonec in addonec %}
+                <div class="d-flex justify-content-between">
+                    <div class="addextra">
+                        <label for="#avocado">
+                            <input type="checkbox" value="{{addonec.id}}" name="addonce" id="avocado">
+                            <span></span>
+                            {{addonec.all_addon.name}}</label>
+                    </div>
+                    <div>
+                        <p>${{addonec.all_addon.price}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="pt-3">
+                <h6>Description</h6>
+                <p>{{data.description}}. </p>
+            </div>
+    </div>
+    <div class="backtobtn">
+        <button type="submit" class="backtomenubtn1">Checkout</button>
+        <a type="button" href="{% url 'mobile_home' data.user_id.id %}" class="backtomenubtn2 text-center">Back to menu</a>
+    </div>
+    </form>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputButton = document.getElementById('inputButton');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+        const selectedButtonField = document.getElementById('selectedButton');
+
+        inputButton.addEventListener('click', function () {
+            selectedButtonField.value = inputButton.value;
+            inputButton.className=' spicelevel2';
+            submitButton.className=' spicelevel1';
+            resetButton.className=' spicelevel1';
+            
+
+        });
+
+        submitButton.addEventListener('click', function () {
+            selectedButtonField.value = submitButton.value;
+            submitButton.className=' spicelevel2';
+            inputButton.className=' spicelevel1';
+            resetButton.className=' spicelevel1';
+        });
+
+        resetButton.addEventListener('click', function () {
+            selectedButtonField.value = resetButton.value;
+            resetButton.className=' spicelevel2';
+            submitButton.className=' spicelevel1';
+            inputButton.className=' spicelevel1';
+        });
+    });
+</script>
+
+{% endblock %}
