@@ -5,7 +5,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 # Create your models here.
 
-    
+
 
 class FoodCategories(models.Model):
     user_id=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True)
@@ -34,9 +34,14 @@ class AddOnes(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
 
 
+class UserToken(models.Model):
+    mobile_token = models.CharField(max_length=200)
+    created_at=models.DateTimeField(auto_now_add=True)
+
 class Addtocart(models.Model):
     user_id=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True)
     food_id=models.ForeignKey(FoodName, on_delete=models.CASCADE,null=True,blank=True)
+    token=models.ForeignKey(UserToken, on_delete=models.CASCADE,null=True,blank=True)
     quantity = models.IntegerField(null=True,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
