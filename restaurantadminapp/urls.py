@@ -13,19 +13,23 @@ urlpatterns=[
   
     
     path('restaurant-details/',views.Restaurant_details.as_view(),name='restaurant-details'),
+    path('Delete-Profile/',views.DeleteImage.as_view(),name='deleteImage'),
  
     path('subscription/',views.User_Subscription.as_view(),name='subscription'),
     path('Payment/',views.Payment.as_view(),name='Payment'),
     path('user-logout/',views.userlogout,name='user-logout'),
     # path('user-forgot-password/',views.Forget_password.as_view(),name='user-forgot-password'),
+    path('Transaction-History/',views.Transaction_History.as_view(),name='t_history'),
+    path('Delete-Transaction-History/',views.Delete_Transaction_History.as_view(),name='delete_t_history'),
     
 
 #############################Categorties######################
     path('add-category/',views.Add_Category.as_view(),name='add-category'),
     path('show-category/',views.Show_Category.as_view(),name='show-category'),
-    path('edit-category/<int:id>',views.Edit_Category.as_view(),name='edit-category'),
-    path('delete-category/<int:id>',views.delete_category,name='delete-category'),
+    path('edit-category/',views.Edit_Category.as_view(),name='edit-category'),
+    path('delete-category/',views.delete_category,name='delete-category'),
     path('show-category-image/',views.Show_cat_image.as_view()),
+    path('category-details/',views.caterogy_details.as_view()),
 
 
 ############################Add Food item #################
@@ -36,14 +40,17 @@ urlpatterns=[
     path('edit-item/<int:id>',views.Edit_Item.as_view(),name='edit-item'),
     path('delete-item/',views.Delete_item.as_view(),name='delete-item'),
     path('show-all-item/',views.Show_all_items.as_view(),name='show-all-item'),
+    path('show-all-Draft-item/',views.Show_all_draft_items.as_view(),name='show-all-draft-item'),
     path('add-items/',views.Add_Item_all.as_view(),name='add-all-item'),
+    path('Order-History/',views.Order_history.as_view(),name='order_history'),
+    path('complete-order/',views.Completeorder.as_view(),name='Completeorder'),
     # path('menu/<str:id>',views.Restaurant_Menu.as_view(),name='restaurant-menu'),
     # path('food-item/<int:id>',views.Food_Items.as_view(),name='food-item')
 
     path('receive-notification/',views.Receive_Notification.as_view(),name='receive-notification'),
     path('delete-receive-notification/<int:id>',views.delete_notification,name='delete-receive-notification'),
 
-    path('generate-pdf/', views.generate_pdf, name='generate-pdf'),
+    path('generate-pdf/<int:id>', views.generate_pdf, name='generate-pdf'),
     path('TermandConditions', views.TermandConditions.as_view(), name='TermandConditions'),
     path('Privacyandpolicies', views.Privacyandpolicies.as_view(), name='privacyandpolicies'),
 
@@ -55,4 +62,13 @@ urlpatterns=[
 #####mobile View ####
     path('mobile-home/<int:id>',views.Mobile_home.as_view(),name='mobile_home'),
     path('mobile-items/<int:id>',views.Mobile_items.as_view(),name='mobile_items'),
+    # path('add-to-cart/<int:id>',views.Addtocarts.as_view(),name='Addtocarts'),
+    path('add-to-cart-view/<int:id>',views.AddToCartView.as_view(),name='AddToCartView'),
+    path('add-to-cart-remove/<int:id>',views.RemoveAddtocart.as_view(),name='RemoveAddtocart'),
+    path('item-details/<int:id>',views.Mob_Item_details.as_view(),name='mob_Item_details'),
+    path('Manage-quantity/',views.ManageQuantity.as_view(),name='manageQuantity'),
+    path('Check-Out/<int:id>',views.Checkout.as_view(),name='checkout'),
+    path('checkout/<int:id>',views.CheckOutSession.as_view(),name='checkout_page'),
+    path('Success-Page/<int:id>',views.SuccessPage.as_view(),name='success-page'),
+    path('Order_details/<int:id>',views.generate_order_pdf,name='order-Details'),
 ]   
