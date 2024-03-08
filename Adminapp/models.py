@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 
 # Create your models here.
 class CustomuserManager(BaseUserManager):
-    def create_user(self  , email_id , password , phone_number,restaurant_name,restaurant_logo,restaurant_address  ):
+    def create_user(self  , email_id , password , phone_number,restaurant_name,restaurant_logo,restaurant_address ,country=None ,Postal_code=None):
        
         if not email_id:
             raise ValueError("The Email must be set")
@@ -18,6 +18,8 @@ class CustomuserManager(BaseUserManager):
             restaurant_name=restaurant_name,
             restaurant_logo=restaurant_logo,
             restaurant_address=restaurant_address,
+            country=country,
+            Postal_code=Postal_code,
 
         )
         user.set_password(password)
@@ -48,26 +50,36 @@ class CustomUser(AbstractBaseUser):
     username=models.CharField(max_length=1000,null=True,blank=True)
     full_name=models.CharField(max_length=1000,null=True,blank=True)
     phone_number = models.CharField(max_length=10,null=True,blank=True)
+    country = models.CharField(max_length=10,null=True,blank=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-    updated_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated_at = models.DateTimeField(auto_now=True,null=True,blank=True)
     is_superuser = models.BooleanField(default=False)
+    Postal_code = models.IntegerField(null=True)
     restaurant_name=models.CharField(max_length=1000,null=True,blank=True)
     restaurant_logo=models.FileField(upload_to='restaurant_logo' ,blank=True)
+    banner_image=models.FileField(upload_to='banner_image' ,blank=True)
     restaurant_address=models.CharField(max_length=3000,null=True,blank=True)
+    city=models.CharField(max_length=3000,null=True,blank=True)
+    state=models.CharField(max_length=3000,null=True,blank=True)
     qr_code=models.ImageField(upload_to='qr_code',blank=True)
     payment_status=models.CharField(max_length=200,default='pending')
     payment_price=models.CharField(max_length=200,default='0')
     package=models.CharField(max_length=200,default='pending')
     subscription_date=models.CharField(null=True,blank=True,max_length=100)
     subscritpion_expire_date=models.CharField(null=True,blank=True,max_length=100)
+    payment_diable_enable_status=models.CharField(null=True,blank=True,max_length=200 ,default=False)
     
     def __str__(self):
         return f'{self.email} - {self.id}'
 
     def save(self,*args,**kwargs):
+        if self.email_id:
+            self.email_id = self.email_id.lower()  # Convert email to lowercase
+        super(CustomUser, self).save(*args, **kwargs)
+        # url = f'http://192.168.1.56:8001/mobile-home/{self.id}'
         url = f'http://69.49.235.253:8026/mobile-home/{self.id}'
 
         # Generate the QR code with version=None to determine the best version automatically
@@ -142,4 +154,4 @@ class PrivacyAndPolicy(models.Model):
 class CategoryImages(models.Model):
     image=models.ImageField(null=True,blank=True,upload_to='condition')
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)  
