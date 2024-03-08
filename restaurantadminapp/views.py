@@ -10,7 +10,6 @@ from xhtml2pdf import pisa
 from datetime import date , timedelta
 import json
 
-
 #sideBar
 
 
@@ -31,7 +30,6 @@ class User_Login(View):
         
         user = authenticate(
                 request=request, email_id=email_id, password=passwords,)
-        print(user,'user')
         if user is not None:
             if CustomUser.objects.filter(email_id=email_id, is_superuser=False):
                 login(request, user)
@@ -296,18 +294,15 @@ class Add_Item(View):
             status='Publish'
         else:
             status='Save'
-            print(food_name)
         name=FoodName.objects.create(food_name=food_name,food_image=food_image,price=price,description=description,category_name=data,user_id=request.user,status=status)
         return redirect('edit-item',name.id)
     
 
 class Add_Once(View):
     def post(self,request,id):
-        print('hello')
         fname =FoodName.objects.get(id=id)
         name=request.POST.get('addname')
         price=request.POST.get('addprice')
-        print(price)
         AddOnes.objects.create(name=name,price=price,user_id=request.user,foodname=fname)
         return redirect('edit-item',fname.id)
     
@@ -317,7 +312,7 @@ class Delete_Add_Once(View):
         fname =FoodName.objects.get(id=a.foodname.id)
         a.delete()
         return redirect('edit-item',fname.id)
-from django.urls import reverse
+
 class Show_Item(View):
     def get(self,request,id):
         if request.user.is_authenticated:   
@@ -340,13 +335,11 @@ class Show_Item(View):
     def post(self,request,id):
         item_id=request.POST['cat_id']
         items=FoodName.objects.get(id=item_id)
-        print(items)
         addonce=AddOnes.objects.filter(foodname=items)
         dataa = list(addonce.values())
-        print(dataa)
         src="/media/"+str(items.food_image)
-        url = "http://127.0.0.1:8000/edit-item/"+str(items.id)
-        print(url)
+        url = "http://192.168.1.47:8001/edit-item/"+str(items.id)
+        # url = "http://69.49.235.253:8026/edit-item/"+str(items.id)
         context={'id':items.id,'name':items.food_name,'description':items.description,'image':str(items.food_image),'price':items.price,'image':src,'url':url,'data':dataa}
         return JsonResponse(context)
         
@@ -459,12 +452,10 @@ class Add_Item_all(View):
         button=request.POST.get('submit_button')
         category=request.POST.get('category')
         data=FoodCategories.objects.get(id=category)
-        print(button)
         if button=='publish':
             status='Publish'
         else:
             status='Save'
-            print(food_name)
         name=FoodName.objects.create(food_name=food_name,food_image=food_image,price=price,description=description,category_name=data,user_id=request.user,status=status)
         return redirect('edit-item',name.id)
 
@@ -485,13 +476,11 @@ class Restaurant_details(View):
             return redirect('user-login')
         
     def post(self,request):
-        print(id,'id')
         rname=request.POST.get('restaurant_name')
         rlogo=request.FILES.get('restaurant_logo')
         address=request.POST.get('restaurant_address')
         phone_number=request.POST.get('phone_number')
         data=CustomUser.objects.get(id=request.user.id)
-        print(rname,rlogo,address)
         if rlogo is not None:
             CustomUser(id=data.id,email_id=data.email_id,phone_number=phone_number,password=request.user.password,restaurant_name=rname,restaurant_logo=rlogo,restaurant_address=address,payment_status=data.payment_status,payment_price=data.payment_price,package=data.package,subscritpion_expire_date=data.subscritpion_expire_date,subscription_date=data.subscription_date).save()
         else:
@@ -507,7 +496,6 @@ class Restaurant_details(View):
 #     def get(self,request,id):
 #         if RestaurentDetails.objects.filter(user_id=int(id)).exists():
 #             idd=RestaurentDetails.objects.get(user_id=int(id))
-#             print(idd.payment_status)
 #             if idd.payment_status != 'pending':
         
 #                 catagory=FoodCategories.objects.filter(restaurant_id=idd)
@@ -559,6 +547,8 @@ class User_Subscription(View):
         data.save()
         return redirect('Payment')
 
+
+
 class Payment(View):
     def get(self,request):
         if request.user.is_authenticated:
@@ -571,12 +561,14 @@ class Payment(View):
             return redirect('user-login')
         
     def post(self,request):
-        # print('sdbfjhsdbfsdffaffsdbasdafjasd')
         id=request.POST['id']
         data=CustomUser.objects.get(id=id)
         data.payment_status='Successfull'
         data.save()
         return redirect('user-dashboard')
+
+
+
 
 class Receive_Notification(View):
     def get(self,request):
@@ -656,13 +648,16 @@ class Show_cat_image(View):
 ################Mobile View############
 class Mobile_home(View):
     def get(self,request,id):
+        ip_address = request.META.get('REMOTE_ADDR')  # Implement this function
+        print(ip_address,'ip')
         user=CustomUser.objects.get(id=id)
         data=FoodCategories.objects.filter(user_id=user)
-        return render(request,'mobile_view/home_page.html',{'data':data})
+        return render(request,'mobile_view/home_page.html',{'data':data,'ip_address':ip_address})
 class Mobile_items(View):
     def get(self,request,id):
         data=FoodName.objects.filter(category_name=FoodCategories.objects.get(id=id))
         return render(request,'mobile_view/food_items.html',{'data':data})
+
 class Addtocarts(View):
     def post(self,request,id):
         data=FoodName.objects.get(id=id)
