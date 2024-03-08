@@ -1,0 +1,115 @@
+{% extends 'mobile_view/base.html' %}
+{% load static %}
+{% block content %}
+<main class="mobMain">
+    <div class="container">
+        <h5>Cart</h5>
+        {% for data in data %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="imagefood">
+                    {% if data.image %}
+                    <img src="{{data.image.url}}" class="fooditemimage">
+                    {% else %}
+                    <img src="{%  static 'images/no-image-icon-23483.png' %}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="cartdetails">
+                    <p>{{data.name}}</p>
+                    <h5 class="priceclr">${{data.price}}</h5>
+                    <p>Spice Level: {{data.spicelevel}}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <a href="{% url 'RemoveAddtocart' data.id %}" class="removebtn">Remove</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="addmore">
+                    {% if data.check is True %}
+                    <div class="counter">
+                        <button class="down" style="color: #5a5a5a!important;"  id="{{data.id}}down" onClick='decreaseCount({{data.id}}, this)'>-</button>
+                        <input type="text" value="{{data.quantity}}" readonly  id="val">
+                        <button class="up" id="{{data.id}}up" onClick='increaseCount({{data.id}}, this)'>+</button>
+                    </div>
+                    {% elif data.check is False %}
+                    <div class="counter">
+                        <button class="down"  id="{{data.id}}down" onClick='decreaseCount({{data.id}}, this)'>-</button>
+                        <input type="text" value="{{data.quantity}}" readonly  id="val">
+                        <button class="up" id="{{data.id}}up" onClick='increaseCount({{data.id}}, this)' style="color: #5a5a5a!important;">+</button>
+                    </div>
+                    {% else %}
+                    <div class="counter">
+                        <button class="down"  id="{{data.id}}down" onClick='decreaseCount({{data.id}}, this)'>-</button>
+                        <input type="text" value="{{data.quantity}}" readonly  id="val">
+                        <button class="up" id="{{data.id}}up" onClick='increaseCount({{data.id}}, this)'>+</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="{% url 'checkout' user.id %}" type="submit" class="ckeckoutbtn text-center" >Checkout</a>
+    </div>
+</main>
+<script>
+    function increaseCount(a,b) {
+        var input = b.previousElementSibling;
+        var value = parseInt(input.value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        if(value < 11){
+        input.value = value;
+        }   
+        if(value > 1){
+        document.getElementById(a+'down').setAttribute('style','color:white  !important;');
+        }
+        if(value==10){
+            document.getElementById(a+'up').setAttribute('style','color:#5a5a5a  !important; cursor:revert;');
+        }
+        if(value<11){
+            $.ajax({
+            type: "GET",
+            url: "/Manage-quantity/",
+            data: {
+            id: a,
+            quantity:value,
+            },
+            success: function(data) {
+            }
+
+        });
+    }
+    }
+
+    function decreaseCount(a, b) {
+        var input = b.nextElementSibling;
+        var value = parseInt(input.value, 10);
+        if (value > 1) {
+            value = isNaN(value) ? 0 : value;
+            value--;
+            input.value = value;
+        }
+        if(value==1){
+            document.getElementById(a+'down').setAttribute('style','color:#5a5a5a  !important; cursor:revert;');
+        }
+        if(value<10){
+            document.getElementById(a+'up').setAttribute('style','color:white  !important; ');
+        }
+        $.ajax({
+        type : "GET",
+        url : "/Manage-quantity/",
+        data : {
+          id : a,
+          quantity:value,
+        },
+        success : function(data) {
+        } 
+      });
+    }
+
+</script>
+{% endblock %}
