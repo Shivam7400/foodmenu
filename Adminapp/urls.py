@@ -16,15 +16,18 @@ urlpatterns=[
     path('active-inactive/',views.Active_inActive.as_view(),name='active-inactive'),
     path('edit-admin/<int:id>',views.Edit_Admin.as_view(),name='edit-admin'),
     path('enable-disable/',views.Payment_enable_diable.as_view(),name='enable-disable'),
+    path('menu-enable-disable/',views.Menu_enable_diable.as_view(),name='menu-enable-disable'),
     path('Transaction-History/<int:id>',views.User_Transaction_history.as_view(),name='Tranaction_history'),
     path('Delete-Transaction-History/<int:id>',views.Delete_User_Transaction.as_view(),name='Delete_Tranaction_history'),
    
 ####################  Restaurants Show #################
     path('payament_details',views.User_Payment.as_view(),name='payament_details'),
+    path('user-orders/<int:id>',views.User_Orders.as_view(),name='user_order'), 
 
     # path('add-subscription',views.Add_SubscriptionsDetails.as_view(),name='add-subscription'),
     path('show-subscription',views.Show_SubscriptionsDetails.as_view(),name='show-subscription'),
     path('edit-subscription/<int:id>',views.Edit_SubscriptionsDetails.as_view(),name='edit-subscription'),
+    path('enable-disable-subcription/',views.enable_diable_subscription.as_view(),name='enable_diable_subscription'),
     # path('delete-subscription/<int:id>',views.delete_subscriptionsdetails,name='delete-subscription'),
 
     path('sent-notification/',views.Add_Notifiactions.as_view(),name='sent-notification'),
@@ -43,7 +46,7 @@ urlpatterns=[
     path('show-privacyandpolicy',views.Privacyandpolicy_show.as_view(),name='show-privacyandpolicy'),
     path('edit-privacyandpolicy/<int:id>',views.Privacyandpolicy_Edit.as_view(),name='edit-privacyandpolicy'),
     path('delete-privacyandpolicy/<int:id>',views.delete_Privacyandpolicy,name='delete-privacyandpolicy'),
-#############Show Menu
+##############Show Menu
     path('menu-details/<int:id>',views.Show_Menu_Categories.as_view(),name='menu-details'),
     path('edit-menu-details/<int:id>',views.Edit_Menu_Categories.as_view(),name='edit-menu-details'),
     path('delete-menu-details/<int:id>',views.delete_category,name='delete-menu-details'),
@@ -69,4 +72,7 @@ urlpatterns=[
     path('Show-State/',views.Show_State.as_view(),name='show_state'),
     path('Edit-State/<int:id>/',views.Edit_State.as_view(),name='edit_state'),
     path('Delete-State/<int:id>/',views.Delete_State.as_view(),name='delete_state'),
+###########city
+    path('Add-City',views.Add_city.as_view(),name='add_city'),
+    path('Show-City',views.Show_city.as_view(),name='show_city'),
 ]
