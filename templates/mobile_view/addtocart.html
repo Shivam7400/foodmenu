@@ -1,8 +1,207 @@
 {% extends 'mobile_view/base.html' %}
 {% load static %}
 {% block content %}
-<main class="mobMain">
-    <div class="container">
+<main>
+    {% if data %}
+    <section class="breakfastdetails">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="">
+                        <a href="{% url 'mobile_home' user.id %}"><i class="fi fi-rr-angle-left"></i></a>
+                        <h6 class="text-center pt-0">Cart</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="cartitem">
+        <div class="container-fluid">
+            {% for data in data %}
+            <div class="cartdetail">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="cartimg">
+                            {% if data.image %}
+                            <img src="{{data.image.url}}" class="fooditemimage">
+                            {% else %}
+                            <img src="{%  static 'images/no-image-icon-23483.png' %}">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="cartinner">
+                            <p class="mb-0">{{data.name}}</p>
+                            <h6 class="pt-2">${{data.price}}</h6>
+                            {% if data.included %}
+                            <p> <span>{{data.included}}</span></p>
+                            {% endif %}
+                            <a href="{% url 'RemoveAddtocart' data.id %}"><i class="fi fi-rr-trash"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-5 d-flex justify-content-center align-items-center">
+                        <div class="number1">
+                            <!-- <span class="minus1"><i class="fi fi-rr-minus"></i></span>
+                            <input type="text" value="1" />
+                            <span class="plus1"><i class="fi fi-rr-plus"></i></span> -->
+                            <button class="minus1" id="{{data.id}}down"
+                                onClick='decreaseCount({{data.id}}, this)'>-</button>
+                            <input type="text" value="{{data.quantity}}" readonly id="val">
+                            <button class="plus1" id="{{data.id}}up"
+                                onClick='increaseCount({{data.id}}, this)'>+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="cartdetail1">
+                <h6 class="pt-0">Would you like to tip Chicken Republic?</h6>
+                <div class="price">
+                    <input class=" pricebtn1" type="button" id="inputButton" onclick="return inputButton()" value="5.00">
+                    <input class=" pricebtn1" type="button" id="submitButton" onclick="return submitButton()" value="10.00">
+                    <input class=" pricebtn1" type="button" id="resetButton" onclick="return resetButton()" value="15.00">
+                    
+                </div>
+                <div class="custom mt-3">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#popupmob">
+                        <p><i class="fi fi-rr-pencil"></i> &nbsp;&nbsp; Custom price</p>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div class="totalitem">
+                    <div class="d-flex justify-content-between ">
+                        <p class="mb-0">Selected Item ({{allquanitty}})</p>
+                        <h6 class="pt-0">${{total_price}}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Tax</p>
+                        <h6 class="pt-0">$20</h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Tip</p>
+                        <h6 class="pt-0" id="tips">$0</h6>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="pt-1">Sum Total</p>
+                    <h6 class="pt-1 clrfood"><b>$520</b></h6>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#popupform"
+                class="cartcheckout">Checkout</button>
+        </div>
+        </div>
+
+
+        <section>
+            <div class="modal fade" id="popupmob" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center ">
+                        <div class="Enter">
+                            <i class="fi fi-rr-arrow-small-left"></i>
+                            <h6 class="pt-0">Enter Custom Amount</h6>
+                            <p><i class="fi fi-br-square-x"></i></p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="popupprice">
+                                <input type="number" step="0.01" placeholder="$0.00" id="pricee">
+                                <label for="pricee">Order Total: $19.00</label>
+                            </div>
+                            <div class="popupprice1">
+                                <p onclick="return cross()"><i class="fi fi-rr-cross-small"></i></p>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" class="okbtn">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="modal fade" id="popupform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-end">
+                    <div class="modal-content modal-content2">
+                        {% if user.payment_diable_enable_status == 'True' %}
+                        <form action="{% url 'checkout_page' user.id %}" method="post" class="p-3">
+                            {% csrf_token %}
+                            <div class="checkoutForm">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" placeholder="Your Name">
+                            </div>
+                            <input type="text" hidden  name="selected_button" id="selectedButton" value="0">
+
+                            <div class="checkoutForm">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email"
+                                placeholder="name@gmail.com">
+                            </div>
+                            <div class="checkoutForm">
+                                <label for="number">Phone Number</label>
+                                <input type="number"  name="phone" id="number">
+                            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="cartcheckout">Submit order</button>
+                            </div>
+                        </form>
+                        {% else %}
+                        <form  method="post" class="p-3">
+                            {% csrf_token %}
+                            <div class="checkoutForm">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" placeholder="Your Name">
+                            </div>
+                            <input type="text" hidden  name="selected_button" id="selectedButton" value="0">
+
+                            <div class="checkoutForm">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email"
+                                placeholder="name@gmail.com">
+                            </div>
+                            <div class="checkoutForm">
+                                <label for="number">Phone Number</label>
+                                <input type="number"  name="phone" id="number">
+                            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="cartcheckout">Submit order</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    {% else %}
+    <section>
+        <div class="addYourMeal">
+            <div class="bagempty">
+                <div>
+                    <img src="{% static 'images/bag.png' %}" height="200" alt="">
+                    <div class="addmealbtn">
+                        <a href="{% url 'mobile_home' user.id %}">Add meal to bag</a>
+                    </div>
+                </div>
+            </div>
+            <div class=" my-5">
+                <div class="text-center">
+                    <p class="mb-0">You haven't started an <br>order yet</p>
+                    <p>...</p>
+                    <h6>TAP ADD MEAL TO BAG TO START YOUR ORDER</6>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% endif %} 
+
+    <!-- <div class="container">
         <h5>Cart</h5>
         {% for data in data %}
         <div class="row">
@@ -53,36 +252,35 @@
         </div>
         {% endfor %}
         <a href="{% url 'checkout' user.id %}" type="submit" class="ckeckoutbtn text-center" >Checkout</a>
-    </div>
+    </div> -->
 </main>
+
+
+
+
 <script>
-    function increaseCount(a,b) {
+    function increaseCount(a, b) {
         var input = b.previousElementSibling;
         var value = parseInt(input.value, 10);
         value = isNaN(value) ? 0 : value;
         value++;
-        if(value < 11){
-        input.value = value;
-        }   
-        if(value > 1){
-        document.getElementById(a+'down').setAttribute('style','color:white  !important;');
+        if (value < 11) {
+            input.value = value;
         }
-        if(value==10){
-            document.getElementById(a+'up').setAttribute('style','color:#5a5a5a  !important; cursor:revert;');
-        }
-        if(value<11){
+        if (value < 11) {
             $.ajax({
-            type: "GET",
-            url: "/Manage-quantity/",
-            data: {
-            id: a,
-            quantity:value,
-            },
-            success: function(data) {
-            }
+                type: "GET",
+                url: "/Manage-quantity/",
+                data: {
+                    id: a,
+                    quantity: value,
+                },
+                success: function (data) {
+                    location.reload()
+                }
 
-        });
-    }
+            });
+        }
     }
 
     function decreaseCount(a, b) {
@@ -93,23 +291,58 @@
             value--;
             input.value = value;
         }
-        if(value==1){
-            document.getElementById(a+'down').setAttribute('style','color:#5a5a5a  !important; cursor:revert;');
-        }
-        if(value<10){
-            document.getElementById(a+'up').setAttribute('style','color:white  !important; ');
-        }
         $.ajax({
-        type : "GET",
-        url : "/Manage-quantity/",
-        data : {
-          id : a,
-          quantity:value,
-        },
-        success : function(data) {
-        } 
-      });
+            type: "GET",
+            url: "/Manage-quantity/",
+            data: {
+                id: a,
+                quantity: value,
+            },
+            success: function (data) {
+                location.reload()
+            }
+        });
     }
 
 </script>
+<script>
+    function inputButton(){
+        const inputButton = document.getElementById('inputButton');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+        const selectedButtonField = document.getElementById('selectedButton');
+        alert(selectedButtonField.value)
+
+        selectedButtonField.value = inputButton.value;
+        inputButton.className = ' pricebtn2';
+        submitButton.className = ' pricebtn1';
+        resetButton.className = ' pricebtn1';
+    }
+    function submitButton(){
+        const inputButton = document.getElementById('inputButton');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+        const selectedButtonField = document.getElementById('selectedButton');
+
+        selectedButtonField.value = inputButton.value;
+        submitButton.className = ' pricebtn2';
+        inputButton.className = ' pricebtn1';
+        resetButton.className = ' pricebtn1';
+    }
+    function resetButton(){
+        const inputButton = document.getElementById('inputButton');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+        const selectedButtonField = document.getElementById('selectedButton');
+        selectedButtonField.value = resetButton.value;
+        resetButton.className = ' pricebtn2';
+        submitButton.className = ' pricebtn1';
+        inputButton.className = ' pricebtn1';
+    }
+
+    function cross() {
+        document.getElementById("pricee").value = " ";
+    }
+</script>
+
 {% endblock %}
