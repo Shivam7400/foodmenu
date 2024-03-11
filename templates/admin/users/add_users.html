@@ -53,67 +53,55 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-10 ">
-                <form action="">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-12">
                             <div class="changeimage">
                                 <div class="form-group">
-                                    <label for="imagechange"><img src="{% static 'images/default.png' %}" alt="">
+                                    <label for="imagechange"><img src="{% static 'images/default.png' %}" alt="" id="profile_pic">
                                         <span>Change Image</span>
-                                        <input type="file" name="" id="imagechange">
+                                        <input type="file" name="restaurant_logo" id="imagechange" >
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="Name"><strong>Name</strong></label>
-                                <input type="text" name="name" id="Name" class="bg-white" placeholder="Enter name">
+                                <label for="Name"><strong>Restaurant Name</strong></label>
+                                <input type="text" name="restaurant_name" id="restaurant_name" class="bg-white" placeholder="Enter name">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="Email"><strong>Email</strong></label>
-                                <input type="text" name="Email" id="Email" class="bg-white" placeholder="Enter Email">
+                                <label for="Name"><strong>Restaurant's Address</strong></label>
+                                <input type="text" name="restaurant_address" id="restaurant_address" class="bg-white" placeholder="Enter name">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Name"><strong>Full Name </strong></label>
+                                <input type="text" name="full_name" id="restaurant_address" class="bg-white" placeholder="Enter name">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Email"><strong>Email Address</strong></label>
+                                <input type="text" name="email_id" id="email_id" class="bg-white" placeholder="Enter Email">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Phone"><strong>Phone Number</strong></label>
+                                <input type="text" name="phone_number" id="Phone" class="bg-white" placeholder="Enter Phone">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="Password"><strong>Password</strong></label>
-                                <input type="text" name="Password" id="Password" class="bg-white"
+                                <input type="password" name="Password" id="Password" class="bg-white"
                                     placeholder="Enter Password">
                             </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="Enable"><strong>Enable Password</strong></label>
-                                <input type="text" name="Enable" id="Enable" class="bg-white"
-                                    placeholder="Enter Password">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="Phone"><strong>Phone</strong></label>
-                                <input type="text" name="Phone" id="Phone" class="bg-white" placeholder="Enter Phone">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="Address"><strong>Address</strong></label>
-                                <input type="text" name="Address" id="Address" class="bg-white"
-                                    placeholder="Enter Address">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <span class="me-4"><strong>Gender</strong></span>
-                            <form>
-                                <input name="gender" id="male" type="radio">
-                                <label for="male">Male</label>
-
-                                <input name="gender" id="female" type="radio" class="ms-4">
-                                <label for="femail">Female</label>
-                            </form>
                         </div>
                         <div class="col-12">
                             <div class="updatedbtn">
@@ -249,5 +237,19 @@
             return true
         }
     }
+</script>
+<script>
+    document.getElementById('imagechange').addEventListener('change', function (event) {
+        var selectedImage = event.target.files[0];
+
+        if (selectedImage) {
+            var imageUrl = URL.createObjectURL(selectedImage);
+
+            var imageElement = document.getElementById('profile_pic');
+            imageElement.src = imageUrl;
+            document.getElementById('profile_pic').className = 'item_image';
+            imageElement.style.display = 'block';
+        }
+    });
 </script>
 {% endblock %}
