@@ -1,13 +1,22 @@
 {% load static %}
-<footer class="mobFooter">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Scan, Savor, Order</h5>
+<footer>
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="shop">
+                        <div>
+                            <img src="{% static 'images/DineQR R-01 1.png' %}">
+                        </div>
+                        <a href="{% url 'AddToCartView' user.id %}"><div>
+                            <img src="{% static 'images/shop.png' %}" alt="">
+                            <span class="badge1">{{addtocart}}</span>
+                        </div></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <img src="{% static 'images/DineQR R-01 1.png' %}">
-        </div>
-    </div>
+    </section>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
