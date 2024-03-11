@@ -1,6 +1,7 @@
 {% extends 'mobile_view/base.html' %}
 {% load static %}
 {% block content %}
+<!-- 
 <main class="mobMain1">
     <div class="container">
         <form action="" method="post">
@@ -91,4 +92,301 @@
     });
 </script>
 
+ -->
+
+
+
+<main>
+    <section class="breakfastdetails">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="">
+                        <a href="{% url 'mobile_items' data.category_name.id  %}"><i
+                                class="fi fi-rr-angle-left"></i></a>
+                        <h6 class="text-center pt-0">Faya suya</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="fayaimg">
+            {% if data.food_image %}
+            <img src="{{data.food_image.url}}" alt="">
+            {% endif %}
+        </div>
+    </section>
+    <section style="padding-bottom: 100px;">
+        <div class="container-fluid">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between">
+                    <h2 class="py-3">{{data.food_name}}</h2>
+                    <h2 class="py-3 clrfood">${{data.price}}</h2>
+                </div>
+                <div class="spice" onclick="return removesss()">
+                    {% if data.category_name.cat_type == 'Food' %}
+                    <p>Spice Level</p>
+                    {% if "Mild" in context %}
+                    <input class=" spicelevel1" type="button" id="inputButton" value="Mild">
+                    {% else %}
+                    <input class=" spicelevel3" disabled type="button" id="inputButton" value="Mild">
+                    {% endif %}
+
+                    {% if "Medium" in context %}
+                    <input class=" spicelevel1" type="button" id="submitButton" value="Medium">
+                    {% else %}
+                    <input class=" spicelevel3" disabled type="button" id="submitButton" value="Medium">
+                    {% endif %}
+
+                    {% if "Hot" in context %}
+                    <input class=" spicelevel1" type="button" id="resetButton" value="Hot">
+                    {% else %}
+                    <input class=" spicelevel3" disabled type="button" id="resetButton" value="Hot">
+                    {% endif %}
+
+                    <input type="text" hidden name="selected_button" id="selectedButton" required>
+
+                    {% else %}
+
+                    <p>Temperature</p>
+                    {% if "Cold" in context %}
+                    <input class=" spicelevel1" type="button" id="inputButton" value="Cold">
+                    {% else %}
+                    <input class=" spicelevel1" disabled type="button" id="inputButton" value="Cold">
+                    {% endif %}
+
+                    {% if "Moderate" in context %}
+                    <input class=" spicelevel1" type="button" id="submitButton" value="Moderate">
+                    {% else %}
+                    <input class=" spicelevel1" type="button" id="submitButton" value="Moderate">
+                    {% endif %}
+
+                    {% if "Hot" in context %}
+                    <input class=" spicelevel1" type="button" id="resetButton" value="Hot">
+                    {% else %}
+                    <input class=" spicelevel1" type="button" id="resetButton" value="Hot">
+                    {% endif %}
+                    <input type="text" hidden name="selected_button" id="selectedButton" required>
+
+                    {% endif %}
+
+                    <p class="text-danger" id="removethis" style="display: none;">*Please Select</p>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="addon">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="p-0">Addon</h6>
+                            <i class="fi fi-rr-angle-down" id="arrow12" onclick="return adon()"></i>
+                        </div>
+                        <div class="addonitem" style="display: none;" id="addonitem1">
+                            {% for addonec in addonec %}
+                            <div class="avocado2" onclick="return add('{{addonec.id}}')" id="add{{addonec.id}}">
+                                <input type="checkbox" id="{{addonec.id}}" value="{{addonec.id}}" name="addonnss">
+                                <label for="item11">{{addonec.all_addon.name}}</label>
+                                {% if addonec.all_addon.price %}
+                                <label class="mb-0">${{addonec.all_addon.price}}</label>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div>
+                        <h6><b>Ingredient</b></h6>
+                        <p>Water, limes, sugar, watermelon, dry gin, </p>
+                    </div>
+                    <div>
+                        <h6><b>Description</b></h6>
+                        <p>A symphony of flavors - fluffy rice, vibrant veggies, succulent meats, and savory sauces,
+                            wok-tossed to perfection. A true delight for the senses.</p>
+                    </div>
+                    <div class="inputtable">
+                        <label for="tableI"><b>Input Table</b></label>
+                        <input type="text" id="tableI" placeholder="Input Table Number">
+                    </div>
+                    <div class="">
+                        <hr>
+                        <div class="addorder">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="number">
+                                        <span class="minus" onclick="return minus()" id="minus">-</span>
+                                        <input type="text" value="1" name="quantity" id="quantity" />
+                                        <span class="plus" onclick="return plus()" id="plus">+</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="text-end">
+                                        <button type="submit" class="addtoorder" onclick="return sub()"
+                                            data-bs-toggle="modal" data-bs-target="#popup2">Add to order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </section>
+
+
+</main>
+<section>
+    <div id="windowPop" class="modal fade" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center" style=" background-color: #7be3f76b;">
+                <div class="addedto">
+                    <img src="{% static 'images/shoping.png' %}" alt="">
+                    <i data-bs-dismiss="modal" aria-label="Close" class="fi fi-rr-cross-small"></i>
+                    <p>Added to order (1)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#windowPop').modal('show');
+    });
+    $('.close').click(function () {
+
+        $("#windowPop").modal('toggle');
+    })
+
+</script>
+<script>
+    function minus() {
+        var qty = document.getElementById('quantity').value;
+        var minus = document.getElementById('minus')
+        var plus = document.getElementById('plus')
+        if (qty == 2) {
+            minus.classList.replace('plus', 'minus')
+        }
+        if (qty <= 10) {
+            plus.classList.replace('minus', 'plus')
+        }
+    }
+    function plus() {
+        var qty = document.getElementById('quantity').value;
+        var minus = document.getElementById('minus')
+        var plus = document.getElementById('plus')
+        if (qty >= 1) {
+            minus.classList.replace('minus', 'plus')
+        }
+        if (qty == 9) {
+            plus.classList.replace('plus', 'minus')
+        }
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputButton = document.getElementById('inputButton');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+        const selectedButtonField = document.getElementById('selectedButton');
+
+        inputButton.addEventListener('click', function () {
+            selectedButtonField.value = inputButton.value;
+            inputButton.className = 'spicelevel2';
+            if (submitButton.disabled == false) {
+                submitButton.className = 'spicelevel1';
+            }
+            if (resetButton.disabled == false) {
+                resetButton.className = 'spicelevel1';
+
+            }
+
+
+        });
+
+        submitButton.addEventListener('click', function () {
+            selectedButtonField.value = submitButton.value;
+            submitButton.className = ' spicelevel2';
+            if (inputButton.disabled == false) {
+                inputButton.className = ' spicelevel1';
+            }
+            if (resetButton.disabled == false) {
+                resetButton.className = ' spicelevel1';
+
+            }
+        });
+
+        resetButton.addEventListener('click', function () {
+            selectedButtonField.value = resetButton.value;
+            resetButton.className = ' spicelevel2';
+            if (submitButton.disabled == false) {
+                submitButton.className = ' spicelevel1';
+            }
+            if (inputButton.disabled == false) {
+                inputButton.className = ' spicelevel1';
+            };
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.minus').click(function () {
+            var $input = $(this).parent().find('input');
+            var count = parseInt($input.val()) - 1;
+            count = count < 1 ? 1 : count;
+            $input.val(count);
+            $input.change();
+            return false;
+        });
+
+        $('.plus').click(function () {
+            var $input = $(this).parent().find('input');
+            var count = parseInt($input.val()) + 1;
+            // Limit the maximum value to 10
+            count = count > 10 ? 10 : count;
+            $input.val(count);
+            $input.change();
+            return false;
+        });
+    });
+</script>
+<script>
+    function adon() {
+        var a = document.getElementById('addonitem1');
+        var arrows = document.getElementById('arrow12');
+        if (a.style.display === 'none') {
+            a.style.display = 'flex';
+            arrows.classList.replace('fi-rr-angle-down', 'fi-rr-angle-up')
+        }
+        else {
+            a.style.display = 'none'
+            arrows.classList.replace('fi-rr-angle-up', 'fi-rr-angle-down')
+        }
+    }
+</script>
+<script>
+    function add(id) {
+        var a = document.getElementById(id)
+
+        var b = document.getElementById("add" + id)
+        if (a.checked == false) {
+            a.checked = true
+            b.classList.replace('avocado2', 'avocado')
+        }
+        else {
+            a.checked = false
+            b.classList.replace('avocado', 'avocado2')
+        }
+    }
+</script>
+<script>
+    function removesss() {
+        document.getElementById('removethis').style.display = 'none'
+    }
+    function sub() {
+        var a = document.getElementById('selectedButton')
+        if (a.value == '') {
+            document.getElementById('removethis').style.display = 'block'
+        }
+    }
+</script>
 {% endblock %}
