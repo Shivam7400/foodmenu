@@ -57,15 +57,14 @@
             </div>
     </main>
     <footer class="formbox">
+        {% if user.payment_diable_enable_status == 'True' %}
         <form action="{% url 'checkout_page' user.id %}" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
             </div>
-            {% for data in data %}
             <input type="text" hidden value="{{total_price}}" name="total_price">
-            {% endfor %}
             <div class="form-group pt-2">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@gmail.com">
@@ -78,6 +77,27 @@
                 <Button type="submit" class="ckeckoutbtn">Submit Your order</Button>
             </div>
         </form>
+        {% else %}
+        <form  method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
+            </div>
+            <input type="text" hidden value="{{total_price}}" name="total_price">
+            <div class="form-group pt-2">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@gmail.com">
+            </div>
+            <div class="form-group pt-2">
+                <label for="number">Phone Number</label>
+                <input type="number" class="form-control text-dark" name="phone" id="number">
+            </div>
+            <div>
+                <Button type="submit" class="ckeckoutbtn">Submit Your order</Button>
+            </div>
+        </form>
+        {% endif %}
     </footer>
 
 
