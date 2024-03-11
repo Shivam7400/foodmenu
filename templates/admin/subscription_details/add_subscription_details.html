@@ -21,31 +21,24 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Heading: </label>
+                                        <label class="fw-bold" style="margin-top: 10px;">Subscription Monthly Price: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control field change_border" alt="img" required
-                                                name="heading" autofocus="">
+                                            <input type="text" class="form-control field change_border" name="monthly_price"
+                                                autofocus="" required >
                                         </div>
                                     </div>
                                     <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Subscription Price: </label>
+                                        <label class="fw-bold" style="margin-top: 10px;">Subscription Yearly Price: </label>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control field change_border" name="subscription_price"
+                                            <input type="text" class="form-control field change_border" name="yearly_price"
                                                 autofocus="" required >
                                         </div>
-                                    </div><div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Duration: </label>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border" alt="img" required
-                                                name="subscription_duration" autofocus="">
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="contact-form-submint-btn-area">
