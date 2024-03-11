@@ -16,19 +16,3 @@
 </head>
 
 <body>
-    <header class="mobHeader">
-        <nav class="d-flex justify-content-between ">
-            <div class="headimage">
-                <a href="{% url 'mobile_home' user.id  %}">
-                    {% if user.restaurant_logo %}
-                    <img src="{{user.restaurant_logo.url}}">
-                    {% else %}
-                    <img src="{% static 'images/default.png' %}">
-                    {% endif %}</a>
-            </div>
-            <div class="shopicon">
-                <a href="{% url 'AddToCartView' user.id %}"><img src="{% static 'images/Frame 2653.png' %}" alt=""><span class="additemno">{{addtocart}}</span></a>
-                
-            </div>
-        </nav>
-    </header>
