@@ -41,7 +41,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <select name="receiver" id="receiver"  class="form-control select2"
-                                                 >
+                                                 multiple>
                                                 <option  value="">All Users</option>
                                                 {% for user in datas %}
                                                 <option class="users" value="{{user.id}}">{{user.email_id}}</option>
