@@ -19,7 +19,9 @@
             {% endfor %}
           </div>
         </div>
+        {% if not Users %}
         <a href="{% url 'add-privacyandpolicy'  %}" class="btn btnadd mb-2">Add New</a>
+        {% endif %}
         {% if Users %}
         <div class="contact-detail-main-area main_area_contact_detail">
           <div class="row">
