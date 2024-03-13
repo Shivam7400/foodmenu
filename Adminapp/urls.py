@@ -14,21 +14,25 @@ urlpatterns=[
     path('delete-users/<int:id>',views.Delete_Users,name='delete-users'),
     path('show-profile/<int:id>',views.Show_Profile,name='show-profile'),
     path('active-inactive/',views.Active_inActive.as_view(),name='active-inactive'),
-    path('edit-admin/<int:id>',views.Edit_Admin.as_view(),name='edit-admin'),
+    path('edit-admin/',views.Edit_Admin.as_view(),name='edit-admin'),
     path('enable-disable/',views.Payment_enable_diable.as_view(),name='enable-disable'),
-    path('menu-enable-disable/',views.Menu_enable_diable.as_view(),name='menu-enable-disable'),
     path('Transaction-History/<int:id>',views.User_Transaction_history.as_view(),name='Tranaction_history'),
     path('Delete-Transaction-History/<int:id>',views.Delete_User_Transaction.as_view(),name='Delete_Tranaction_history'),
    
 ####################  Restaurants Show #################
     path('payament_details',views.User_Payment.as_view(),name='payament_details'),
-    path('user-orders/<int:id>',views.User_Orders.as_view(),name='user_order'), 
+    path('user-orders/<int:id>',views.User_Orders.as_view(),name='user_order'),
 
-    # path('add-subscription',views.Add_SubscriptionsDetails.as_view(),name='add-subscription'),
+    path('add-subscription',views.Add_SubscriptionsDetails.as_view(),name='add-subscription'),
     path('show-subscription',views.Show_SubscriptionsDetails.as_view(),name='show-subscription'),
     path('edit-subscription/<int:id>',views.Edit_SubscriptionsDetails.as_view(),name='edit-subscription'),
     path('enable-disable-subcription/',views.enable_diable_subscription.as_view(),name='enable_diable_subscription'),
+    path('Show-subcription-feature/<int:id>',views.Show_subscription_features.as_view(),name='show_subscription_feature'),
+    path('Add-subcription-feature/<int:id>',views.Add_subscription_features.as_view(),name='add_subscription_features'),
+    path('Edit-subcription-feature/<int:id>',views.Edit_subscription_features.as_view(),name='edit_subscription_features'),
+    path('Delete-subcription-feature/<int:id>',views.Delete_Subscription_feature.as_view(),name='delete_subscription_features'),
     # path('delete-subscription/<int:id>',views.delete_subscriptionsdetails,name='delete-subscription'),
+
 
     path('sent-notification/',views.Add_Notifiactions.as_view(),name='sent-notification'),
     path('show-notification/',views.Notifiactions_show.as_view(),name='show-notification'),
@@ -60,19 +64,10 @@ urlpatterns=[
     path('edit-image/<int:id>',views.Edid_Category_Image.as_view(),name='edit-image'),
     path('delete-image/<int:id>',views.deleteimage,name='delete-image'),
 
-############country
 
-    path('Add-Country/',views.Add_Country.as_view(),name='add_country'),
-    path('Show-Country/',views.Show_Country.as_view(),name='show_country'),
-    path('Edit-Country/<int:id>/',views.Edit_Country.as_view(),name='edit_country'),
-    path('Delete-Country/<int:id>/',views.Delete_Country.as_view(),name='delete_country'),
-############state
 
-    path('Add-State/',views.Add_State.as_view(),name='add_state'),
-    path('Show-State/',views.Show_State.as_view(),name='show_state'),
-    path('Edit-State/<int:id>/',views.Edit_State.as_view(),name='edit_state'),
-    path('Delete-State/<int:id>/',views.Delete_State.as_view(),name='delete_state'),
-###########city
-    path('Add-City',views.Add_city.as_view(),name='add_city'),
-    path('Show-City',views.Show_city.as_view(),name='show_city'),
+
+    path('show-suggestion',views.Show_food_suggestions.as_view(),name='show_suggestion'),
+
+
 ]
