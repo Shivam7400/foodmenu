@@ -10,55 +10,53 @@
         <!-- ============================================================== -->
         <div class="container-fluid fluid_container responsive_container ">
             <div class="row">
-                <div class="col-11">
+                <div class="col-12">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         {% for data in data %}
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link {% if data.category_name == first %}active{% endif %}" id="pills-{{data.id}}-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-{{data.id}}" type="button" role="tab" aria-controls="pills-{{data.id}}"
-                                aria-selected="true" onclick="return active('{{data.id}}')">{{data.category_name}}</button>
+                        <li class="nav-item" role="presentation" >
+                            <button class="nav-link {% if data.category_name == first %}active{% endif %}"
+                                id="pills-{{data.id}}-tab" data-bs-toggle="pill" data-bs-target="#pills-{{data.id}}"
+                                type="button" role="tab" aria-controls="pills-{{data.id}}" aria-selected="true"
+                                onclick="return active('{{data.id}}')">{{data.category_name}}</button>
                         </li>
-                        
+
                         {% endfor %}
                         <li>
-                            <a href="{% url 'show-all-item' %}">
-                                <img src="{% static 'images\publish.png' %}" height="50">
-                             </a>
+                            <a href="{% url 'show-all-item' 0 %}">
+                                <img src="{% static 'images\Go-to-publish.png' %}" height="50">
+                            </a>
                         </li>
                     </ul>
-                    <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-content" id="pills-tabContent" style="width: 95%;">
                         {% for data in data %}
 
-                        <div class="tab-pane fade show {% if data.category_name == first %}active{% endif %}" id="pills-{{data.id}}" role="tabpanel"
-                            aria-labelledby="pills-{{data.id}}-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-md-3 p-0 addNew">
+                        <div class="tab-pane fade show {% if data.category_name == first %}active{% endif %}"
+                            id="pills-{{data.id}}" role="tabpanel" aria-labelledby="pills-{{data.id}}-tab" tabindex="0">
+                            <div class="card-item">
+                                <div class="addNew">
                                     <a href="{% url 'add-item' data.id %}">
                                         <div class="foodimg">
                                             <div class="foodimg2 ">
                                                 <div class="vector">
                                                     <img src="{% static 'images\food1.png' %}" alt="">
-                                                    <img class="img-top" src="{% static 'images\vector2.png' %}" alt="">
+                                                    <img class="img-top" src="{% static 'images/Vector2.png' %}" alt="">
                                                 </div>
                                             </div>
                                             <p>Add Item</p>
                                         </div>
                                     </a>
                                 </div>
-                               
                                 {% for cats in data.cat.all %}
                                 {% if cats.status == 'Save' %}
-                                <div class="col-md-3 p-0 addNew"
-                                    onclick="return myid('{{cats.id}}','{{cats.category_name.id}}')">
+                                <div class="addNew" onclick="return myid('{{cats.id}}','{{cats.category_name.id}}')">
                                     <div class="bg-white text-center manuItem">
                                         <input type="checkbox" class="checkboxicon kuchbhi{{data.id}}" id="{{cats.id}}"
-                                        onclick="return checkbox('{{data.id}}')" value="{{cats.id}}">
-
+                                            onclick="return checkbox('{{data.id}}')" value="{{cats.id}}">
                                         <a data-bs-toggle="modal" onclick="popup()">
-                                            <label >
+                                            <label class="point">
                                                 <div>
                                                     {% if cats.food_image %}
-                                                    <img src="{{ cats.food_image.url }}" alt="">
+                                                    <img class="main_image" src="{{ cats.food_image.url }}" alt="">
                                                     {% else %}
                                                     <p><img src="{%  static 'images/no-image-icon-23483.png' %}"
                                                             class="mt-2" height="75" alt=""></p>
@@ -66,7 +64,7 @@
                                                 </div>
                                                 <div class=" changec pt-2">
                                                     <p class="mb-1">{{cats.food_name}}</p>
-                                                    <h6 class="clrfood">${{cats.price}}</h6>
+                                                    <h6 class="clrfood">{{request.user.currency|default:'$'}} {{cats.price|floatformat:2}}</h6>
                                                 </div>
                                             </label>
                                         </a>
@@ -80,9 +78,14 @@
                                             <b><i class="fi fi-rr-menu-dots-vertical"></i></b>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" onclick="return select('{{data.id}}')">Select </a></li>
-                                            <li><button class="dropdown-item" id="checkAllButton{{data.id}}" onclick="return clicked('{{data.id}}')" disabled>Select All</button></li>
-                                            <li><button class="dropdown-item"  id="delbutton{{data.id}}" data-bs-toggle="modal" data-bs-target="#popupdelete" disabled>Delete</button></li>
+                                            <li><a class="dropdown-item" onclick="return select('{{data.id}}')">Select
+                                                </a></li>
+                                            <li><button class="dropdown-item" id="checkAllButton{{data.id}}"
+                                                    onclick="return clicked('{{data.id}}')" disabled value="select">Select All</button>
+                                            </li>
+                                            <li><button class="dropdown-item" id="delbutton{{data.id}}"
+                                                    data-bs-toggle="modal" data-bs-target="#popupdelete"
+                                                    disabled>Delete</button></li>
                                         </ul>
                                     </div>
                                     <a href="#"></a>
@@ -96,8 +99,8 @@
                     </div>
 
                 </div>
-             
-                
+
+
             </div>
 
         </div>
@@ -109,25 +112,25 @@
             <div class="d-flex justify-content-center align-items-center">
                 <div class="foodDetails ">
                     <div>
-                        <div style="position: relative;">
+                        <div style="position: relative;" id="abc123">
                             <img src="{% static 'images\Rectangle 136.png' %}" id="change_image">
                             <a id="myLink"><i class="fi fi-rr-pencil"></i></a>
                         </div>
                         <div class="px-4">
                             <div class="text-center py-3">
                                 <h5 class="clrfood" id="foodname"></h5>
-                                <h5>$<span id="price"></span></h5>
+                                <h5>{{request.user.currency|default:'$'}} <span id="price"></span></h5>
                             </div>
                             <div class="text-start">
                                 <h6>Description</h6>
                                 <p id="description"> </p>
                             </div>
+                            <div class="text-start">
+                                <h6>What's included</h6>
+                                <p id="included"> </p>
+                            </div>
                         </div>
-                        <div class="foodprice1" id="foodprice1">
-                            <!-- <div class="foodprice" id="foodprice">
-                                <h6 class="clrfood"></h6>
-                                <h6></h6>
-                            </div> -->
+                        <div class="foodprice1 px-4" id="foodprice1">
                         </div>
                     </div>
                 </div>
@@ -153,22 +156,37 @@
     </div>
 </section>
 <script>
-    function clicked(id){
-        var delButton = document.getElementById("delbutton"+id);
-
+    function clicked(id) {
+        var delButton = document.getElementById("delbutton" + id);
+        var select_unselect = document.getElementById("checkAllButton" + id);
         // Get references to all the checkboxes
-        var checkboxes = document.querySelectorAll(".kuchbhi"+id);
+        if (select_unselect.value == 'select') {
+            var checkboxes = document.querySelectorAll(".kuchbhi" + id);
             // Loop through each checkbox and set its checked property to true
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = true;
-        });
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+            select_unselect.innerHTML = 'Unselect All'
+            select_unselect.value = 'deselect'
+            // Enable the delete button
+            delButton.disabled = false;
+        }
+        else {
+            var checkboxes = document.querySelectorAll(".kuchbhi" + id);
+            // Loop through each checkbox and set its checked property to true
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+            select_unselect.innerHTML = 'select All'
+            select_unselect.value = 'select'
+            // Enable the delete button
+            delButton.disabled = true;
+        }
 
-        // Enable the delete button
-        delButton.disabled = false;
     }
-    function checkbox(id){
-        var checkboxes = document.querySelectorAll(".kuchbhi"+id);
-        var delButton = document.getElementById("delbutton"+id);
+    function checkbox(id) {
+        var checkboxes = document.querySelectorAll(".kuchbhi" + id);
+        var delButton = document.getElementById("delbutton" + id);
         checkboxes.forEach(function (checkbox) {
             // Count the number of checked checkboxes
             var checkedCount = document.querySelectorAll("input[type='checkbox']:checked").length;
@@ -177,10 +195,10 @@
             }
             else {
                 delButton.disabled = true;
-        }
-    });
+            }
+        });
     }
-    
+
     function del() {
         var checkboxes = document.querySelectorAll("input[type='checkbox']");
         var checkedIds = [];
@@ -221,18 +239,30 @@
                 document.getElementById('foodname').innerHTML = context.name;
                 document.getElementById('price').innerHTML = context.price;
                 document.getElementById('description').innerHTML = context.description;
-                document.getElementById("change_image").src = context.image;
+                if(context.image){
+                    document.getElementById("change_image").src = context.image;
+                }
+                else{
+                    document.getElementById('abc123').remove()
+                }
+                document.getElementById('included').innerHTML = context.included;
                 var linkElement = document.getElementById("myLink");
 
                 linkElement.href = context.url;
 
                 var foodContainer = document.getElementById("foodprice1");
                 context.data.forEach(function (item) {
-
                     var foodDiv = document.createElement("div");
                     foodDiv.className = "foodprice";
-                    foodDiv.innerHTML = '<h6 >' + "$" + item.price + '</h6>' +
-                        '<h6 class="clrfood">' + item.name + '</h6>';
+                    if (item.price != 0) {
+                        foodDiv.innerHTML = '<div  class="foodprice3">'+ '<div>' + '<p >' + "{{request.user.currency|default:'$'}}"+" "+ item.price + '</p>' + 
+                            '<p class="clrfood">' + item.name + '</p>'+'</div>' + '</div>';
+                    }
+                    else {
+                        foodDiv.innerHTML ='<div  class="foodprice3">'+ '<p>' + '' + '</h5>' + '<h5 class="clrfood">'+" "+ item.name + '</p>' +'</div>';
+                    }
+
+
                     foodContainer.appendChild(foodDiv);
                 });
 
@@ -249,13 +279,13 @@
 </script>
 <script>
     function select(id) {
-        var checkboxes = document.querySelectorAll('.kuchbhi'+id);
+        var checkboxes = document.querySelectorAll('.kuchbhi' + id);
         // Loop through each checkbox and check if it's checked
         checkboxes.forEach(function (checkbox) {
             document.getElementById(checkbox.id).style.setProperty("display", "block", "important");
 
         });
-        document.getElementById('checkAllButton'+id).disabled = false;
+        document.getElementById('checkAllButton' + id).disabled = false;
     }
 </script>
 
