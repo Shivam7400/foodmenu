@@ -8,10 +8,10 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-    <div class="container-fluid fluid_container responsive_container white_bg px-5">
+    <div class="container-fluid fluid_container responsive_container ps-0 pe-4">
 
         <div>
-            <h4>Order</h4>
+            <h4 class="mb-4 ms-2">Order</h4>
         </div>
         <div class="row boxsize">
             {% for order in order %}
@@ -20,41 +20,57 @@
                     <div>
                         <div class="d-flex justify-content-between">
                             {% for name in order.alluser.all %}
-                            <h6>{{name.name}}</h6>
+                            <h6><b>{{name.name}}</b></h6>
                             {% endfor %}
-                            <span class="m-0"><h6>Order #{{order.id}}</h6></span>
+                            <span class="m-0"><h6><b>Order no #{{order.id}}</b></h6></span>
 
                         </div>
                         <div class="d-flex justify-content-between">
                             <p>{{order.created_at}}</p>
                             <h6 class="totalsize">Total items: {{order.quantity}}</h6>
+                            {% if order.newrating %}
+                            <!-- <span>{{order.newrating}}</span> -->
+                            {% endif %}
+                            
                         </div>
                     </div>
                     <div class="orderover">
                         <div class="orderover1">
                             {% for order2 in order.allorders.all %}
                             <div class="row">
-                                <div class="col-lg-5">
+                                <div class="col-5">
                                     <div>
                                         {% if order2.food_id.food_image %}
                                         <img src="{{order2.food_id.food_image.url}}" alt="">
                                         {% endif %}
                                     </div>
                                 </div>
-                                <div class="col-lg-7 ps-0">
+                                <div class="col-7 ps-0">
                                     <h5>{{order2.food_id.food_name}}</h5>
-                                    <p>{{order2.food_id.description}}</p>
+                                    <div class="expandable-content">
+                                        <div class="content">
+                                            <p class="mb-0">{{order2.food_id.description}}</p>
+                                        </div>
+                                        {% if order2.food_id.description %}
+                                        <div class="toggle-button">
+                                          <button class="show-more">More</button>
+                                          <button class="show-less">Less</button>
+                                        </div>
+                                        {% endif %}
+                                      </div>
+                                      
+                                   
                                     <div class="d-flex justify-content-between">
                                         <div class="quantity1">
-                                            <h5>${{order2.food_id.price}}</h5>
+                                            <h5>${{order2.food_id.price|floatformat:2}}</h5>
                                             <div class="dropdown">
                                                 {% if order2.abc.all %}
                                                 <a class=" quantity1 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                   Add-ons
                                                 </a>
-                                                <ul class="dropdown-menu">
+                                                <ul class="dropdown-menu p-0">
                                                     {% for  order3 in order2.abc.all %}
-                                                  <li><button class="dropdown-item" type="button">{{order3.addonce_id.all_addon.name}}: <span style="float: right;">{{order3.addonce_id.all_addon.price}}</span></button></li>
+                                                  <li><button class="dropdown-item" type="button">{{order3.addonce_id.name}}: <span style="float: right;">{{order3.addonce_id.price|floatformat:2}}</span></button></li>
                                                   {% endfor %}
                                                 </ul>
                                                 {% endif %}
@@ -82,7 +98,7 @@
                         {% else %}
                         <button type="button" class="completesendorderbtn" disabled >Send Order</button>
                         {% endif %}
-                        <h5 class="clrfood my-2">Total price: ${{order.totalprice|floatformat:2}}</h5>
+                        <h5 class="totalprice"><b>Total price: ${{order.totalprice|floatformat:2}}</b></h5>
                     </div>
                 </div>
             </div>
@@ -107,12 +123,31 @@
           csrfmiddlewaretoken: '{{ csrf_token }}'
         },
         success: function(data) {
-            
-            location.reload();
             alert('Order Sent Successfully!')
+            location.reload();
+            
         }
       });
     }
 
 </script>
+<script>
+    $(document).ready(function() {
+  $(".show-more").click(function() {
+    var content = $(this).closest(".expandable-content").find(".content");
+    content.css("max-height", "none");
+    $(this).css("display", "none");
+    $(this).siblings(".show-less").css("display", "block");
+  });
+
+  $(".show-less").click(function() {
+    var content = $(this).closest(".expandable-content").find(".content");
+    content.css("max-height", "20px"); /* Set the maximum height when less is shown */
+    $(this).css("display", "none");
+    $(this).siblings(".show-more").css("display", "block");
+  });
+});
+
+</script>
 {% endblock %}
+
