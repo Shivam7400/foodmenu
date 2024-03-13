@@ -1,19 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from ckeditor_uploader.fields import RichTextUploadingField
-import qrcode
-from django.core.files import File
-from io import BytesIO
-from PIL import Image, ImageDraw
 
 # Create your models here.
 class CustomuserManager(BaseUserManager):
-    def create_user(self  , email_id , password , phone_number,restaurant_name,restaurant_logo,restaurant_address ,country=None ,Postal_code=None):
+    def create_user(self ,full_name , email_id , password ,restaurant_name, phone_number=None,restaurant_logo=None,restaurant_address=None ,country=None ,Postal_code=None):
        
         if not email_id:
             raise ValueError("The Email must be set")
         user = self.model(
             email_id=self.normalize_email(email_id),
+            full_name=full_name,
             phone_number=phone_number,
             restaurant_name=restaurant_name,
             restaurant_logo=restaurant_logo,
@@ -24,7 +21,6 @@ class CustomuserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
-        print(user)
         return user
     
 
@@ -36,7 +32,12 @@ class CustomuserManager(BaseUserManager):
             full_name=full_name,
             email_id=email_id,
             phone_number=phone_number,
-            password=password
+            password=password,
+            restaurant_name=None,
+            restaurant_logo=None,
+            restaurant_address=None,
+            country=None,
+            Postal_code=None,
         )
         
         user.is_superuser = True
@@ -50,14 +51,14 @@ class CustomUser(AbstractBaseUser):
     username=models.CharField(max_length=1000,null=True,blank=True)
     full_name=models.CharField(max_length=1000,null=True,blank=True)
     phone_number = models.CharField(max_length=10,null=True,blank=True)
-    country = models.CharField(max_length=10,null=True,blank=True)
+    country = models.CharField(max_length=1000,null=True,blank=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     updated_at = models.DateTimeField(auto_now=True,null=True,blank=True)
     is_superuser = models.BooleanField(default=False)
-    Postal_code = models.IntegerField(null=True)
+    Postal_code = models.IntegerField(null=True,blank=True)
     restaurant_name=models.CharField(max_length=1000,null=True,blank=True)
     restaurant_logo=models.FileField(upload_to='restaurant_logo' ,blank=True)
     banner_image=models.FileField(upload_to='banner_image' ,blank=True)
@@ -68,41 +69,23 @@ class CustomUser(AbstractBaseUser):
     payment_status=models.CharField(max_length=200,default='pending')
     payment_price=models.CharField(max_length=200,default='0')
     package=models.CharField(max_length=200,default='pending')
+    open_time=models.CharField(max_length=100,null=True,blank=True)
+    close_time=models.CharField(max_length=100,null=True,blank=True)
     subscription_date=models.CharField(null=True,blank=True,max_length=100)
     subscritpion_expire_date=models.CharField(null=True,blank=True,max_length=100)
-    payment_diable_enable_status=models.CharField(null=True,blank=True,max_length=200 ,default=False)
-    
+    payment_diable_enable_status=models.CharField(max_length=200 ,default=False)
+    currency=models.CharField(max_length=200 ,null=True,blank=True)
+    table_number_status=models.BooleanField(default=0)
+    count1=models.IntegerField(default=0)
     def __str__(self):
         return f'{self.email} - {self.id}'
+
 
     def save(self,*args,**kwargs):
         if self.email_id:
             self.email_id = self.email_id.lower()  # Convert email to lowercase
         super(CustomUser, self).save(*args, **kwargs)
-        # url = f'http://192.168.1.56:8001/mobile-home/{self.id}'
-        url = f'http://69.49.235.253:8026/mobile-home/{self.id}'
-
-        # Generate the QR code with version=None to determine the best version automatically
-        qr_code_image = qrcode.make(url, version=None, error_correction=qrcode.constants.ERROR_CORRECT_H)
-
-        # Calculate the new size to maintain equal sides and improve resolution
-        new_size = max(qr_code_image.size) + 40
-
-        # Create a new canvas with the calculated size
-        canvas = Image.new('RGB', (new_size, new_size), 'white')
-        draw = ImageDraw.Draw(canvas)
-
-        # Paste the QR code image in the center of the canvas
-        qr_code_position = ((new_size - qr_code_image.size[0]) // 2, (new_size - qr_code_image.size[1]) // 2)
-        canvas.paste(qr_code_image, qr_code_position)
-
-        fname = f'qu_code-{self.restaurant_name}.png'
-        buffer = BytesIO()
-        canvas.save(buffer, 'PNG')
-        self.qr_code.save(fname, File(buffer), save=False)
-        canvas.close()
-        super().save(*args, **kwargs)
-
+        
 
     objects = CustomuserManager()
 
@@ -124,19 +107,29 @@ class CustomUser(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
+
+
+
 class SubscriptionDetails(models.Model):
-    heading=models.CharField(max_length=200,null=True,blank=True)
-    subscription_price=models.IntegerField(null=True,blank=True)
-    subscription_duration=models.IntegerField(null=True,blank=True)
+    monthly_price=models.FloatField(null=True,blank=True)
+    yearly_price=models.FloatField(null=True,blank=True)
+    # status=models.BooleanField(default=0)
+
+class subscription_features(models.Model):
+    points=models.CharField(max_length=500,null=True,blank=True)
+    subscription=models.ForeignKey(SubscriptionDetails,on_delete=models.CASCADE,null=True)
+
 
 class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(null=True,blank=True)
-    heading = models.CharField(max_length=1000,null=True,blank=True)
-    sender = models.CharField(max_length=1000,null=True,blank=True)
-    receiver = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    sender = models.CharField(max_length=200,null=True,blank=True)
+    receiver = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True,related_name='reciver_user')
     read=models.BooleanField(default=False)
+    status=models.CharField(max_length=100,default='live')
+    order_id=models.IntegerField(null=True,blank=True)
+    
     
 
 
@@ -146,12 +139,23 @@ class Termandcondition(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     description = RichTextUploadingField(max_length=100,null=True,blank=True)
 
+
+
 class PrivacyAndPolicy(models.Model):
     img=models.ImageField(null=True,blank=True,upload_to='condition')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(null=True,blank=True)
+
+
 class CategoryImages(models.Model):
     image=models.ImageField(null=True,blank=True,upload_to='condition')
+    user_id=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+
+class Food_Item_Suggestion(models.Model):
+    food_name=models.CharField(max_length=3000,null=True,blank=True)
+    food_type=models.CharField(max_length=3000,null=True,blank=True)
