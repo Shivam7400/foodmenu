@@ -1,108 +1,72 @@
 {% extends 'restaurent_admin/base.html' %}
 {% load static %}
 {% block content %}
-<div>
-    {% if messages %}
-    {% for message in messages %}
-    {% if message.tags %}
-    <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-</div>
-<!-- <div class="page-wrapper wrapper_page ">
-    <div class="page-breadcrumb container-fluid responsive_container" style="background-color: #d6dee6;">
-        <div class="row align-items-center">
-            <div class="col-lg-9 col-md-4 col-sm-4 col-xs-12 mb-3">
-                <h4 class="page-title title_page">Dashboard</h4>
-            </div>
-        </div>
-        <div class="dashboardBox">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <a href="" class="col-lg-4 round_box col-md-12 col-sm-12" style="text-decoration: none; ">
-                        <div class="white-box analytics-info box_white counter" style="background-color:#f8f9fa; border-left: 4px solid #22c1f8;">
-                            <h3 style="text-align: center; color: #22c1f8;"><b>Total Categories</b></h3>
-                            <p style="text-align: center; font-size: 35px; color: #22c1f8;" class="fw-bold">{{category}}
-                            </p>
-                            
-                        </div>
-                    </a>
-                    <a href="" class="col-lg-4 round_box col-md-12 col-sm-12" style="text-decoration: none;" >
-                        <div class="white-box analytics-info box_white counter" style="background-color: #f8f9fa;border-left: 4px solid #fa8783;">
-                            <h3 style="text-align: center; color: #fa8783;"><b>Total Items</b></h3>
-                            <p style="text-align: center; font-size: 35px; color: #fa8783;" class="fw-bold">{{item}}</p>
-                            
-                        </div>
-                    </a>
-                    <a href="" class="col-lg-4 round_box col-md-12 col-sm-12" style="text-decoration: none;" >
-                        <div class="white-box analytics-info box_white counter" style="background-color: #f8f9fa;border-left: 4px solid #febd56;">
-                            <h3 style="text-align: center; color: #febd56;"><b>All Notifications</b></h3>
-                            <p style="text-align: center; font-size: 35px; color: #febd56;" class="fw-bold">{{noti}}</p>
-                           
-                        </div>
-                    </a>
-                </div>
-             
-            </div>
 
-        </div>
-
-    </div>
-</div> -->
-
-<section style="background-color: #eee; margin-top: 91px;">
-    <div class="page-wrapper">
+<section>
+    <div class="page-wrapper main-page">
         <div class="page-breadcrumb container-fluid responsive_container">
             <div class="row align-items-center shadowTotal">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-6 mt-2">
                             <div class="text-center visit">
-                                <h4>6</h4>
+                                <h4>{{visitors}}</h4>
                                 <p>Total Visits</p>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="text-center visit">
-                                <h4>142</h4>
-                                <p>Total Food Items</p>
+                        <div class="col-6 mt-2">
+                            <div class="text-center">
+                                <h4>{{order}}</h4>
+                                <p>Total Orders</p>
                             </div>
                         </div>
-                        <div class="col-lg-4 pe-0">
-                            <div class="text-center">
-                                <h4>142</h4>
+                        <div class="col-6 mt-2">
+                            <div class="text-center visit">
+                                <h4>{{category}}</h4>
                                 <p>Total Category</p>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="text-center visit">
-                                <h4><span class="disc2">free</span></h4>
+                        <!-- <div class="col-4 mt-2">
+                            <div class="text-center">
+                                <h4><span class="disc2">{{rname.package}}</span></h4>
                                 <p>Current Plan</p>
                             </div>
-                        </div>
-                        <div class="col-lg-4">
+                        </div> -->
+                        <div class="col-6 mt-2">
                             <div class="text-center">
-                                <h4>-</h4>
+                                <h4>{{rname.subscritpion_expire_date}}</h4>
                                 <p>Plan Expiration</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 px-0">
-                    <div class=" visit2">
-                        <p>Plus Member</p>
-                        <h4>$49.99 <span class="disc">-10% Discount</span></h4>
-                        <p>per user/month, billed annually</p>
-                        <button type="button" class="upgrade">Upgrade to plus</button>
+                <div class="col-lg-6 px-0">
+                    <div class=" visit2" id="div1">
+                        <p><b>You have 2 unread notifications</b></p>
+                        <a href="#">View Notifications</a>
+                    </div>
+                    <div class=" visit3" id="div2">
+                        <p><b>Welcome to DineQR</b></p>
+                        <p>Your passion for food meets our dedication to innovation. DineQR provides you with valuable insights into customer preferences, helping you refine your offerings and create unforgettable dining experiences.</p>
                     </div>
                 </div>
             </div>
-            <div class="mt-4">
-                <h5>Category</h5>
+            <div class="mt-4"  style="position: relative;">
+                <h5 >Category</h5>
+                <div class="dropdown dropstart dropdots2">
+                    <button class="optnbtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b><i class="fi fi-rr-menu-dots-vertical"></i></b>
+                    </button>
+                    <ul class="dropdown-menu dropon" style="position: absolute; ">
+                        <li><button class="dropdown-item"  href=""  onclick="return catdata()" disabled data-bs-toggle="modal" data-bs-target="#popup5" id="edit_cat">Edit</button></li>
+                        <li><button class="dropdown-item"  id="select" onclick="return select()">Select</button></li>
+                        <li><button class="dropdown-item"  id="checkAllButton" disabled>Select All</button></li>
+                        <li><button class="dropdown-item" href=""  disabled  id="delbutton" data-bs-toggle="modal" data-bs-target="#popupdelete">Delete</button></li>
+                    </ul>
+                </div>
                 <div class="row">
                     <div class="col-md-3 p-0 addNew">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#popup1">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#popup1" class="text-dark">
                             <div class="foodimg">
                                 <div class="foodimg2 ">
                                     <div class="vector">
@@ -114,107 +78,55 @@
                             </div>
                         </a>
                     </div>
+                    <!-- <div class="col-md-3 p-0 addNew ">
+                        <div class="bg-white text-center manuItem">
+                            <input type="checkbox" id="newfood">
+                            <label for="newfood">
+                                <div>
+                                    <img src="{% static 'images\menuitem1.png' %}" alt="">
+                                </div>
+                                <div class="pt-2">
+                                    <h5 class="clrfood">$5.00</h5>
+                                </div>
+                            </label>
+                        </div>
+
+                    </div> -->
+                    {% for cats in cat %}
                     <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <input type="checkbox" class="checkfood">
-                                <img src="{% static 'images\food2.png' %}" alt="">
+                        <div class="bg-white text-center manuItem">
+                            <div class="dropdots" id="dropdots">
+                                <input type="checkbox" id="{{cats.id}}" value="{{cats.id}}" class="checkbox">
                             </div>
-                            <p>Lunch</p>
+                            <form action="{% url 'show-all-item' %}" method="get">
+                                <input type="text" value="{{cats.id}}" name="cat_ids" hidden>
+                                <button  type="submit" style="border: 0; background: none; padding: 0;">
+                                    <label for="newfood">
+                                        <div>
+                                            {% if cats.category_image %}
+                                            <img src="{{ cats.category_image.url }}" alt="">
+                                            {% else %}
+                                            <p><img src="{%  static 'images/no-image-icon-23483.png' %}" class="mt-2"
+                                                    height="75" alt=""></p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="py-3">
+                                            <p class="clrfood m-0">{{cats.category_name}}</p>
+                                        </div>
+                                        
+                                    </label>
+                                </button>
+                            </form>
                         </div>
                     </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food3.png' %}" alt="">
-                            </div>
-                            <p>Breakfast</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food4.png' %}" alt="">
-                            </div>
-                            <p>Dinner</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food5.png' %}" alt="">
-                            </div>
-                            <p>Dinner</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food6.png' %}" alt="">
-                            </div>
-                            <p>Breakfast</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food7.png' %}" alt="">
-                            </div>
-                            <p>Breakfast</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food8.png' %}" alt="">
-                            </div>
-                            <p>Dessert</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food9.png' %}" alt="">
-                            </div>
-                            <p>Dessert</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-0 addNew">
-                        <div class="foodimg">
-                            <div class="foodimg2">
-                                <img src="{% static 'images\food10.png' %}" alt="">
-                            </div>
-                            <p>Dessert</p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section>
-    <div class="modal fade" id="popup1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-center ">
-                <div class="d-flex justify-content-between p-3">
-                    <h6>New Category</h6>
-                    <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
-                </div>
-                <div class="py-4" data-bs-toggle="modal" data-bs-target="#popup2">
-                    <img src="{% static 'images\food1.png' %}" alt="">
-                </div>
-                <p class="addDefault">Add Default Category Image</p>
-                <form>
-                    <input class="addcatname" type="text" placeholder="Type Category Name here...">
-                </form>
-                <button type="submit" class="upgrade2">Submit</button>
-                <div class="blankspace"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
+{% if messages %}
+{% for message in messages %}
 <section>
     <div id="windowPop" class="modal fade" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
@@ -224,7 +136,7 @@
                         <div class="createdbox">
                             <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
                             <img src="{% static 'images\check.jpg' %}" alt="">
-                            <p>Category has been created</p>
+                            <p>{{message}}</p>
                         </div>
                     </div>
                 </div>
@@ -232,29 +144,100 @@
         </div>
     </div>
 </section>
-
+{% endfor %}
+{% endif %}
 <section>
-
-    <div class="modal fade " id="popup3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="popup1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center ">
                 <div class="d-flex justify-content-between p-3">
                     <h6>New Category</h6>
                     <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
                 </div>
-                <div class="py-4">
-                    <img src="{% static 'images\food3.png' %}" alt="">
+                <div class="pb-4" data-bs-toggle="modal" data-bs-target="#popup2">
+                    <img src="{% static 'images\food1.png' %}" alt="" id="change_image" height="80">
                 </div>
                 <p class="addDefault">Add Default Category Image</p>
-                <form>
-                    <input class="addcatname" type="text" placeholder="Type Category Name here...">
+                <form method="post" action="{% url 'add-category' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" name="category_image" id="category_image" hidden>
+                    <input class="addcatname" type="text" placeholder="Type Category Name here..." name="category_name"
+                        required>
+                        <div>
+                            <label for="">Category Type:</label>
+                            <select name="cat_type" id="cat_type" required>
+                                <option value="">Select Type</option>
+                                {% for type in model.Type %}
+                                <option value="{{type.0}}">{{type.1}}</option>
+                                {% endfor %}
+    
+                            </select>
+                        </div>
+                    <button type="submit" class="upgrade2">Submit</button>
                 </form>
-                <button type="submit" class="upgrade2">Submit</button>
+
                 <div class="blankspace"></div>
             </div>
         </div>
     </div>
 </section>
+<section>
+    <div class="modal fade" id="popup5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center ">
+                <div class="d-flex justify-content-between p-3">
+                    <h6>New Category</h6>
+                    <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
+                </div>
+                <div class="py-4" data-bs-toggle="modal" data-bs-target="#popup6">
+                    <img src="{% static 'images\food1.png' %}" alt="" id="category_imagee" height="80">
+                </div>
+                <p class="addDefault">Add Default Category Image</p>
+                <form method="post" action="{% url 'edit-category'  %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" name="change_imageee" id="change_imageee" hidden>
+                    <input type="text" name="cat_id" id="cat_id" hidden>
+                    <input class="addcatname" type="text" placeholder="Type Category Name here..." name="category_name"
+                        required id="cat_name">
+                        <div>
+                            <label for="">Category Type:</label>
+                            <select name="cat_type" id="cat_type">
+                                <option value="{{type.0}}" id="type">{{type.1}}</option>
+                                {% for type in model.Type %}
+                                <option value="{{type.0}}" >{{type.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    <button type="submit" class="upgrade2">Submit</button>
+                </form>
+                <div class="blankspace"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Delete Pop Up -->
+<section style="margin-left: 300px;">
+    <div class="modal fade" id="popupdelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content modalheight p-4">
+                <div class="d-flex justify-content-between">
+                    <h6>Delete Category</h6>
+                    <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
+                </div>
+                <p>Are you sure you want to delete this category</p>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="deletebtn" onclick="return del()"> Delete Category</button>
+                    <button type="button" class="cancelbtn" onclick="location.reload()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Edit Category Pop up -->
 <section>
     <div class="modal fade" id="popup2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
@@ -264,140 +247,47 @@
                     <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
                 </div>
                 <div class="row fooditem " style="--bs-gutter-x: 0;">
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food2.png' %}" alt="">
-                        </div>
+                    {% if cat_image %}
+                    {% for cat_image in cat_image %}
+                    <div class="col-md-3 p-0 addNew" data-bs-toggle="modal" data-bs-target="#popup1">
+                        <a onclick="return myimg('{{cat_image.id}}')">
+                            <div class="food-img">
+                                <img src="{{cat_image.image.url}}" alt="">
+                            </div>
+                        </a>
                     </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup4" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food3.png' %}" alt="">
-                        </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
+
+<section>
+    <div class="modal fade" id="popup6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content text-center">
+                <div class="d-flex justify-content-between p-3">
+                    <h6>Select an image for your category </h6>
+                    <p><i class="fi fi-rr-square-x" data-bs-dismiss="modal" aria-label="Close"></i></p>
+                </div>
+                <div class="row fooditem " style="--bs-gutter-x: 0;">
+                    {% if cat_image %}
+                    {% for cat_image in cat_image %}
+                    <div class="col-md-3 p-0 addNew" data-bs-toggle="modal" data-bs-target="#popup5">
+                        <a onclick="return myimg2('{{cat_image.id}}')">
+                            <div class="food-img">
+                                <img src="{{cat_image.image.url}}" alt="">
+                            </div>
+                        </a>
                     </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food4.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food5.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food6.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food7.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food8.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food9.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food10.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food2.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food3.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food4.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food5.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food6.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food7.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food8.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food9.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food10.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food2.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food3.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food4.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food5.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food6.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food7.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food8.png' %}" alt="">
-                        </div>
-                    </div>
-                    <div data-bs-toggle="modal" data-bs-target="#popup1" class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food9.png' %}" alt="">
-                        </div>
-                    </div>
-                    <data-bs-toggle="modal" data-bs-target="#popup1" div class="col-md-3 p-0 addNew">
-                        <div class="food-img">
-                            <img src="{% static 'images\food10.png' %}" alt="">
-                        </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -405,14 +295,173 @@
     </div>
 </section>
 <script>
-    $(document).ready(function(){       
-    $('#windowPop').modal('show');
-}); 
-$('.close').click(function(){
+    $(document).ready(function () {
+        $('#windowPop').modal('show');
+    });
+    $('.close').click(function () {
 
- $("#windowPop").modal('toggle');
-})
+        $("#windowPop").modal('toggle');
+    })
 
 </script>
 
+<!-- <div>
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags %}
+    <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</div> -->
+<script>
+    function myimg(id) {
+
+        $.ajax({
+            type: "GET",
+            url: "/show-category-image/",
+            data: {
+                id: id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                var a = data.cat_image
+                document.getElementById("change_image").src = data.cat_image;
+                $('#category_image').val(data.image);
+
+            }
+        });
+    }
+</script>
+<script>
+    function myimg2(id) {
+
+        $.ajax({
+            type: "GET",
+            url: "/show-category-image/",
+            data: {
+                id: id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                var a = data.cat_image
+                document.getElementById("category_imagee").src = data.cat_image;
+                $('#change_imageee').val(data.image);
+
+            }
+        });
+    }
+</script>
+<script>
+    function catdata() {
+        var checkboxes = document.querySelector("input[type='checkbox']:checked");
+        var checkedCheckboxId = checkboxes.id;
+        $.ajax({
+            type: "GET",
+            url: "/category-details/",
+            data: {
+                id: checkedCheckboxId,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                document.getElementById("category_imagee").src = data.image;
+                $('#cat_name').val(data.category_name);
+                $('#type').val(data.type);
+                document.getElementById('type').innerHTML= data.type
+                $('#cat_id').val(checkedCheckboxId);
+
+            }
+        });
+    }
+</script>
+<script>
+    var checkAllButton = document.getElementById("checkAllButton");
+    var delButton = document.getElementById("delbutton");
+    var edit_cat = document.getElementById("edit_cat");
+
+    // Get references to all the checkboxes
+    var checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+    // Add a click event listener to the button
+    checkAllButton.addEventListener("click", function () {
+        // Loop through each checkbox and set its checked property to true
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+        if (checkboxes.length == 1) {
+            edit_cat.disabled = false;
+        }
+        // Enable the delete button
+        delButton.disabled = false;
+    });
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener("change", function () {
+            // Count the number of checked checkboxes
+            var checkedCount = document.querySelectorAll("input[type='checkbox']:checked").length;
+            if (checkedCount == 1) {
+                edit_cat.disabled = false;
+            }
+            else {
+                edit_cat.disabled = true;
+            }
+            if (checkedCount >= 1) {
+                delButton.disabled = false;
+            }
+            else {
+                delButton.disabled = true;
+            }
+
+        });
+    });
+    function del() {
+        var checkboxes = document.querySelectorAll("input[type='checkbox']");
+        var checkedIds = [];
+
+        // Loop through each checkbox and check if it's checked
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                checkedIds.push(checkbox.id);
+
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/delete-category/",
+            data: {
+                checkid: JSON.stringify(checkedIds),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $(document).ajaxStop(function () {
+                    window.location.reload();
+                });
+            }
+        });
+
+    }
+</script>
+<script>
+    function select() {
+        var checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+        // Loop through each checkbox and check if it's checked
+        checkboxes.forEach(function (checkbox) {
+            document.getElementById(checkbox.id).style.setProperty("display", "block", "important");
+
+        });
+        document.getElementById('checkAllButton').disabled = false;
+    }
+</script>
+<script>
+    const divsToReplace = document.querySelectorAll('.visit2, .visit3');
+    let currentIndex = 0;
+
+    function replaceDiv() {
+        divsToReplace[currentIndex].style.display = 'none';
+        currentIndex = (currentIndex + 1) % divsToReplace.length;
+        divsToReplace[currentIndex].style.display = 'block';
+    }
+    replaceDiv();
+    setInterval(replaceDiv, 2000);
+</script>
 {% endblock %}
