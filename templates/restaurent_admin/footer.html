@@ -1,7 +1,5 @@
 {% load static %}
-<footer class="footer text-center footer_text"> 2023 © All rights reserved. <a class="footer_link"
-    href="">Food Menu</a>
-</footer>
+    
 
 <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
 <!-- Bootstrap tether Core JavaScript -->
@@ -25,6 +23,7 @@ src="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/cha
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 <script src="{% static 'admin/js/char/t.js' %}"></script>
 <script src="{% static 'admin/js/pie-chart.js' %}"></script>
+
 <script>
 $(document).ready(function () {
     $('.counter-value').each(function () {
@@ -64,6 +63,24 @@ $(document).ready(function () {
     });
 });
 </script>
+
+<script>   
+function openNav() {
+    document.getElementById('sidedis').style.width="280px";
+    document.getElementById('sidedis').style.display="block";
+    document.getElementById('sidedis').style.transition="1s";
+    document.getElementById('opentab').style.display="none"
+    document.getElementById('closetab').style.display="block"
+}
+function closeNav() {
+    document.getElementById('sidedis').style.width="0";
+    document.getElementById('sidedis').style.display="none";
+    document.getElementById('closetab').style.display="none"
+    document.getElementById('opentab').style.display="block"
+}
+
+</script>
+
 </body>
 
 </html>
