@@ -11,40 +11,45 @@
 </head>
 
 <style>
+  body{
+    background: lightgray;
+  }
 .about-section {
   text-align: center;
-  margin:100px 0px 100px 0px;  
+  margin: 40px 0;
 }
 
 .about-section img {
-width:50%;  
+ width:30%;  
 }
 
 .privacy-policy {
-  
+  padding: 0 20px;
 }
 
 .privacy-policy h2 {
   font-size:25px;
+  color: #0ea8ad;
 }
 
 .privacy-policy p {
- font-size:16px; 
+ font-size:18px; 
 }
 
 </style>
 
 
 <body>
-    <div class="about-section">
-      <img src="{% static 'logo.png' %}"   class="responsive" />
-      </div>
+  {% for data in data %}
+  <div class="about-section">
+    <img src="{{data.img.url}}"   class="responsive" />
+    </div>
 
-      <div class="privacy-policy">
-       <h2>Privacy Policy</h2>
-       {% for data in data %}
-        <p>{{ data.description|linebreaks }}</p>
+    <div class="privacy-policy">
+     <h2>Privacy Policy</h2>
+      <p>{{ data.description|safe}}</p>
+      
+        </div>
         {% endfor %}
-          </div>
 </body>
 </html>
