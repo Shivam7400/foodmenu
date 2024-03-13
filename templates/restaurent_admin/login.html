@@ -92,13 +92,14 @@
       color: grey;
     }
 
+    
     .eyeicon {
-      position: relative;
-      top: -34px;
-      right: -389px;
-      color: grey;
-      font-size: 13px;
-    }
+    position: absolute;
+    top: 41px;
+    right: 10px;
+    color: grey;
+    font-size: 13px;
+}
 
     .form-control {
       padding-left: 40px;
@@ -116,7 +117,7 @@
     hr{
       margin-bottom: 0;
     }
-    input[type="text"]{
+    .emailtype input[type="text"]{
       font-size: 12px;
     }
     .companion h4{
@@ -152,26 +153,24 @@
 
               <!-- <h5 class="fw-normal mb-4 " style="letter-spacing: 1px;">Sign into your account</h5> -->
 
-              <div class="form-outline mb-2">
+              <div class="form-outline mb-2 emailtype">
 
                 <label class="form-label" for="form2Example17">Email</label>
                 <i class="fa fa-envelope emailicon" aria-hidden="true"></i>
-                <input type="text" id="form2Example17" name="email_id" class="form-control" placeholder="Restaurant@gmail.com"/>
+                <input type="text" value="{{cookie_value_email}}" id="form2Example17" name="email_id" class="form-control" placeholder="Restaurant@gmail.com"/>
               </div>
 
-              <div class="form-outline">
+              <div class="form-outline typee" style="position: relative;">
 
                 <label class="form-label" for="form2Example27">Password</label>
                 <i class="fa fa-lock emailicon2" aria-hidden="true"></i>
-                <input type="password" id="form2Example27" name="password" class="form-control" placeholder="At least 8 characters" />
-                <a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true"></i></a>
-                <input type="checkbox" id="Remember" name="Remember" value="Remember">
+                <input type="password" id="password" name="password" class="form-control" value="{{cookie_value_pass}}" placeholder="At least 8 characters" height="34" />
+                <i class="fa fa-eye eyeicon"  id="togglePassword"></i>
+                <input type="checkbox" id="remember" name="checkbox_name"  {% if cookie_value_check == 'True' %} checked value="True" {% else %} value="True" {% endif %}>
+                
                 <label for="Remember">Remember me</label>
                 <a class="forgetpass" href="{% url 'password_reset' %}">Forget Password?</a>
               </div>
-              
-             
-
               <div class="pt-4">
                 <button class="btn submitBtn btn-block" type="submit">Login</button>
               </div>
@@ -213,9 +212,20 @@
       </div>
     </div>
   </section>
+  <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+  
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+  </script>
 
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <!-- Bootstrap tether Core JavaScript -->
@@ -238,6 +248,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
   <script src="{% static 'admin/js/char/t.js' %}"></script>
   <script src="{% static 'admin/js/pie-chart.js' %}"></script>
+
 </body>
 
 </html>
