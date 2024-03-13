@@ -1,9 +1,10 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect,HttpResponse 
 from .models import *
 from django.views import View
 from django.contrib.auth import authenticate, login as dj_login, logout
 from django.contrib import messages
 from restaurantadminapp.models import *
+from django.http import JsonResponse
 
 # Create your views here.                                                                                                                                                                                                                                                                                                            
 
@@ -135,7 +136,7 @@ class Add_Users(View):
         phone_number=request.POST.get('phone_number')
         restaurant_address=request.POST.get('restaurant_address')
         password=request.POST.get('password')
-        userdata=CustomUser.objects.create_user(email_id=email_id,phone_number=phone_number,password=password,restaurant_name=restaurant_name,restaurant_address=restaurant_address,restaurant_logo=restaurant_logo,user_id=userdata)
+        userdata=CustomUser.objects.create_user(email_id=email_id,phone_number=phone_number,password=password,restaurant_name=restaurant_name,restaurant_address=restaurant_address,restaurant_logo=restaurant_logo)
         print(userdata)
         
         return redirect('show-users')
@@ -168,15 +169,17 @@ class Edit_Users(View):
     def post(self, request, id):
         rname=request.POST.get('restaurant_name')
         rlogo=request.FILES.get('restaurant_logo')
+        country=request.POST.get('country')
+        code=request.POST.get('code')
+        email=request.POST.get('email')
+        city=request.POST.get('city')
+        state=request.POST.get('state')
+        banner_image=request.FILES.get('banner_image')
         address=request.POST.get('restaurant_address')
         phone_number=request.POST.get('phone_number')
         data=CustomUser.objects.get(id=id)
        
-        print(rname,rlogo,address)
-        if rlogo is not None:
-            CustomUser(id=id,email_id=data.email_id,phone_number=phone_number,password=data.password,restaurant_name=rname,restaurant_logo=rlogo,restaurant_address=address,payment_status=data.payment_status,payment_price=data.payment_price,package=data.package,subscritpion_expire_date=data.subscritpion_expire_date,subscription_date=data.subscription_date).save()
-        else:
-            CustomUser(id=id,email_id=data.email_id,phone_number=phone_number,password=data.password,restaurant_name=rname,restaurant_logo=data.restaurant_logo,restaurant_address=address,payment_status=data.payment_status,payment_price=data.payment_price,package=data.package,subscritpion_expire_date=data.subscritpion_expire_date,subscription_date=data.subscription_date).save()
+        
         return redirect('show-users')
 
 
@@ -277,24 +280,6 @@ class User_Payment(View):
             return redirect('admin-login')
 
 
-# class Add_SubscriptionsDetails(View):
-#     def get(self,request):
-#         if request.user.is_authenticated:
-#             if request.user.is_superuser is True:
-#                 return render(request,'admin/subscription_details/add_subscription_details.html')
-#             else:
-#                 messages.error(request,'You are not admin')
-#                 return redirect('user-login')
-#         else:
-#             return redirect('admin-login')
-    
-#     def post(self,request):
-#         heading=request.POST.get('heading')
-#         subscription_price=request.POST.get('subscription_price')
-#         subscription_duration=request.POST.get('subscription_duration')
-#         SubscriptionDetails.objects.create(heading=heading,subscription_duration=subscription_duration,subscription_price=subscription_price)
-#         return redirect('show-subscription')
-
 class Show_SubscriptionsDetails(View):
     def get(self,request):
         if request.user.is_authenticated:
@@ -336,6 +321,26 @@ class Edit_SubscriptionsDetails(View):
 #     else:
 #             messages.error(request,'You are not admin')
 #             return redirect('user-login')
+            
+        
+class enable_diable_subscription(View):
+    def post(self,request):
+        idd=request.POST.get('id')
+        data=SubscriptionDetails.objects.get(id=idd)
+        print(data)
+        if data.status== 0 :
+            data.status=1
+            data.save()
+        else:
+            data.status=0
+            data.save()
+        return JsonResponse({'msg':"Changed"})
+
+
+        
+
+
+
 
 def handler404(request, exception):
     return render(request, 'admin/page404.html', status=404)
@@ -528,7 +533,7 @@ def delete_Privacyandpolicy(request ,id):
 class Show_Menu_Categories(View):
     def get(self,request,id):
         if request.user.is_authenticated:
-            data=FoodCategories.objects.filter(user_id=id)
+            data=FoodCategories.objects.filter(user_id=id,status='live')
             return render(request,'admin/menu/categories/show_category.html',{'data':data})
 
         else:
@@ -553,7 +558,8 @@ class Edit_Menu_Categories(View):
 def delete_category(request,id):
     if request.user.is_authenticated:
             data=FoodCategories.objects.get(id=id)
-            data.delete()
+            data.status='Delete'
+            data.save()
             return redirect('menu-details',data.user_id.id )
 
     else:
@@ -563,7 +569,7 @@ def delete_category(request,id):
 class Show_Menu_food_items(View):
     def get(self,request,id):
         if request.user.is_authenticated:
-            data=FoodName.objects.filter(category_name=id)
+            data=FoodName.objects.filter(category_name=id).exclude(status='Delete')
             return render(request,'admin/menu/items/show_items.html',{'data':data})
             
 
@@ -647,3 +653,115 @@ def deleteimage(request,id):
         return redirect('show-image')
     else:
         return redirect('admin-login')
+    
+
+
+class User_Transaction_history(View):
+    def get(self,request,id):
+        if request.user.is_authenticated:
+            data=OrderPayment.objects.filter(users_id=CustomUser.objects.get(id=id))
+            return render(request,'admin/users/user_transaction.html',{'data':data})
+        else:
+            return redirect('admin-login')
+        
+class Delete_User_Transaction(View):
+    def get(self,request,id):
+        if request.user.is_authenticated:
+            data=OrderPayment.objects.get(id=id)
+            data.delete()
+            return redirect('Tranaction_history',data.users_id.id)
+        else:
+            return redirect('admin-login')
+        
+
+
+
+class Add_Country(View):
+    def get(self,request):
+        if request.user.is_authenticated:
+            return render(request,'admin/country/add.html')
+        else:
+            return redirect('admin-login')
+    def post(self,request):
+        country=request.POST.get('country')
+        Country.objects.create(country_name=country)
+        return redirect('show_country')
+
+
+
+
+class Show_Country(View):
+    def get(self,request):
+        if request.user.is_authenticated:
+            data=Country.objects.all().order_by('country_name')
+            return render(request,'admin/country/show.html',{'data':data})
+        else:
+            return redirect('admin-login')
+        
+
+
+class Edit_Country(View):
+    def get(self,request,id):
+        if request.user.is_authenticated:
+            data=Country.objects.get(id=id)
+            return render(request,'admin/country/edit.html',{'data':data})
+        else:
+            return redirect('admin-login')
+    def post(self,request,id):
+        country=request.POST.get('country')
+        Country.objects.filter(id=id).update(country_name=country)
+        return redirect('show_country')
+    
+class Delete_Country(View):
+    def post(self,request,id):
+        Country.objects.filter(id=id).delete()
+        return redirect('show_country')
+
+
+class Add_State(View):
+    def get(self,request):
+        if request.user.is_authenticated:
+            country=Country.objects.all()
+            return render(request,'admin/state/add.html',{'country':country})
+        else:
+            return redirect('admin-login')
+    def post(self,request):
+        state=request.POST.get('state')
+        country=Country.objects.get(id=request.POST.get('country'))
+        State.objects.create(state_name=state,country=country)
+        return redirect('show_state')
+
+
+
+
+class Show_State(View):
+    def get(self,request):
+        if request.user.is_authenticated:
+            data=State.objects.all().order_by('state_name')
+            return render(request,'admin/state/show.html',{'data':data})
+        else:
+            return redirect('admin-login')
+        
+
+
+        
+
+
+class Edit_State(View):
+    def get(self,request,id):
+        if request.user.is_authenticated:
+            data=State.objects.get(id=id)
+            country=Country.objects.exclude(id=data.country.id)
+            return render(request,'admin/state/edit.html',{'data':data,'country':country})
+        else:
+            return redirect('admin-login')
+    def post(self,request,id):
+        state=request.POST.get('state')
+        country=Country.objects.get(id=request.POST.get('country'))
+        State.objects.filter(id=id).update(state_name=state,country=country)
+        return redirect('show_state')
+    
+class Delete_State(View):
+    def post(self,request,id):
+        State.objects.filter(id=id).delete()
+        return redirect('show_state')
