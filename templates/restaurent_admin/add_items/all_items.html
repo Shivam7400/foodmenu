@@ -3,7 +3,42 @@
 
 
 {% block content %}
+<style>
+    .itemDetails {
+        height: 176px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .itemDetails p {
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .shadowitem {
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-radius: 20px;
+    }
+
+    .clr2food {
+        color: #ec3724;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+
+    .color_image12 {
+        background: #1d4016;
+        height: 190px;
+        width: 100%;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 21px;
+        font-family: "Brice";
+    }
+</style>
 <section>
     <div class="page-wrapper main-page mt-3">
         <!-- ============================================================== -->
@@ -22,19 +57,19 @@
                         </li>
                         {% endfor %}
                         <li>
-                            <a href="{% url 'show-all-draft-item' %}">
+                            <a href="{% url 'show-all-draft-item' 0 %}">
                                 <div>
-                                    <img src="{% static 'images\draft.png' %}" height="50">
+                                    <img src="{% static 'images\Go-to-draft.png' %}" height="50">
                                 </div>
                             </a>
                         </li>
                     </ul>
-                    <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-content" id="pills-tabContent" style="width: 95%;">
                         {% for data in data %}
                         <div class="tab-pane fade show {% if data.category_name == first %}active{% endif %}"
                             id="pills-{{data.id}}" role="tabpanel" aria-labelledby="pills-{{data.id}}-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-md-3 p-0 addNew">
+                            <div class="card-item">
+                                <div class="addNew shadowitem">
                                     <a href="{% url 'add-item' data.id %}">
                                         <div class="foodimg">
                                             <div class="foodimg2 ">
@@ -49,25 +84,46 @@
                                 </div>
                                 {% for cats in data.cat.all %}
                                 {% if cats.status == 'Publish' %}
-                                <div class="col-md-3 p-0 addNew"
-                                    onclick="return myid('{{cats.id}}','{{cats.category_name.id}}')">
-                                    <div class="bg-white text-center manuItem">
+                                <div class="addNew " onclick="return myid('{{cats.id}}','{{cats.category_name.id}}')">
+                                    <div class="bg-white text-center manuItem shadowitem">
                                         <input type="checkbox" class="checkboxicon kuchbhi{{data.id}}" id="{{cats.id}}"
                                             onclick="return checkbox('{{data.id}}')" value="{{cats.id}}">
                                         <a data-bs-toggle="modal" onclick="popup()">
                                             <label class="point">
+                                                {% if cats.food_image %}
                                                 <div>
+                                                    {% if cats.is_active == 1 %}
+                                                    <span><i class="fi fi-sr-bullet"></i></span>
+                                                    {% else %}
+                                                    <span><i class="fi fi-sr-bullet" style="color: #ec3724;"></i></span>
+                                                    {% endif %}
                                                     {% if cats.food_image %}
-                                                    <img src="{{ cats.food_image.url }}" alt="">
+                                                    <img class="main_image" src="{{ cats.food_image.url }}" alt="">
                                                     {% else %}
                                                     <p><img src="{%  static 'images/no-image-icon-23483.png' %}"
                                                             class="mt-2" height="75" alt=""></p>
                                                     {% endif %}
+
                                                 </div>
                                                 <div class=" changec pt-2">
-                                                    <p class="mb-1">{{cats.food_name}}</p>
-                                                    <h6 class="clrfood">${{cats.price}}</h6>
+                                                    <p class="mb-1"><small><b>{{cats.food_name}}</b></small></p>
+                                                    <h6 class="clrfood mb-1"><b>{{request.user.currency|default:'$'}}
+                                                            {{cats.price|floatformat:2}}</b></h6>
                                                 </div>
+                                                {% else %}
+                                                <div class="drinkpage">
+                                                    {% if cats.is_active == 1 %}
+                                                    <span><i class="fi fi-sr-bullet"></i></span>
+                                                    {% else %}
+                                                    <span><i class="fi fi-sr-bullet" style="color: #ec3724;"></i></span>
+                                                    {% endif %}
+                                                    <p class="mb-1">{{cats.food_name}}</p>
+                                                </div>
+                                                <div class=" changec pt-2">
+                                                    <h6 class="clrfood mb-1"><b>{{request.user.currency|default:'$'}}
+                                                            {{cats.price|floatformat:2}}</b></h6>
+                                                </div>
+                                                {% endif %}
                                             </label>
                                         </a>
                                     </div>
@@ -80,10 +136,12 @@
                                             <b><i class="fi fi-rr-menu-dots-vertical"></i></b>
                                         </button>
                                         <ul class="dropdown-menu dropon2">
-                                            <li><a class="dropdown-item dropborder" onclick="return select('{{data.id}}')">Select
+                                            <li><a class="dropdown-item dropborder"
+                                                    onclick="return select('{{data.id}}')">Select
                                                 </a></li>
                                             <li><button class="dropdown-item dropborder" id="checkAllButton{{data.id}}"
-                                                    onclick="return clicked('{{data.id}}')" disabled>Select All</button>
+                                                    onclick="return clicked('{{data.id}}')" disabled
+                                                    value="select">Select All</button>
                                             </li>
                                             <li><button class="dropdown-item" id="delbutton{{data.id}}"
                                                     data-bs-toggle="modal" data-bs-target="#popupdelete"
@@ -141,29 +199,33 @@
             <div class="d-flex justify-content-center align-items-center">
                 <div class="foodDetails ">
                     <div>
-                        <div style="position: relative;">
-                           
-                            <img src="{% static 'images\Rectangle 136.png' %}" id="change_image">
-                            <a id="myLink"><i class="fi fi-rr-pencil"></i></a>
+                        <div style="position: relative;" id="abc123">
+                            <img src="" id="change_image">
                         </div>
+                        <a id="myLink"><i class="fi fi-rr-pencil"></i></a>
                         <div class="px-4">
                             <div class="text-center py-3">
                                 <h5 class="clrfood" id="foodname"></h5>
-                                <h4>$<span id="price"></span></h4>
+                                <h4>{{request.user.currency|default:'$'}} <span id="price"></span></h4>
                             </div>
                             <div class="text-start">
-                                <h6>Description</h6>
+                                <h6 class="changefontF">Description</h6>
                                 <p id="description"> </p>
+                            </div>
+                            <div class="text-start" id="included12">
+                                <h6>What's included</h6>
+                                <p id="included"> </p>
                             </div>
                         </div>
                         <div class="foodprice1 px-4" id="foodprice1">
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 <section style="margin-left: 300px;">
@@ -192,15 +254,31 @@
 <script>
     function clicked(id) {
         var delButton = document.getElementById("delbutton" + id);
-
+        var select_unselect = document.getElementById("checkAllButton" + id);
         // Get references to all the checkboxes
-        var checkboxes = document.querySelectorAll(".kuchbhi" + id);
-        // Loop through each checkbox and set its checked property to true
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = true;
-        });
-        // Enable the delete button
-        delButton.disabled = false;
+        if (select_unselect.value == 'select') {
+            var checkboxes = document.querySelectorAll(".kuchbhi" + id);
+            // Loop through each checkbox and set its checked property to true
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+            select_unselect.innerHTML = 'Unselect All'
+            select_unselect.value = 'deselect'
+            // Enable the delete button
+            delButton.disabled = false;
+        }
+        else {
+            var checkboxes = document.querySelectorAll(".kuchbhi" + id);
+            // Loop through each checkbox and set its checked property to true
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+            select_unselect.innerHTML = 'select All'
+            select_unselect.value = 'select'
+            // Enable the delete button
+            delButton.disabled = true;
+        }
+
     }
     function checkbox(id) {
         var checkboxes = document.querySelectorAll(".kuchbhi" + id);
@@ -228,18 +306,15 @@
             }
         });
 
-
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/delete-item/",
             data: {
                 checkid: JSON.stringify(checkedIds),
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function (data) {
-                $(document).ajaxStop(function () {
-                    window.location.reload();
-                });
+                window.location.reload();
             }
         });
 
@@ -254,9 +329,25 @@
             },
             success: function (context) {
                 document.getElementById('foodname').innerHTML = context.name;
-                document.getElementById('price').innerHTML = context.price;
+                document.getElementById('price').innerHTML = context.price.toFixed(2);
                 document.getElementById('description').innerHTML = context.description;
-                document.getElementById("change_image").src = context.image;
+                if(context.included){
+                    document.getElementById('included12').style.display = ''
+                    document.getElementById('included').innerHTML = context.included;
+                }
+                else{
+                    document.getElementById('included12').style.display = 'none'
+                }
+                if(context.image){
+                    document.getElementById("abc123").innerHTML  = ' <img src="" id="change_image">';
+                    document.getElementById('abc123').classList.remove('color_image12')
+                    document.getElementById("change_image").src = context.image;
+                }
+                else {
+                    old_div = document.getElementById('abc123').innerHTML = '<p class="mb-0">'+  context.name +'</p>'
+                    document.getElementById('abc123').classList.add('color_image12')
+                }
+
                 var linkElement = document.getElementById("myLink");
 
                 linkElement.href = context.url;
@@ -265,12 +356,12 @@
                 context.data.forEach(function (item) {
                     var foodDiv = document.createElement("div");
                     foodDiv.className = "foodprice";
-                    if (item.price != null) {
-                        foodDiv.innerHTML = '<h5 >' + "$" + item.price + '</h5>' +
-                            '<h5 class="clrfood">' + item.name + '</h5>';
+                    if (item.price != 0) {
+                        foodDiv.innerHTML = '<div  class="foodprice3">' + '<div>' + '<p >' + "{{request.user.currency|default:'$'}}" + " " + item.price.toFixed(2) + '</p>' +
+                            '<p class="clrfood">' + item.name + '</p>' + '</div>' + '</div>';
                     }
                     else {
-                        foodDiv.innerHTML = '<h5>' + '' + '</h5>' + '<h5 class="clrfood">' + item.name + '</h5>';
+                        foodDiv.innerHTML = '<div  class="foodprice3">' + '<p>' + '' + '</h5>' + '<h5 class="clrfood">' + ' ' + item.name + '</p>' + '</div>';
                     }
 
 
