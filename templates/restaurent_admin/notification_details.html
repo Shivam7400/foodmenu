@@ -13,21 +13,24 @@
             <h5>Notification</h5>
         </div>
         <div class="header_noti">
-            {% for allorder in order.allorders.all %}
+
             <div class="notidetail">
                 <div class="d-flex align-items-center">
                     <div>
                         <span class="capitalletterN">{{initials}}</span>
                     </div>
                     <div>
-                        <h5 class="ms-3 mb-0"> {{user.name}} {% if order.order_type == 'dine_takeaway' %} <span style="color: #f41621;"> (To-go)</span>{% else %} <span style="color: #fbbb31;"> (Dine-in)</span>- {{order.table_number}} {% endif %}</h5>
+                        <h5 class="ms-3 mb-0"> {{user.name}} {% if order.order_type == 'dine_takeaway' %} <span style="color: #f41621;"> (To-go)</span>{% else %} <span style="color: #fbbb31;"> (Dine-in)</span>{% if order.table_number %}- {{order.table_number}}{% endif %} {% endif %}</h5>
                     </div>
                 </div>
                 <div>
                     <p class="mb-0"><b>Order no: {{order.id}}</b></p>
+                    {% if order.table_number %}
                     <p class="mb-0"><small><b>Table no: {{order.table_number}}</b></small></p>
+                    {% endif %}
                 </div>
             </div>
+            {% for allorder in order.allorders.all %}
             <hr class="mt-0">
             <div class="notidetail">
                 <div class="notidetailitem">
@@ -37,20 +40,19 @@
                             {% if allorder.spicelevel %}
                             <p>Spice level <span class="mediumspan"> {{allorder.spicelevel}}</span></p>
                             {% endif %}
-                            <h5 class="loginclr">{{request.user.currency|default:'$'}} {{allorder.food_id.price}}</h5>
+                            <h5 class="loginclr">{{request.user.currency|default:'$'}} {% if allorder.food_id.discountPrice != 0 %}{{allorder.food_id.discountPrice|floatformat:2}}{% else %}{{allorder.food_id.price|floatformat:2}}{% endif %}</h5>
                         </div>
                     </div>
+                    {% if allorder.abcd.all %}
                     <div class="pt-3">
                         <h6>What's included</h6>
                         <div class="d-flex" style="flex-wrap: wrap;">
-                            <p class="mediumspan">Extra Cilli</p>
-                            <p class="mediumspan">Tomato</p>
-                            <p class="mediumspan">Onions</p>
-                            <p class="mediumspan">Extra Rice</p>
-                            <p class="mediumspan">Lettuce</p>
-                            <p class="mediumspan">Carrot</p>
+                            {% for inlcude in allorder.abcd.all %}
+                            <p class="mediumspan">{{inlcude.name}}</p>
+                            {% endfor %}
                         </div> 
                     </div>
+                    {% endif %}
                     {% if allorder.food_instruction %}
                     <div class="orderInstruction">
                         <h6>Order instruction</h6>
@@ -58,14 +60,16 @@
                     </div>
                     {% endif %}
                 </div>
-                {% if adon_context %}
+                {% for total_all_order in total_all_order %}
+                {% if total_all_order.id ==  allorder.id %}
+                {% if total_all_order.adon_context %}
                 <div class="notidetailitem">
                     <div class="notiitems">
                         <h5>Add-ons</h5>
-                        {% for group in group %}
+                        {% for group in total_all_order.group %}
                         <h6>{{group.group_name}}</h6>
                         {% for adon in group.group.all %}
-                        {% if adon.id in adon_context %}
+                        {% if adon.id in total_all_order.adon_context %}
                         <p>{{adon.name}} -------------------------------------- {{request.user.currency|default:'$'}} {{adon.price|floatformat:2}}</p>
                         {% endif %}
                         {% endfor %}
@@ -73,6 +77,8 @@
                     </div>
                 </div>
                 {% endif %}
+                {% endif %}
+                {% endfor %}
             </div>
             {% endfor %}
             <div class="d-flex py-4">
