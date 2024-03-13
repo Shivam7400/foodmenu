@@ -160,43 +160,14 @@
                 <input type="text" id="form2Example27" name="address" class="form-control " required />
               </div>
 
-              <div class="form-outline my-2">
-                <label class="form-label">Password</label><a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true"></i></a>
+              <div class="form-outline my-2 typee">
+                <label class="form-label">Password</label><a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true" id="togglePassword"></i></a>
                 <input type="password" id="password" oninput="return myvalpass()" name="password"
                   class="form-control " required  placeholder="Enter your Password here..."/>
                 <span id="valmessage" class="text-danger"> </span>
               </div> 
 
-              <!-- <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Add Profile</label>
-                <input type="file" class="form-control field change_border" alt="img" name="choose_profilepic" autofocus="">
-              </div>
-
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Name/label>
-                <input type="text" class="form-control field change_border" placeholder="Enter your Full Name here..." name="full_name" autofocus="">
-              </div>
-
-
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Email</label>
-
-                <input type="email" id="form2Example27" name="email_id" placeholder="Enter your Email here..." class="form-control " required />
-              </div>
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Phone NUmber</label>
-
-                <input type="number" id="form2Example27" name="phone_number" placeholder="Enter your Phone Number here..." class="form-control " required />
-              </div> -->
-             
-             
-
-               <!-- <div class="form-outline my-2">
-                <label class="form-label">Password</label><a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true"></i></a>
-                <input type="text" id="password" oninput="return myvalpass()" placeholder="Enter your Password here..." name="password" class="form-control "
-                  required />
-                <span id="valmessage" class="text-danger"> </span>
-              </div>  -->
+              
               
 
               <div class="pt-3 mb-4">
@@ -236,7 +207,7 @@
       var password = document.getElementById("password").value;
       var restaurant_name = document.getElementById('restaurant_name').value;
       var correct_way = /^[a-zA-Z ]*$/;
-      var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      var pass_way = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
       var num = document.getElementById('phone').value;
       if (!password.match(pass_way)) {
         return false
@@ -261,11 +232,11 @@
 
     }
     function myvalpass() {
-      var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      var pass_way = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
       var password = document.getElementById("password").value;
 
       if (!password.match(pass_way)) {
-        document.getElementById("valmessage").innerHTML = "**Password must contain at least eight characters one numebr and one alphabet"
+        document.getElementById("valmessage").innerHTML = "**Password must contain at least eight characters one numebr and one alphabet and one special character"
       }
       else {
         document.getElementById("valmessage").innerHTML = "";
@@ -330,7 +301,18 @@
     }
 
   </script>
+<script>
+  const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
 
+  togglePassword.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      // toggle the eye slash icon
+      this.classList.toggle('fa-eye-slash');
+  });
+</script>
 
 
 
