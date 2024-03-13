@@ -3,218 +3,521 @@
 
 
 {% block content %}
-<div class="page-wrapper wrapper_page" style="min-height: 250px;">
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <div class="container-fluid fluid_container responsive_container pt-3 white_bg">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="application-detail-heading-area">
-                    <h2 class="noti_detail">Profile</h2>
+<style>
+    .pass {
+        position: absolute;
+        top: 39px;
+        left: 400px;
+    }
+
+    .changep {
+        position: relative;
+    }
+
+    .changep input {
+        width: 50%;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+
+    }
+</style>
+<section>
+    <div>
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags %}
+        <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+
+    <section>
+        <div class="page-wrapper main-page">
+            <div class="page-breadcrumb container-fluid responsive_container">
+                <div class="pt-3">
+                    <h4>Settings</h4>
+                    <p>Customise your experience to your taste</p>
                 </div>
-                <div class="contact-detail-main-area main_area_contact_detail">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form class="contact-form-main-area" method="POST" id="paymentFrm"
-                                enctype="multipart/form-data" onsubmit="return myfun()">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;"> </label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 ">
-                                        <div class="form-group ">
-                                            {% if datas.restaurant_logo %}
-                                            <img src="{{datas.restaurant_logo.url}}" alt="Image Here"
-                                                style="height: 130px;" class="rounded-circle ">
-                                            {% else %}
-                                            <div class="mx-auto d-flex">
-                                                <img src="{% static 'images/default.png' %}" alt="Image Here"
-                                                style="height: 1in; width: 8cm;" class="rounded-circle">
+                <div class="row">
+                    <div class="col-lg-3 ">
+                        <div class="vertical-tabs">
+                            <div class="tab borderbottom" onclick="openTab(event, 'tab1')">
+                                <button class="tablinks ps-4 py-3 d-block" ><img
+                                        src="{% static 'images\user-square.png' %}">
+                                    &nbsp;Account</button>
+                            </div>
+                            <div class="tab borderbottom" onclick="openTab(event, 'tab2')"> 
+                                <button class="tablinks ps-4 py-3" ><img
+                                        src="{% static 'images\notification.png' %}">&nbsp;Notification</button>
+                            </div>
+                            <div class="tab borderbottom" onclick="openTab(event, 'tab3')">
+                                <button class="tablinks ps-4 py-3" ><img
+                                        src="{% static 'images/healthicons_money-bag-outline.png' %}">&nbsp;Payment</button>
+                            </div>
+                            <div class="tab borderbottom" onclick="openTab(event, 'tab4')">
+                                <button class="tablinks ps-4 py-3" ><img
+                                        src="{% static 'images\receipt-item.png' %}">&nbsp;Subscription</button>
+                            </div>
+                            <!-- <div class="tab">
+                <button class="tablinks py-4" onclick="openTab(event, 'tab4')"><img
+                        src="{% static 'images\receipt-item.png' %}">&nbsp;Change Password</button>
+            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="accountbody">
+                            <div class="tabcontent" id="tab1">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="bannerimg text-center" {% if request.user.banner_image %} style="background-image: url({{request.user.banner_image.url}});
+                                        background-repeat: no-repeat; background-size: cover;" {% endif %}>
+                                        <label for="banner" class="text-light">
+                                            <div class="pt-3">
+                                                <p>Add banner Image</p>
+                                                <b>Banner dimensions 430px 200px</b>
                                             </div>
-                                            
+                                            <div class="removebtn mt-3">
+                                                <label><input type="file" name="banner_image" />Upload</label>
+                                                <button>Remove</button>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="profileimg">
+                                        <label for="profile">
+                                            <input type="file" id="profile" name="restaurant_logo">
+                                            {% if request.user.restaurant_logo %}
+                                            <img src="{{request.user.restaurant_logo.url}}" height="50">
+                                            {% else %}
+                                            <img src="{% static 'images/default.png' %}">
                                             {% endif %}
-                                            <input type="file" class="form-control field change_border mt-4" alt="img"
-                                                name="restaurant_logo" autofocus="" id="choose_profilepic">
-
-                                        </div>
+                                        </label>
                                     </div>
 
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Restaurant Name: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border"
-                                                value="{{datas.restaurant_name}}" name="restaurant_name"
-                                                id="restaurant_name" oninput="return myval()">
-                                            <span id="namemessage" class="text-danger"> </span>
+                                    <div class="row d-flex justify-content-between pt-3">
+                                        <div class="col-lg-7">
+                                            <div class="form-group">
+                                                <label for="rest">Restaurent Name</label>
+                                                <input id="rest" placeholder="Chicken Republic" type="text"
+                                                    name="restaurant_name" {% if request.user.restaurant_name %}
+                                                    value="{{request.user.restaurant_name}}" {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <label for="number">Phone Number</label>
+                                                <input id="number" placeholder="(555) 123-4567" type="text"
+                                                    name="phone_number" value="{{request.user.phone_number}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="form-group">
+                                                <label for="Address">Address</label>
+                                                <input id="Address" placeholder="123 Main Street" type="text"
+                                                    name="restaurant_address"
+                                                    value="{{request.user.restaurant_address}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <label for="hours">Hours of operations</label>
+                                                <div class="d-flex hours">
+                                                    <input id="hours" class="me-3" placeholder="AM (08:00)" type="text">
+                                                    <input id="hours" placeholder="PM (10:00)" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="City">City</label>
+                                                <input id="city" placeholder="Dallas" name="city" type="text" 
+                                                {% if request.user.city %} value="{{request.user.city}}" {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="Stete">State</label>
+                                                <input id="stste" placeholder="Texas" name="state" type="text" {% if request.user.city %} value="{{request.user.state}}" {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="City">Zip Code</label>
+                                                <input id="zip_code" placeholder="678990" type="text" name="code" {% if
+                                                     request.user.Postal_code %} value="{{request.user.Postal_code}}" {%
+                                                    endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input id="email" mailto:placeholder="info@chickenrepublic.com"
+                                                    type="text" name="email" value="{{request.user.email_id}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <label for="country">Country</label>
+                                                <select id="country" name="country">
+                                                    {% if request.user.country %}
+                                                    <option value="{{request.user.country}}">{{request.user.country}}
+                                                    </option>
+                                                    {% else %}
+                                                    <option value="">Select Country
+                                                    </option>
+                                                    {% endif %}
+                                                    {% for country in country %}
+                                                    <option value="{{country.country_name}}"
+                                                        onchange="return states('{{country.id}}')">
+                                                        {{country.country_name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Email: </label>
-                                    </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-7">
                                         <div class="form-group">
-                                            <input type="email" class="form-control field change_border" name="email_id"
-                                                disabled value="{{datas.user_id.email_id}}" id="email_id">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Phone Number: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control field change_border"
-                                                value="{{datas.user_id.phone_number}}"  name="phone_number"
-                                                id="phone" oninput="return mynum()">
-                                                <span id="nummessage" class="text-danger"> </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Address/city: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border"
-                                                value="{{datas.restaurant_address}}" name="restaurant_address"
-                                                id="phone_number">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Pacakge: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border"
-                                                value="{{datas.package}}" name="package" id="package" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Subscription Date: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border"
-                                                value="{{datas.subscription_date}}" name="subscription_date"
-                                                id="subscription_date" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;">Expire Date: </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control field change_border"
-                                                value="{{datas.subscritpion_expire_date}}"
-                                                name="subscritpion_expire_date" id="subscritpion_expire_date" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <label class="fw-bold" style="margin-top: 10px;"> </label>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            {% if datas.qr_code %}
-                                            <img src="{{datas.qr_code.url}}" alt="Image Here"
-                                                style="height: .5in; width: 2cm;">
+                                            <label for="Address">Payment</label>
+                                            {% if check == 'false' %}
+                                            <label class="switch">
+                                                <input type="checkbox" onclick="return enable_diable('{{rname.id}}')">
+                                                <span class="slider"></span>
+                                            </label>
+                                            {% else %}
+                                            <label class="switch">
+                                                <input type="checkbox" checked
+                                                    onclick="return enable_diable('{{rname.id}}')">
+                                                <span class="slider"></span>
+                                            </label>
                                             {% endif %}
-                                            <a href="{% url 'generate-pdf' datas.id %}" class="btn btn-info">Download
-                                                Qrcode</a>
-                                            <a href="{% url 'restaurant-menu' datas.user_id.id  %}"
-                                                class="btn btn-warning" target="_blank">Show Menu</a>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="contact-form-submint-btn-area">
-                                            <button class="contact-form-submint-btn btn_submit">Update</button>
+                                    <div>
+                                        <button type="submit" class="saveinfo">Save Information</button>
+                                    </div>
+                                </form>
+                            </div>
 
+                            <div id="tab2" class="tabcontent">
+                                <div class="borderbottom1">
+                                    <h4>Notifications</h4>
+                                    <p><img src="{% static 'images\info.png' %}">&nbsp; Personalise your
+                                        notification</p>
+                                </div>
+                                <div class="accountinner">
+                                    <div class="mb-4">
+                                        <h5>Website Notification</h5>
+                                        <p class="p-0">Fine-tune your notification preferences with our website's
+                                            settings.
+                                            Stay
+                                            connected,
+                                            efficiently.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h6><input type="checkbox">&nbsp;&nbsp;&nbsp;&nbsp; Updates & Activities
+                                            Settings
+                                        </h6>
+                                        <p>Only Notify me when we have the latest activity updates and increasing and
+                                            decreasing
+                                            data.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h6><input type="checkbox">&nbsp;&nbsp;&nbsp;&nbsp; Notification Method</h6>
+                                        <p>Ticking this means notifications can be delivered through E-mail or SMS.</p>
+                                    </div>
+                                    <div class="borderbottom mb-3">
+                                        <h6><input type="checkbox">&nbsp;&nbsp;&nbsp;&nbsp; News Notification</h6>
+                                        <p>You will receive updates, announcements, promotions notification.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h5>E - Mail Notification</h5>
+                                        <p class="p-0">Personalize your E-mail notification settings to your suit your
+                                            taste.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h6><input type="checkbox">&nbsp;&nbsp;&nbsp;&nbsp; Update Settings</h6>
+                                        <p>Get notified about the latest features and about future updates directly to
+                                            your
+                                            email.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h6><input type="checkbox">&nbsp;&nbsp;&nbsp;&nbsp; Payment Plan</h6>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab3" class="tabcontent">
+                                <div class="borderbottom1">
+                                    <h4>Payment</h4>
+                                    <p><img src="{% static 'images\info.png' %}">&nbsp; Connect with stripe to begin
+                                        accepting payments.</p>
+                                </div>
+                                <div class="borderbottom1 paymenticon">
+                                    <img src="{% static 'images\stripe.png' %}">
+                                    <a href="#" class="loginclr"><b>Connect with Stripe</b></a>
+                                </div>
+                                <div class="borderbottom1 paymenticon">
+                                    <img src="{% static 'images\paypal.png' %}">
+                                    <a href="#" class="loginclr"><b>Connect with Paypal</b></a>
+
+                                </div>
+                                <div class="borderbottom1 paymenticon">
+                                    <img src="{% static 'images\paystack.png' %}">
+                                    <a href="#" class="loginclr"><b>Connect with Paystack</b></a>
+
+                                </div>
+                            </div>
+                            <div id="tab4" class="tabcontent">
+                                <div class="borderbottom1">
+                                    <h4>Subscription</h4>
+                                    <p><img src="{% static 'images\info.png' %}">&nbsp; Pick a payment
+                                        plan
+                                        that suits your needs</p>
+                                </div>
+                                <div class="subBox">
+                                    <div class="text-center">
+                                        <div class="d-flex align-items-end justify-content-center pricesize">
+                                            <h2>$49.99</h2>
+                                            <span class="mb-3">/monthly</span>
+                                        </div>
+                                        <div>
+                                            <b>Billed yearly</b>
                                         </div>
                                     </div>
-                            </form>
+                                    <div class="middleline"></div>
+                                    <div class="startitem text-start d-flex justify-content-center">
+                                        <div class="me-5">
+                                            <span><i class="fi fi-rr-check"></i> Expanded Menu</span>
+                                            <span><i class="fi fi-rr-check"></i> Priority QR Code
+                                                Generation</span>
+                                            <span><i class="fi fi-rr-check"></i> Advanced Order Management</span>
+                                            <span><i class="fi fi-rr-check"></i> Comprehensive Analytics</span>
+                                        </div>
+                                        <div>
+                                            <span><i class="fi fi-rr-check"></i> Payment Integration</span>
+                                            <span><i class="fi fi-rr-check"></i> Custom Branding</span>
+                                            <span><i class="fi fi-rr-check"></i> Priority Customer Support</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-end pt-3">
+                                        <button class="btnUpgrade">Unsubscribe</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
     </div>
-</div>
+
+</section>
+
+<script type="text/javascript">
+    function openTab(event, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        event.currentTarget.className += " active";
+    }
+    document.getElementById("tab1").style.display = "block";
+    document.getElementsByClassName("tablinks")[0].className += " active";
+
+
+    function mydel(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Delete-Profile/",
+            data: {
+                id: id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+
+            }
+        });
+    }
+</script>
 <script>
     function myfun() {
-        var restaurant_name = document.getElementById('restaurant_name').value;
-        var correct_way = /^[a-zA-Z ]*$/;
-        var num = document.getElementById('phone').value;
-        if (restaurant_name.match(correct_way)) {
-            true;
-        }
-
-        else {
-
+        var a = document.getElementById("id_password1").value;
+        var b = document.getElementById("id_password2").value;
+        var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+        if (!a.match(pass_way)) {
             return false
         }
-        if (restaurant_name.length > 51) {
+        if (a != b) {
             return false
         }
-
-
-        if (num.length != 10) {
-            return false
-        }
-
-
     }
-    function myval() {
-        var restaurant_name = document.getElementById('restaurant_name').value;
-        var correct_way = /^[a-zA-Z ]*$/;
+</script>
 
-
-        if (restaurant_name.match(correct_way))
-            document.getElementById("namemessage").innerHTML = ""
-        else {
-            if (restaurant_name.length != 0) {
-                document.getElementById("namemessage").innerHTML = "**Name contains only alphabets"
-            } else {
-                document.getElementById("namemessage").innerHTML = ""
-            }
-        }
-
-        if (restaurant_name.length > 51) {
-            if (restaurant_name.match(correct_way)) {
-                document.getElementById("namemessage").innerHTML = "**Name is too long"
-            }
-        } else {
-            if (!restaurant_name.match(correct_way)) {
-                if (restaurant_name.length != 0) {
-                    document.getElementById("namemessage").innerHTML = "**Name contains only alphabets"
-                } else {
-                    document.getElementById("namemessage").innerHTML = ""
-                }
-            } else {
-                document.getElementById("namemessage").innerHTML = ""
-            }
-        }
-
-      
-
-
-    }
-    function mynum() {
-        
-        var num = document.getElementById('phone').value;
-        if (num.length != 10) {
-            if (num.length == 0) {
-                document.getElementById("nummessage").innerHTML = " "
-            }
-            else {
-                document.getElementById("nummessage").innerHTML = "**Phone Number Should be 10 digit"
-            }
+<script>
+    function msg1() {
+        var a = document.getElementById("id_password1").value;
+        var b = document.getElementById("id_password2").value;
+        if (a != b) {
+            document.getElementById("valmessage1").innerHTML = "**Password did not match"
         }
         else {
-            document.getElementById("nummessage").innerHTML = " "
+            document.getElementById("valmessage1").innerHTML = " ";
         }
     }
+</script>
+
+
+<script>
+    function msg() {
+        var a = document.getElementById("id_password1").value;
+        var pass_way = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+
+        if (!a.match(pass_way)) {
+            document.getElementById("valmessage").innerHTML = "**Password must contain at least eight characters one numebr and one alphabet"
+        }
+        else {
+            document.getElementById("valmessage").innerHTML = " ";
+        }
+    }
+
 
 </script>
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#id_password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+<script>
+    const togglePassword1 = document.querySelector('#togglePassword1');
+    const password1 = document.querySelector('#id_password1');
+
+    togglePassword1.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+        password1.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+<script>
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password2 = document.querySelector('#id_password2');
+
+    togglePassword2.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+        password2.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+<script>
+    function enable_diable(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/enable-disable/',
+            data: {
+                id: id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+            }
+        });
+    }
+</script>
+<script>
+    function states(ida) {
+        alert(ida)
+        $.ajax({
+            type: 'POST',
+            url: '/AllstateShow/',
+            data: {
+                country: ida,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                alert(data)
+            }
+        });
+    }
+</script>
+
 {% endblock %}
