@@ -4,7 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 class CustomuserManager(BaseUserManager):
-    def create_user(self ,full_name , email_id , password ,restaurant_name, phone_number=None,restaurant_logo=None,restaurant_address=None ,country=None ,Postal_code=None):
+    def create_user(self ,full_name , email_id , password ,restaurant_name, phone_number=None,restaurant_logo=None,restaurant_address=None ,country=None ,Postal_code=None,state=None,city=None):
        
         if not email_id:
             raise ValueError("The Email must be set")
@@ -16,6 +16,8 @@ class CustomuserManager(BaseUserManager):
             restaurant_logo=restaurant_logo,
             restaurant_address=restaurant_address,
             country=country,
+            state=state,
+            city=city,
             Postal_code=Postal_code,
 
         )
@@ -77,6 +79,8 @@ class CustomUser(AbstractBaseUser):
     currency=models.CharField(max_length=200 ,null=True,blank=True)
     table_number_status=models.BooleanField(default=0)
     count1=models.IntegerField(default=0)
+    service_fee=models.FloatField(default=0)
+    
     def __str__(self):
         return f'{self.email} - {self.id}'
 
@@ -107,7 +111,20 @@ class CustomUser(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
+class Restaurnt_type(models.Model):
+    type=[
+        ('Restaurant','Restaurant'),
+        ('Food Truck','Food Truck')
+    ]
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    restaurant_type=models.CharField(choices=type,null=True,max_length=200)
 
+class Account_id(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    account_id=models.CharField(max_length=2000,null=True,blank=True)
+    bank_id = models.CharField(max_length=2000,null=True,blank=True)
+    status=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=True)
 
 
 class SubscriptionDetails(models.Model):
