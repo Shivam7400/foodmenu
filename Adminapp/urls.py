@@ -11,8 +11,7 @@ urlpatterns=[
     path('add-users/',views.Add_Users.as_view(),name='add-users'),
     path('edit-users/<int:id>',views.Edit_Users.as_view(),name='edit-users'),
     path('show-users/',views.Show_Users.as_view(),name='show-users'),
-    path('delete-users/<int:id>',views.Delete_Users,name='delete-users'),
-    path('show-profile/<int:id>',views.Show_Profile,name='show-profile'),
+    path('delete-users/<int:id>',views.Delete_Users,name='delete-users'),       
     path('active-inactive/',views.Active_inActive.as_view(),name='active-inactive'),
     path('edit-admin/',views.Edit_Admin.as_view(),name='edit-admin'),
     path('enable-disable/',views.Payment_enable_diable.as_view(),name='enable-disable'),
@@ -68,6 +67,7 @@ urlpatterns=[
 
 
     path('show-suggestion',views.Show_food_suggestions.as_view(),name='show_suggestion'),
+    path('add-suggestion',views.Add_food_suggestions.as_view(),name='add_suggestion'),
 
 
 ]
