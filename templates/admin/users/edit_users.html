@@ -33,7 +33,7 @@
                                             {% if datas.restaurant_logo %}
                                             <img src="{{datas.restaurant_logo.url}}" height="50">
                                             {% else %}
-                                            <img src="{% static 'images/profile.png' %}">
+                                            <img src="{% static 'images/default.png' %}">
                                             {% endif %}
                                         </label>
                                     </div>
@@ -71,12 +71,12 @@
                                         <label for="country">Country</label>
                                         <select id="country" name="country">
                                             {% if datas.country %}
-                                            <option value="{{country_add.id}}">{{country_add.country_name}}</option>
+                                            <option value="{{country_add.id}}">{{country_add.name}}</option>
                                             {% else %}
                                             <option value="">Select Country</option>
                                             {% endif %}
                                             {% for country in country %}
-                                            <option value="{{ country.id }}">{{ country.country_name }}</option>
+                                            <option value="{{ country.id }}">{{ country.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -86,12 +86,12 @@
                                         <label for="State">State</label>
                                         <select id="state" name="state">
                                             {% if datas.state %}
-                                            <option value="{{state.id}}">{{state.state_name}}</option>
+                                            <option value="{{state.id}}">{{state.name}}</option>
                                             {% else %}
                                             <option value="">Select State</option>
                                             {% endif %}
                                             {% for all_state in all_state %}
-                                            <option value="{{ all_state.id }}">{{ all_state.state_name }}</option>
+                                            <option value="{{ all_state.id }}">{{ all_state.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -101,12 +101,12 @@
                                         <label for="City">City</label>
                                         <select id="city" name="city">
                                             {% if datas.state %}
-                                            <option value="{{city.id}}">{{city.city_name}}</option>
+                                            <option value="{{city.id}}">{{city.name}}</option>
                                             {% else %}
                                             <option value="">Select City</option>
                                             {% endif %}
                                             {% for all_city in all_city %}
-                                            <option value="{{ all_city.id }}">{{ all_city.city_name }}</option>
+                                            <option value="{{ all_city.id }}">{{ all_city.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -132,6 +132,20 @@
                                             <input id="hours" class="me-3" placeholder="AM (08:00)" type="time" name="open_time" value="{{datas.open_time}}">
                                             <input id="hours" placeholder="PM (10:00)" type="time" name="close_time" value="{{datas.close_time}}">
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label for="hours">Hours of operations</label>
+                                        <select name="restuarant_type" id="restuarant_type">
+                                            {% for type in model.type %}
+                                            {% if typee.restaurant_type == type.0 %}
+                                            <option value="{{type.0}}" selected>{{type.1}}</option>
+                                            {% else %}
+                                            <option value="{{type.0}}">{{type.1}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="updatedbtn">
@@ -167,7 +181,7 @@
                     var states = data.states;
                     $('#state').empty().append('<option value="">Select State</option>');
                     $.each(states, function (i, state) {
-                        $('#state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
+                        $('#state').append('<option value="' + state.id + '">' + state.name + '</option>');
                     });
                 }
             });
@@ -183,7 +197,7 @@
                     var cities = data.cities;
                     $('#city').empty().append('<option value="">Select City</option>');
                     $.each(cities, function (i, city) {
-                        $('#city').append('<option value="' + city.id + '">' + city.city_name + '</option>');
+                        $('#city').append('<option value="' + city.id + '">' + city.name + '</option>');
                     });
                 }
             });
