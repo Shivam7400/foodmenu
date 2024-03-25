@@ -4,34 +4,6 @@
 
 {% block content %}
 <style>
-    .profile-pic {
-        border-radius: 50%;
-        height: 180px;
-        width: 180px;
-        background-size: cover;
-        background-position: center;
-        background-blend-mode: multiply;
-        vertical-align: middle;
-        text-align: center;
-        color: transparent;
-        transition: all .3s ease;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .profile-pic:hover {
-        background-color: rgba(0, 0, 0, .5);
-        z-index: 10000;
-        color: #fff;
-        transition: all .3s ease;
-        text-decoration: none;
-    }
-
-    .profile-pic span {
-        display: inline-block;
-        padding-bottom: 6.5em;
-    }
-
     form input[type="file"] {
         display: none;
         cursor: pointer;
@@ -82,7 +54,6 @@
         align-items: center;
         opacity: 1;
     }
-
 </style>
 <div class="page-wrapper wrapper_page">
     <!-- ============================================================== -->
@@ -115,15 +86,22 @@
                         <div class="container-fluid">
                             <div class="row justify-content-center">
                                 <div class="col-10 ">
-                                    <form action="">
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="changeimage">
                                                     <div class="form-group">
-                                                        <label for="imagechange"><img
-                                                                src="{% static 'images/default.png' %}" alt="">
+                                                        <label for="imagechange">
+                                                            {% if request.user.restaurant_logo %}
+                                                            <img src="{{datas.restaurant_logo.url}}" alt=""
+                                                                id="imageee">
+                                                            {% else %}
+                                                            <img src="{% static 'images/default.png' %}" alt=""
+                                                                id="imageee">
+                                                            {% endif %}
                                                             <span>Change Image</span>
-                                                            <input type="file" name="" id="imagechange">
+                                                            <input type="file" name="restaurant_logo" id="imagechange">
                                                         </label>
                                                     </div>
                                                 </div>
@@ -157,6 +135,17 @@
                                                     <input type="number" class="form-control field change_border"
                                                         value="{{datas.phone_number}}" name="phone_number"
                                                         id="phone_number">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 text-center mt-2">
+                                                <label class="fw-bold" style="margin-top: 6col-lg-6px;">Service 
+                                                    Fee: </label>
+                                            </div>
+                                            <div class="col-lg-6 col-md-8 col-sm-12">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control field change_border"
+                                                        value="{{datas.service_fee}}" name="service_fee"
+                                                        id="service_fee">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -221,6 +210,14 @@
         </div>
     </div>
 </div>
+<div>
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags %}
+    <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
 </div>
 <script type="text/javascript">
     function openTab(event, tabName) {
@@ -239,5 +236,94 @@
     document.getElementById("tab1").style.display = "block";
     document.getElementsByClassName("tablinks")[0].className += " active";
 </script>
+<script>
+    document.getElementById('imagechange').addEventListener('change', function (event) {
+        var selectedImage = event.target.files[0];
 
+        if (selectedImage) {
+            var imageUrl = URL.createObjectURL(selectedImage);
+
+            var imageElement = document.getElementById('imageee');
+            imageElement.src = imageUrl;
+            document.getElementById('imageee').className = 'item_image';
+            imageElement.style.display = 'block';
+        }
+    });
+</script>
+<script>
+    function myfun() {
+        var a = document.getElementById("id_password1").value;
+        var b = document.getElementById("id_password2").value;
+        if (a != b) {
+            return false
+        }
+    }
+</script>
+
+<script>
+    function msg1() {
+        var a = document.getElementById("id_password1").value;
+        var b = document.getElementById("id_password2").value;
+        if (a != b) {
+            if (b.length != 0) {
+                document.getElementById("valmessage1").innerHTML = "**Password did not match";
+                document.getElementById("valmessage1").style.borderColor = "red";
+            }
+            else {
+                document.getElementById("valmessage1").innerHTML = " ";
+            }
+
+        }
+        else {
+            document.getElementById("valmessage1").innerHTML = " ";
+        }
+    }
+</script>
+<script>
+    function msg() {
+        var a = document.getElementById("id_password1").value;
+        var b = document.getElementById("id_password2").value;
+        if (a == b) {
+            document.getElementById("valmessage1").innerHTML = " ";
+        }
+
+
+    }
+</script>
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#id_password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+<script>
+    const togglePassword1 = document.querySelector('#togglePassword1');
+    const password1 = document.querySelector('#id_password1');
+
+    togglePassword1.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+        password1.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+<script>
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password2 = document.querySelector('#id_password2');
+
+    togglePassword2.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+        password2.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 {% endblock %}
