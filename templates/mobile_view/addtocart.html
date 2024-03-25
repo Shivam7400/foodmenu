@@ -31,10 +31,10 @@
                     </div>
                     <div class="col-4">
                         <div class="cartinner">
-                            <p class="mb-0">{{data.name}}</p>
-                            <h6 class="pt-2">${{data.price}}</h6>
-                            {% if data.included %}
-                            <p> <span>{{data.included}}</span></p>
+                            <h6 class="pb-2 pt-0 m-0">{{data.name}}</h6>
+                            <h6 class="pb-2 pt-0 m-0"><b>${{data.price}}</b></h6>
+                            {% if data.included == 'none' %}
+                            <p><span>{{data.included}}</span></p>
                             {% endif %}
                             <a href="{% url 'RemoveAddtocart' data.id %}"><i class="fi fi-rr-trash"></i></a>
                         </div>
@@ -57,10 +57,13 @@
             <div class="cartdetail1">
                 <h6 class="pt-0">Would you like to tip Chicken Republic?</h6>
                 <div class="price">
-                    <input class=" pricebtn1" type="button" id="inputButton" onclick="return inputButton()" value="5.00">
-                    <input class=" pricebtn1" type="button" id="submitButton" onclick="return submitButton()" value="10.00">
-                    <input class=" pricebtn1" type="button" id="resetButton" onclick="return resetButton()" value="15.00">
-                    
+                    <input class=" pricebtn1" type="button" id="inputButton" onclick="return inputButton()"
+                        value="5.00">
+                    <input class=" pricebtn1" type="button" id="submitButton" onclick="return submitButton()"
+                        value="10.00">
+                    <input class=" pricebtn1" type="button" id="resetButton" onclick="return resetButton()"
+                        value="15.00">
+
                 </div>
                 <div class="custom mt-3">
                     <a href="" data-bs-toggle="modal" data-bs-target="#popupmob">
@@ -68,7 +71,7 @@
                     </a>
                 </div>
             </div>
-            <div>
+            <div class="mx-3">
                 <div class="totalitem">
                     <div class="d-flex justify-content-between ">
                         <p class="mb-0">Selected Item ({{allquanitty}})</p>
@@ -76,16 +79,17 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Tax</p>
-                        <h6 class="pt-0">$20</h6>
+                        <h6 class="pt-0" id="tax">$20</h6>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Tip</p>
-                        <h6 class="pt-0" id="tips">$0</h6>
+                        <h6 class="pt-0" id="tips" value="123">$0</h6>
+                        <input type="text" hidden id="tip_value" value="0">
                     </div>
                 </div>
                 <div class="d-flex justify-content-between">
                     <p class="pt-1">Sum Total</p>
-                    <h6 class="pt-1 clrfood"><b>$520</b></h6>
+                    <h6 class="pt-1 clrfood" ><b id="sumtotal"></b></h6>
                 </div>
             </div>
         </div>
@@ -101,22 +105,22 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content text-center ">
                         <div class="Enter">
-                            <i class="fi fi-rr-arrow-small-left"></i>
+                            <i class="fi fi-rr-arrow-small-left" data-bs-dismiss="modal" aria-label="Close"></i>
                             <h6 class="pt-0">Enter Custom Amount</h6>
                             <p><i class="fi fi-br-square-x"></i></p>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="popupprice">
-                                <input type="number" step="0.01" placeholder="$0.00" id="pricee">
-                                <label for="pricee">Order Total: $19.00</label>
+                            <div class="d-flex justify-content-between">
+                                <div class="popupprice">
+                                    <input type="number" step="0.01" placeholder="$0.00" id="custom_price" required>
+                                    <label for="pricee">Order Total: ${{total_price}}</label>
+                                </div>
+                                <div class="popupprice1">
+                                    <p onclick="return cross()"><i class="fi fi-rr-cross-small"></i></p>
+                                </div>
                             </div>
-                            <div class="popupprice1">
-                                <p onclick="return cross()"><i class="fi fi-rr-cross-small"></i></p>
+                            <div>
+                                <button  class="okbtn" onclick="return custom_p()" data-bs-dismiss="modal" aria-label="Close">Ok</button>
                             </div>
-                        </div>
-                        <div>
-                            <button type="button" class="okbtn">Ok</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -133,38 +137,36 @@
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" placeholder="Your Name">
                             </div>
-                            <input type="text" hidden  name="selected_button" id="selectedButton" value="0">
+                            <input type="text" hidden name="total_price" id="selectedButton" >
 
                             <div class="checkoutForm">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" name="email"
-                                placeholder="name@gmail.com">
+                                <input type="email" id="email" name="email" placeholder="name@gmail.com">
                             </div>
                             <div class="checkoutForm">
                                 <label for="number">Phone Number</label>
-                                <input type="number"  name="phone" id="number">
+                                <input type="number" name="phone" id="number">
                             </div>
                             <div class="text-center mt-3">
                                 <button type="submit" class="cartcheckout">Submit order</button>
                             </div>
                         </form>
                         {% else %}
-                        <form  method="post" class="p-3">
+                        <form method="post" class="p-3">
                             {% csrf_token %}
                             <div class="checkoutForm">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" placeholder="Your Name">
+                                <input type="text" name="name" id="name" placeholder="Your Name" required> 
                             </div>
-                            <input type="text" hidden  name="selected_button" id="selectedButton" value="0">
+                            <input type="text" hidden name="total_price" id="selectedButton" >
 
                             <div class="checkoutForm">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" name="email"
-                                placeholder="name@gmail.com">
+                                <input type="email" id="email" name="email" placeholder="name@gmail.com" required>
                             </div>
                             <div class="checkoutForm">
                                 <label for="number">Phone Number</label>
-                                <input type="number"  name="phone" id="number">
+                                <input type="number" name="phone" id="number" required>
                             </div>
                             <div class="text-center mt-3">
                                 <button type="submit" class="cartcheckout">Submit order</button>
@@ -191,7 +193,7 @@
             <div class=" my-5">
                 <div class="text-center">
                     <p class="mb-0">You haven't started an <br>order yet</p>
-                    <p>...</p>
+                    <p class="mb-0">...</p>
                     <h6>TAP ADD MEAL TO BAG TO START YOUR ORDER</6>
                 </div>
             </div>
@@ -199,60 +201,7 @@
         </div>
     </section>
 
-{% endif %} 
-
-    <!-- <div class="container">
-        <h5>Cart</h5>
-        {% for data in data %}
-        <div class="row">
-            <div class="col-md-6">
-                <div class="imagefood">
-                    {% if data.image %}
-                    <img src="{{data.image.url}}" class="fooditemimage">
-                    {% else %}
-                    <img src="{%  static 'images/no-image-icon-23483.png' %}">
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="cartdetails">
-                    <p>{{data.name}}</p>
-                    <h5 class="priceclr">${{data.price}}</h5>
-                    <p>Spice Level: {{data.spicelevel}}</p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div>
-                    <a href="{% url 'RemoveAddtocart' data.id %}" class="removebtn">Remove</a>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="addmore">
-                    {% if data.check is True %}
-                    <div class="counter">
-                        <button class="down" style="color: #5a5a5a!important;"  id="{{data.id}}down" onClick='decreaseCount({{data.id}}, this)'>-</button>
-                        <input type="text" value="{{data.quantity}}" readonly  id="val">
-                        <button class="up" id="{{data.id}}up" onClick='increaseCount({{data.id}}, this)'>+</button>
-                    </div>
-                    {% elif data.check is False %}
-                    <div class="counter">
-                        <button class="down"  id="{{data.id}}down" onClick='decreaseCount({{data.id}}, this)'>-</button>
-                        <input type="text" value="{{data.quantity}}" readonly  id="val">
-                        <button class="up" id="{{data.id}}up" onClick='increaseCount({{data.id}}, this)' style="color: #5a5a5a!important;">+</button>
-                    </div>
-                    {% else %}
-                    <div class="counter">
-                        <button class="down"  id="{{data.id}}down" onClick='decreaseCount({{data.id}}, this)'>-</button>
-                        <input type="text" value="{{data.quantity}}" readonly  id="val">
-                        <button class="up" id="{{data.id}}up" onClick='increaseCount({{data.id}}, this)'>+</button>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        <a href="{% url 'checkout' user.id %}" type="submit" class="ckeckoutbtn text-center" >Checkout</a>
-    </div> -->
+{% endif %}
 </main>
 
 
@@ -306,43 +255,85 @@
 
 </script>
 <script>
-    function inputButton(){
+    function inputButton() {
+        const tips = document.getElementById('tips');
         const inputButton = document.getElementById('inputButton');
         const submitButton = document.getElementById('submitButton');
         const resetButton = document.getElementById('resetButton');
-        const selectedButtonField = document.getElementById('selectedButton');
-        alert(selectedButtonField.value)
+        const tip_value = document.getElementById('tip_value');
 
-        selectedButtonField.value = inputButton.value;
+        tips.innerHTML = '$'+inputButton.value;
+        tip_value.value=inputButton.value
         inputButton.className = ' pricebtn2';
         submitButton.className = ' pricebtn1';
         resetButton.className = ' pricebtn1';
+        const sumtotal = document.getElementById('sumtotal');
+        var total = Number(tip_value.value) + Number({{total_price}})
+        sumtotal.innerHTML = '$'+total
+        document.getElementById('selectedButton').value = total
     }
-    function submitButton(){
+    function submitButton() {
         const inputButton = document.getElementById('inputButton');
         const submitButton = document.getElementById('submitButton');
         const resetButton = document.getElementById('resetButton');
-        const selectedButtonField = document.getElementById('selectedButton');
-
-        selectedButtonField.value = inputButton.value;
+        const tip_value = document.getElementById('tip_value');
+        const tips = document.getElementById('tips');
+        tip_value.value=submitButton.value
+        tips.innerHTML = '$'+submitButton.value;
         submitButton.className = ' pricebtn2';
         inputButton.className = ' pricebtn1';
         resetButton.className = ' pricebtn1';
+        const sumtotal = document.getElementById('sumtotal');
+        var total = Number(tip_value.value) + Number({{total_price}})
+        sumtotal.innerHTML = '$'+total
+        document.getElementById('selectedButton').value = total
+
     }
-    function resetButton(){
+    function resetButton() {
         const inputButton = document.getElementById('inputButton');
         const submitButton = document.getElementById('submitButton');
         const resetButton = document.getElementById('resetButton');
-        const selectedButtonField = document.getElementById('selectedButton');
-        selectedButtonField.value = resetButton.value;
+        const tip_value = document.getElementById('tip_value');
+        const tips = document.getElementById('tips');
+        tip_value.value=resetButton.value
+        tips.innerHTML = '$'+resetButton.value;
         resetButton.className = ' pricebtn2';
         submitButton.className = ' pricebtn1';
         inputButton.className = ' pricebtn1';
+        const sumtotal = document.getElementById('sumtotal');
+        var total = Number(tip_value.value) + Number({{total_price}})
+        sumtotal.innerHTML = '$'+total
+        document.getElementById('selectedButton').value = total
     }
-
+    function custom_p(){
+        const tips = document.getElementById('tips');
+        const custom_price = document.getElementById('custom_price');
+        const tip_value = document.getElementById('tip_value');
+        tip_value.value=custom_price.value
+        tips.innerHTML = '$'+custom_price.value;
+        const sumtotal = document.getElementById('sumtotal');
+        var total = Number(tip_value.value) + Number({{total_price}})
+        sumtotal.innerHTML = '$'+total
+        document.getElementById('selectedButton').value = total;
+        var inputButton = document.getElementById('inputButton')
+        const submitButton = document.getElementById('submitButton')
+        const resetButton = document.getElementById('resetButton')
+        resetButton.className = ' pricebtn1';
+        submitButton.className = ' pricebtn1';
+        inputButton.className = ' pricebtn1';
+    }
     function cross() {
         document.getElementById("pricee").value = " ";
+        
     }
+
+</script>
+<script>
+    const tip_value = document.getElementById('tip_value');
+    const sumtotal = document.getElementById('sumtotal');
+    var total = Number(tip_value.value) + Number({{total_price}})
+    sumtotal.innerHTML = '$'+total
+    document.getElementById('selectedButton').value = total
 </script>
 
 {% endblock %}
