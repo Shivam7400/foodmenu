@@ -63,14 +63,15 @@
                           <td>${{head.price}}</td>
                           <td>
                             <div class="dropdown">
-                              <a class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <!-- <a class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Click to Check
                               </a>
                               <ul class="dropdown-menu">
                                 {% for add in head.addon.all %}
                                 <li><a class="dropdown-item">{{add.all_addon.name}} -${{add.all_addon.price}}</a></li>
                                 {% endfor %}
-                              </ul>
+                              </ul> -->
+                              <a data-bs-toggle="modal">Check</a>
                           </td>   
                           <td>{{head.description}}</td>       
                           <td>{{head.created_at}}</td>
@@ -108,6 +109,21 @@
 
   </div>
   
+</div>
+<div class="modal fade" id="popupfood" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center ">
+          <div class="d-flex justify-content-center align-items-center">
+              <div class="foodDetails ">
+                  <div>
+                      <div class="foodprice1 px-4" id="foodprice1">
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
 
 {% endblock %}
