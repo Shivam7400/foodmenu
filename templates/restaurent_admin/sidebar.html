@@ -1,5 +1,20 @@
 {% load static %}
-<aside class="left-sidebar left_aside sidebarfixed" data-sidebarbg="skin6" >
+<style>
+    .active1{
+        color: #EC3724;
+        font-weight: 800;
+    }
+    .dashboardiconimg{
+  display: none;
+}
+.sidebar-item:hover .dashboardiconimg{
+  display: block;
+}
+.sidebar-item:hover .dashboardiconimg1{
+  display: none;
+}
+</style>
+<aside class="left-sidebar left_aside sidebarfixed" id="sidedis" data-sidebarbg="skin6" >
     <!-- Sidebar scroll-->
     
     <div class="scroll-sidebar">
@@ -9,98 +24,101 @@
             <ul id="sidebarnav" class="nav_bar_side">
                 <!-- User Profile-->
                 <li class="sidebar-item mt-3">
+                    <!-- <p class="closebtn" onclick="closeNav()"><i class="fi fi-rr-cross-circle"></i></p> -->
                     <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar square"
                         href="{% url 'user-dashboard' %}" aria-expanded="false">
                         <div class="dashicon">
-                            <img src="{% static 'images\dash1.png' %}">
+                            {% if active %}
+                            <img src="{% static 'images\dash1(1).png' %}">
+                            {% else %}
+                            <img class="dashboardiconimg1" src="{% static 'images\dash1.png' %}">
+                            <img class="dashboardiconimg" src="{% static 'images\dash1(1).png' %}">
+                            {% endif %}
                         </div>
-                        <span class="hide-menu">Dashboard</span>
+                        <span class="hide-menu {{active}}">Dashboard</span>
                     </a>
                 </li>
+                
                  <li class="sidebar-item onclickmenu commomShow">
-                    <a href="{% url 'show-all-item'  %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
+                    <a href="{% url 'show-all-item' 0  %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
                         <div class="dashicon">
-                            <img src="{% static 'images\dash2.png' %}">
+                            {% if active1 %}
+                            <img src="{% static 'images\dash2(1).png' %}">
+                            {% else %}
+                            <img class="dashboardiconimg1" src="{% static 'images\dash2.png' %}">
+                            <img class="dashboardiconimg" src="{% static 'images\dash2(1).png' %}">
+                            {% endif %}
                         </div>
-                        <span class="hide-menu">Menu</span>
+                        <span class="hide-menu {{active1}}">Menu</span>
                     </a>
                 </li>
                 
                 <li class="sidebar-item onclickmenu5 commomShow">
-                    <a href="{% url 'receive-notification' %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" 
+                    <a href="{% url 'order_history' %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" 
                         aria-expanded="false">
                         <div class="dashicon">
-                            <img src="{% static 'images\dash3.png' %}">
+                            {% if active2 %}
+                            <img src="{% static 'images\dash3(1).png' %}">
+                            {% else %}
+                            <img class="dashboardiconimg1" src="{% static 'images\dash3.png' %}">
+                            <img class="dashboardiconimg" src="{% static 'images\dash3(1).png' %}">
+                            {%  endif %}
                         </div>
-                        <span class="hide-menu">Order History</span>
+                        <span class="hide-menu {{active2}}">Order History</span>
+                    </a>
+                </li>
+                <li class="sidebar-item onclickmenu5 commomShow">
+                    <a href="{% url 't_history' %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" 
+                        aria-expanded="false">
+                        <div class="dashicon">
+                            {% if active3 %}
+                            <img src="{% static 'images/image_2023_09_06T14_48_54_369Z(1).png' %}">
+                            {% else %}
+                            <img class="dashboardiconimg1" src="{% static 'images/image_2023_09_06T14_48_54_369Z.png' %}">
+                            <img  class="dashboardiconimg" src="{% static 'images/image_2023_09_06T14_48_54_369Z(1).png' %}">
+                            {% endif %}
+                        </div>
+                        <span class="hide-menu {{active3}}">Transaction History</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item onclickmenu6 commomShow">
-                    <a href="#" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
+                    <a href="{% url 'restaurant-details' %}" class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
                         <div class="dashicon">
-                            <img src="{% static 'images\dash4.png' %}">
+                            {%  if active4 %}
+                            <img src="{% static 'images\dash4(1).png' %}">
+                            {% else %}
+                            <img class="dashboardiconimg1" src="{% static 'images\dash4.png' %}">
+                            <img class="dashboardiconimg" src="{% static 'images\dash4(1).png' %}">
+                            {% endif %}
                         </div>
-                        <span class="hide-menu">Settings</span>
+                        <span class="hide-menu {{active4}}">Settings</span>
                     </a>
-                    <i class="fas fa-angle-down"></i>
-                     <ul class="clickShowmenu6 commom ">
-                        <li><a href="{% url 'restaurant-details' %}" class="text-decoration-none" ><i class="fas fa-user leftside_icon"></i>&nbsp; Profile</a></li>
-                        <li><a href="{% url 'change-user-password' %}" class="text-decoration-none" ><i class="fas fa-key leftside_icon"></i>&nbsp; Change Password</a></li>
-                    </ul>
+                </li>
+                <li class="sidebar-item onclickmenu6 commomShow logoutoption">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false" onclick="return confirm('Are You Sure to LogOut')"
+                    href="{% url 'user-logout' %}"><i class="fi fi-rr-arrow-right-to-bracket"></i> Logout</a>
                 </li>
                
-                <!-- <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href="term-condition.html"
-                        aria-expanded="false">
-                        <i class="fas fa-certificate leftside_icon" aria-hidden="true"></i>
-                        <span class="hide-menu">Terms & Conditions</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href="privacy-policy.html"
-                        aria-expanded="false">
-                        <i class="fas fa-file-alt leftside_icon"></i>
-                        <span class="hide-menu">Privacy & Policy</span>
-                    </a>
-                </li> -->
-                <!-- <li class="sidebar-item onclickmenu6 commomShow">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" aria-expanded="false">
-                        <i class="fas fa-bell leftside_icon"></i>
-                        <span class="hide-menu">Setting</span>
-                    </a>
-                    <ul class="clickShowmenu6 commom ">
-                        <li><a href="">Edit Profile</a></li>
-                        <li><a href="{% url 'change-password' %}">Change Password</a></li>
-                        
-
-                    </ul>
-                </li> -->
-                <!-- <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link link_sidebar" href=""
-                        aria-expanded="false">
-                        <i class="fas fa-power-off leftside_icon"></i>
-                        <span class="hide-menu">Log Out</span>
-                    </a>
-                </li> -->
+                
                 
             </ul>
             <hr class="bottomhr">
             <div class="qrcodeimg">
-                <img src="{{qrimagecode.qr_code.url}}" alt="">
-                <form action="{% url 'generate-pdf' %}" method="get">
+                {% if qrimagecode.qr_code %}
+                <img src="{{qrimagecode.qr_code.url}}" alt="" id="image-to-convert"> 
+                <!-- <button id="download-button" class="qrbtn">Download  Code</button> -->
+                {% endif %}
+                <form action="{% url 'generate-pdf' request.user.id %}" method="get">
                     <button class="qrbtn">Download QR Code</button><br>
                 </form>
-                <a href="{% url 'mobile_home' qrimagecode.id %}" target="_blank"><i class="fi fi-rr-link-horizontal"></i> <span style="
+                <a href="{% url 'mobile_home' qrimagecode.id %}" target="_blank"><i class="fi fi-rr-link-horizontal" style="vertical-align: sub;"></i>&nbsp;<span style="
                     font-size: 14px;
-                ">http://69.49.235.253:8026/mobile-home/{{qrimagecode.id}}</span></a>
+                ">69.49.235.253:8026/mobile-home/{{qrimagecode.id}}</span></a>
             </div>
         </nav>
         <!-- End Sidebar navigation -->
     </div>
     <!-- End Sidebar scroll-->
 </aside>
-
-
-
 
