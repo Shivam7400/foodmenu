@@ -28,10 +28,9 @@
     }
 
     .color_image12 {
-        background: #1d4016;
+        
         height: 190px;
         width: 100%;
-        color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -346,6 +345,8 @@
                 else {
                     old_div = document.getElementById('abc123').innerHTML = '<p class="mb-0">'+  context.name +'</p>'
                     document.getElementById('abc123').classList.add('color_image12')
+                    document.getElementById('abc123').style.backgroundColor= context.background_color
+                    document.getElementById('abc123').style.color= context.text_color
                 }
 
                 var linkElement = document.getElementById("myLink");
