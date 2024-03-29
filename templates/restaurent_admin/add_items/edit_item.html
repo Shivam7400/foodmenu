@@ -16,7 +16,6 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-9">
-
                             <div class="itembox">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
@@ -43,8 +42,16 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="item">What's included? <em>(optional)</em></label>
-                                        <textarea class="form-label form-control hide_bar12" name="include" id="incluted" rows="1"
-                                        cols="70" placeholder="Example; Chicken burger, beef burger, etc." onfocus="this.placeholder=''" onblur="this.placeholder='Example; Chicken burger, beef burger, etc.'">{{data.included}}</textarea>
+                                    
+                                    <select name="include" id="include"  class="form-control select2"
+                                        multiple>
+                                        {% for include in includes %}
+                                        <option value="{{include.name}}" class="users" selected>{{include.name}}</option>
+                                        {% endfor %}
+                                        {% for user in item_suggestion %}
+                                        <option class="users" value="{{user.food_name}}">{{user.food_name}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             
@@ -52,7 +59,7 @@
                                 <div>
                                     <h5>Price Details</h5>
                                     <label class="form-label" for="item">Price Amount </label>
-                                    <input type="number" id="price" name="price" step="0.01" value="{{data.price}}"
+                                    <input type="number" id="price" name="price" step="0.01" value="{{data.price|floatformat:2}}"
                                         class="form-control" required />
                                 </div>
                             </div>
@@ -184,7 +191,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                          
                         </div> 
                         <div class="col-lg-3">
                             <div>
@@ -209,11 +216,25 @@
 
                                     <div class="d-flex justify-content-between mt-2">
                                         <h6 class="mb-0">Pricing</h6>
-                                        <h6 class="mb-0" id="pricing">{{request.user.currency|default:'$'}} {{data.price}}</h6>
+                                        <h6 class="mb-0" id="pricing">{{request.user.currency|default:'$'}} {{data.price|floatformat:2}}</h6>
                                     </div>
-                                    {% endif %}
+                                    
                                 </div>
-                                
+                                {% else %}
+                                    <div class="itembox">
+                                        <h5 class="px-2 pb-2">Select Colors </h5>
+                                        <div class="d-flex justify-content-between align-items-center px-2">
+                                            <div>
+                                                <h6>Background Color</h6>
+                                                <input type="color" name="background_color" required value="{{data.background_color_type|default:'#1a401b'}}">
+                                            </div>
+                                            <div class="text-end">
+                                                <h6>Text Color</h6>
+                                                <input type="color" name="text_color" required value="{{data.text_color_type|default:'#d0a345'}}"> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                                 <!-- <div class="itembox">
                                     <h5 class="mb-0">Select Category</h5>
@@ -388,7 +409,6 @@
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -1079,5 +1099,10 @@
         })
         
     }
+</script>
+<script>
+    $(".select2").select2({
+        tags: true
+        });
 </script>
 {% endblock %}
