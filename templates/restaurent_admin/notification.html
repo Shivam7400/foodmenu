@@ -22,7 +22,11 @@
                 {% if data %}
                 <div class="Notifications">
                     {%  for data in data %}
-                    <a href="{% url 'notification-details' data.id %}" class="accordion">
+                    {% if data.order_id %}
+                    <a href="{% url 'notification-details' data.order_id %}" class="accordion">
+                    {% else %}
+                    <a href="" class="accordion">
+                    {% endif %}
                         <div class="d-flex justify-content-between align-items-center" style="flex-wrap: wrap; border-bottom: 1px solid #ccc; ">
                             <div class="d-flex">
                                 <div class=" px-3">
@@ -41,8 +45,8 @@
                             </div>
                             <div class="px-3">
                                 <div class="recentorder">
-                                    <p>{{data.created_at}} <span></span></p>
-                                </div>
+                                    <p>{{data.created_at}} {% if data.item_instruction == True %}<span></span>{% endif  %}</p>
+                                </div> 
                             </div>
                         </div>
                     </a>
