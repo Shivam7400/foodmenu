@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Adminapp',
     'restaurantadminapp',
-    'ckeditor',
+    'cities_light',
     'ckeditor_uploader',
 ]
 
