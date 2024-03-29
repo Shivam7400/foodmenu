@@ -24,109 +24,276 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <style>
-    body{
+    body {
         background-color: lightgrey;
     }
+
     table tbody td {
         color: black;
 
     }
 
     footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
         width: 100%;
-        height: 10%;
-        background-color: red;
-        color: white;
+        background-color:#f99621;
+        color: rgb(0, 0, 0);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: O;
+    }
 
+    .foodCategory {
+        background: #fff;
+        height: 100vh;
+        padding: 10px;
+    }
+
+
+
+    footer h3 {
+        font-size: 14px;
+        text-align: center;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    ul.list-style-none li button {
+        width: 100%;
+    }
+
+
+    .Navbar__Link-toggle {
+        display: none;
+    }
+
+    .Navbar__ToggleShow {
+        display: flex;
+    }
+
+    .Navbar__Link a {
+        color: #000;
+    }
+
+    @media only screen and (max-width:992px) {
+        .foodCategory ul {
+            justify-content: center;
+        }
+
+        .foodCategory {
+            height: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+
+        .foodCategory {
+            display: none;
+        }
+
+        .Navbar__Link-toggle {
+            align-items: end;
+            display: initial;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .food-header {
+            display: none;
+        }
+
+        .restName {
+            display: none;
+        }
+
+    }
+
+    .foodcolor {
+        color: #0ea8ad;
     }
 </style>
 
 <body>
-    <nav class="bg-light" style="height: 100px;">
-        <div>
-            <img src="{{idd.restaurant_logo.url}}"style="height: 1in; width: 3cm;">
-        </div>
-        <div class="text-center" style="margin-top: -75px;"><h1><b>Food Menu</b></h1></div>
-        
+    <nav class="bg-light py-3">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-2 text-center">
+                    <img src="{{idd.restaurant_logo.url}}" style="height: 5rem;">
+                </div>
 
+                <div class="col-8">
+                    <div class="text-center pt-4 restName">
+                        <h3 class="foodcolor">{{idd.restaurant_name}}</h3>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="Navbar__Link Navbar__Link-toggle ">
+                        <a  class="menuBtn"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
-   
-    {% if category %}
-    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:170px; height: 75%;">
-        <h5 class="w3-bar-item">Food Category</h5>
 
-        {% for food in category %}
-        <button class="w3-bar-item w3-button tablink " onclick="openCity(event, '{{food.category_name}}')">{{food.category_name}}</button>
-        {% endfor %}
-    </div>
-    <div style="margin-left:185px">
-        <div class="w3-padding"><h3>Food Items</h3></div>
-        
-        {% for food in category %}
-        <div id="{{food.category_name}}" class="w3-container city" style="display:none">
-            <table class="table table-bordered border-primary table-hover table-warning" style="height: 400px;">
 
-                <thead>
-                    <tr>
-                        <th>Items</th>
-                        <th>Full</th>
-                        <th>Medium</th>
-                        <th>Small</th>
-                        <th>Food Image</th>
-                    </tr>
-                    </a>
-                </thead>
-    
-                <tbody>
-                    {% for food_item in food.cat.all %}
-                    <tr>
-                        <td>{{food_item.food_name}}</td>
-                        <td>
-                            {% if food_item.full_price %}
-                            {{food_item.full_price}}</td>
-                            {% else %}
-                            <h4>-</h4>
-                            {% endif %}
-                        <td>
-                            {% if food_item.medium_price %}
-                            {{food_item.medium_price}}
-                            {% else %}
-                            <h4>-</h4>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if food_item.small_price %}
-                            {{food_item.small_price}}
-                            {% else %}
-                            <h4>-</h4>
-                            {% endif %}
-                        </td>
-                        <td>{% if food_item.food_image %}
-                            <img src="{{ food_item.food_image.url }}" alt="Image Here" style="height: .6in; width: 2.5cm;">
-                            {% else %}
-                            <h3>No Image</h3>
-                            {% endif %}
-                        </td>
-                    </tr>
+    <div class="row">
+        {% if category %}
+        <div class="col-lg-2 col-md-2">
+
+            <!-- <div class="w3-sidebar w3-bar-block w3-light-grey w3-card " style="width:170px; height: 75%;">
+                <h5 class="w3-bar-item">Food Category</h5>
+
+                {% for food in category %}
+                <button class="w3-bar-item w3-button tablink "
+                    onclick="openCity(event, '{{food.category_name}}')">{{food.category_name}}</button>
+                {% endfor %}
+            </div> -->
+            <div class="foodCategory">
+                <h5 class="food-header text-center py-3 foodcolor">Food Category</h5>
+                <ul class="list-style-none Navbar__Items">
+                    {% for food in category|slice:"1" %}
+                    <li class="Navbar__Link">
+                        <button class="w3-bar-item w3-button w3-red tablink "
+                            onclick="openCity(event, '{{food.category_name}}')">{{food.category_name}}</button>
+                    </li>
                     {% endfor %}
-                </tbody>
-    
-            </table>
+                    {% for food in category|slice:"1:" %}
+                    <li class="Navbar__Link">
+                        <button class="w3-bar-item w3-button tablink "
+                            onclick="openCity(event, '{{food.category_name}}')">{{food.category_name}}</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        {% endfor %}
-      </div>
-    {% else %}
-    <h1>No Data</h1>
-    {% endif %}
-    
-    <footer>
-        <h3>Restaurant Name:&nbsp;{{idd.restaurant_name}}</h3>
+        <div class="col-lg-10 col-md-10 col-sm-12">
+            <div class="table table-responsive vh-100">
+                <div class="w3-padding">
+                    <h3 class="foodcolor">Food Items</h3>
+                </div>
+                {% for food in category|slice:"1" %}
+                <div id="{{food.category_name}}" class="w3-container city">
+                    <table class="table table-bordered ">
+
+                        <thead>
+                            <tr>
+                                <th>S.N.</th>
+                                <th>Items</th>
+                                <th>Full</th>
+                                <th>Medium</th>
+                                <th>Small</th>
+                                <th>Food Image</th>
+                            </tr>
+                            </a>
+                        </thead>
+
+                        <tbody>
+                            {% for food_item in food.cat.all %}
+                            <tr>
+                                <td><a href=""> {{forloop.counter}}</a></td>
+                                <td>{{food_item.food_name}}</td>
+                                <td>
+                                    {% if food_item.full_price %}
+                                    {{food_item.full_price}}</td>
+                                {% else %}
+                                <h4>-</h4>
+                                {% endif %}
+                                <td>
+                                    {% if food_item.medium_price %}
+                                    {{food_item.medium_price}}
+                                    {% else %}
+                                    <h4>-</h4>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if food_item.small_price %}
+                                    {{food_item.small_price}}
+                                    {% else %}
+                                    <h4>-</h4>
+                                    {% endif %}
+                                </td>
+                                <td>{% if food_item.food_image %}
+                                    <img src="{{ food_item.food_image.url }}" alt="Image Here"
+                                        style="height: .6in; width: 2cm;">
+                                    {% else %}
+                                    <h3>-</h3>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+                {% endfor %}
+
+                {% for food in category|slice:"1:" %}
+                <div id="{{food.category_name}}" class="w3-container city" style="display:none;">
+                    <table class="table table-bordered ">
+
+                        <thead>
+                            <tr>
+                                <th>S.N.</th>
+                                <th>Items</th>
+                                <th>Full</th>
+                                <th>Medium</th>
+                                <th>Small</th>
+                                <th>Food Image</th>
+                            </tr>
+                            </a>
+                        </thead>
+
+                        <tbody>
+                            {% for food_item in food.cat.all %}
+                            <tr>
+                                <td><a href=""> {{forloop.counter}}</a></td>
+                                <td>{{food_item.food_name}}</td>
+                                <td>
+                                    {% if food_item.full_price %}
+                                    {{food_item.full_price}}</td>
+                                {% else %}
+                                <h4>-</h4>
+                                {% endif %}
+                                <td>
+                                    {% if food_item.medium_price %}
+                                    {{food_item.medium_price}}
+                                    {% else %}
+                                    <h4>-</h4>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if food_item.small_price %}
+                                    {{food_item.small_price}}
+                                    {% else %}
+                                    <h4>-</h4>
+                                    {% endif %}
+                                </td>
+                                <td>{% if food_item.food_image %}
+                                    <img src="{{ food_item.food_image.url }}" alt="Image Here"
+                                        style="height: .6in; width: 2cm;">
+                                    {% else %}
+                                    <h3>-</h3>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            {% else %}
+            <h1>No Data</h1>
+            {% endif %}
+        </div>
+    </div>
+    <footer class="px-5 py-3">
+        <h3>Contact:&nbsp;{{idd.user_id.phone_number}}</h3>
         <h3>Address:&nbsp;{{idd.restaurant_address}}</h3>
     </footer>
     <!-- <script>
@@ -137,9 +304,11 @@
             var x = document.getElementById(id);
             if (x.style.display === "none") {
                 x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
+            } else {<div class="col-md-3 p-0 addNew">
+                        <div class="food-img">
+                            <img src="{{cat_image.image.url}}" alt="">
+                        </div>
+                    </div>
         }
     </script> -->
     <!-- <script>
@@ -154,19 +323,20 @@
 
     <script>
         function openCity(evt, foodname) {
-          var i, x, tablinks;
-          x = document.getElementsByClassName("city");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("tablink");
-          for (i = 0; i < x.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" w3-red", ""); 
-          }
-          document.getElementById(foodname).style.display = "block";
-          evt.currentTarget.className += " w3-red";
+            var i, x, tablinks;
+            x = document.getElementsByClassName("city");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+            }
+            document.getElementById(foodname).style.display = "block";
+            evt.currentTarget.className += " w3-red";
         }
     </script>
+
 
 
     <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
@@ -182,15 +352,40 @@
     <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
     <script src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
 
+    <script>
+        $(document).ready(function () {
+            $(".onclickmenu").click(function () {
+                $(".clickShowmenu").toggle();
+            });
+        });
 
+        $(document).ready(function () {
+            $(".menuBtn").click(function () {
+                $(".foodCategory").toggle()
+            });
+        });
+
+
+
+    </script>
+    <!-- <script>
+         var button = document.querySelector('.menuBtn');
+        var items = document.querySelector('.Navbar__Items');
+        var link = document.getElementsByTagName('button');
+
+        button.addEventListener('click', function () {
+            items.classList.toggle('opened');
+        }, false);
+
+        for (var i = 0; i < link.length; i++) {
+            link[i].addEventListener('click', function (e) {
+                e.preventDefault();
+                items.classList.remove('opened');
+            }, false);
+        }
+    </script> -->
 
 </body>
-<script>
-    $(document).ready(function () {
-        $(".onclickmenu").click(function () {
-            $(".clickShowmenu").toggle();
-        });
-    });
-</script>
+
 
 </html>
