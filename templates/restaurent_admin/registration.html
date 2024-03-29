@@ -7,200 +7,124 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>FoodMenu.Registration</title>
-  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin/images/favicon.png' %}">
-  <link href="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet"
-    href="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css' %}">
-  <!-- Custom CSS -->
+  <title>Sign up</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'images/FavIcon.png' %}">
   <link href="{% static 'admin/css/style.min.css' %}" rel="stylesheet">
   <link href="{% static 'admin/css/fontawesome.min.css' %}" rel="stylesheet">
   <link href="{% static 'admin/css/responsive.css' %}" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,800&family=Urbanist:wght@200&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <style>
-    .submitBtn {
-      background-color: #0ea8ad;
-      color: #fff !important;
-    }
-
-    .submitBtn:hover {
-      background-color: #ff9945;
-      color: #000;
-      transition: 0.6s;
-    }
-
-    .forget {
-      color: #ff9945;
-    }
-    .img-fluid {
-      height: 90vh;
-      width: 100%;
-    }
-    .rectangleimg {
-      padding: 30px;
-    }
-    .dineqrlogo{
-      color:  #f17830;;
-    }
-    .orIcon {
-      position: relative;
-      top: -15px;
-      background-color: #fff;
-      padding: 7px;
-      left: 220px;
-    }
-    .google {
-      border: 1px solid gray;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 7px 0;
-      margin: 0 0 12px 0;
-      color: #000;
-    }
-
-    .google:hover {
-      color: #1fa8ae;
-      text-decoration: none !important;
-    }
-
-    .google img {
-      height: 17px;
-      padding: 0 10px;
-    }
-    input[type="text"]
-    {
-    font-size: 12px;
-    }
-    .companion{
-      margin: 50px 0 20px 0;
-    }
-    .companion h4{
-      font-size: 30px;
-    }
-    .companion h5{
-      color: #626370;
-    }
-    .companion p{
-      font-size: 13px;
-      color: #626370;
-    }
-    .eyeicon{
-      position: relative;
-      top: 31px;
-      left: 363px;
-      color: #626370;
-    }
-    hr{
-      margin-bottom: 0;
-    }
-    .form-label{
-      margin-bottom: 2px;
-    }
+    
   </style>
-
 </head>
-
 <body>
-
   <section>
-    <div class="container vh-100">
+    <div class="container ">
       <div class="row g-0">
-        <div class="col-lg-6 px-0 vh-100">
+        <div class="col-lg-6 px-0">
           <div class="rectangleimg">
-            <img src="{% static 'images/Rectangle 1.png' %}" alt="login form" class="img-fluid">
+            <img src="{% static 'images/Rectangle1.png' %}" alt="login form" class="img-fluid">
           </div>
         </div>
-        <div class="col-lg-6 px-0 vh-100">
-          <div class="card-body text-black px-5 me-2">
+        <div class="col-lg-6 px-0 ">
+          <div class=" d-flex justify-content-center align-items-center" >
+          <div class="card-body1 text-black">
             <form method="post" enctype="multipart/form-data" onsubmit="return myfun()">
               {% csrf_token %}
-              <div class="companion">
-                <h4>Welcome to Dine<span class="dineqrlogo">QR</span></h4>
+              <div class="companion1">
+                <h4 class="bricefont">Welcome to <span class="dineqrlogo">DineQR</span></h4>
                 <h5>Your Ultimate Dining Companion!</h5>
-                <p>Are you tired of waiting in long queues or struggling to get a table at your favorite restaurant? Say goodbye to those dining woes with DineQR, the revolutionary restaurant app that will change the way you dine forever!</p>
+
               </div>
-             
-              <div class="form-outline my-2">
+
+              <div class="form-outline my-2 usernametext">
                 <label class="form-label" for="form2Example17">Restaurant Name</label>
-                <input type="text" oninput="return myval()" id="restaurant_name" name="Rname"
-                  class="form-control  " required />
+                <input type="text" oninput="return myval()" id="restaurant_name" name="Rname" class="form-control"
+                  placeholder="Enter your Username here..." required onfocus="this.placeholder=''" onblur="this.placeholder='Enter your Username here...'"/>
                 <span id="namemessage" class="text-danger"> </span>
+                
               </div>
 
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Restaurant Logo</label>
-                <input type="file" id="form2Example27" name="Rlogo" class="form-control " required />
+              <div class="form-outline my-2 usernametext">
+                <label class="form-label" >Restaurant's Address</label>
+
+                <input type="text"  name="restaurant_address" class="form-control" required
+                  placeholder="Example; 456 Elm Avenue Foodie City, NY 67890" onfocus="this.placeholder=''" onblur="this.placeholder='Example; 456 Elm Avenue Foodie City, NY 67890'"/>
               </div>
+              <div class="form-outline my-2 usernametext">
+                <label class="form-label" >Full Name</label>
 
-
-
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Email</label>
-
-                <input type="email" id="form2Example27" name="email_id" class="form-control" required placeholder="Enter your Full Name here..." />
+                <input type="text"  name="full_name" class="form-control" required
+                  placeholder="Enter full name" onfocus="this.placeholder=''" onblur="this.placeholder='Enter full name'"/>
               </div>
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Contact</label>
+              <div class="form-outline my-2 usernametext">
+                <label class="form-label" for="form2Example27">Email Address</label>
 
-                <input type="number" id="phone" name="phone_number" class="form-control " oninput="return mynum()"
-                  required />
+                <input type="email" id="form2Example27" name="email_id" class="form-control" required
+                  placeholder="Restaurant@mail.com" {% if messages %} {% for message in messages %}
+                  {% if message.tags == 'warning' %} style="border-color: #FF3B3B;" {% endif %}
+                  {% endfor %} {% endif %} onfocus="this.placeholder=''" onblur="this.placeholder='Restaurant@mail.com'"/>
+                  {% if messages %}
+                  {% for message in messages %}
+                  {% if message.tags == 'warning' %}
+                  <span style="color: #FF3B3B ; font-size: small;" >{{message}}</span>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="form-outline my-2 typee usernametext" style="position: relative;">
+                <label class="form-label">Phone Number</label>
+                <input type="text" id="phone" onkeypress="return event.charCode>=48 && event.charCode<=57 && value.length<10;" oninput="return mynum()" name="password" class="form-control "
+                  required placeholder="Restaurant phone number" onfocus="this.placeholder=''" onblur="this.placeholder='Restaurant phone number'" />
                 <span id="nummessage" class="text-danger"> </span>
               </div>
-              <div class="form-outline my-2">
-                <label class="form-label" for="form2Example27">Address/City</label>
-                <input type="text" id="form2Example27" name="address" class="form-control " required />
-              </div>
-
-              <div class="form-outline my-2 typee">
-                <label class="form-label">Password</label><a href="#"><i class="fa fa-eye eyeicon" aria-hidden="true" id="togglePassword"></i></a>
-                <input type="password" id="password" oninput="return myvalpass()" name="password"
-                  class="form-control " required  placeholder="Enter your Password here..."/>
+              <div class="form-outline my-2 typee usernametext" style="position: relative;">
+                <label class="form-label">Password</label><a><i class="fi fi-br-eye eyeicon1" id="togglePassword"></i></a>
+                <input type="password" id="password" oninput="return myvalpass()" name="password" class="form-control "
+                  required placeholder="Enter your Password here..."  onfocus="this.placeholder=''" onblur="this.placeholder='Enter your Password here...'"/>
                 <span id="valmessage" class="text-danger"> </span>
-              </div> 
-
-              
-              
-
+              </div>
+              <div class="mt-4">
+                <p class="mb-1"> 
+                  By Signing up, you agree to our <a href="{% url 'TermandConditions' %}" target="_blank" class="dineqrlogo1">Terms and Condition</a> and <a href="{% url 'privacyandpolicies' %}"  target="_blank" class="dineqrlogo1">Privacy policy</a>  Our team will contact you shortly with more information.</p>
+              </div>
               <div class="pt-3 mb-4">
                 <button class="btn btn-block submitBtn" type="submit">Sign up</button>
               </div>
-              <div class="mt-4">
-                <hr>
-                <span class="orIcon">or</span>
+              <div class="orIcon">
+                <span></span>
+                <p>or</p><span></span>
               </div>
-              <div>
+              <!-- <div>
                 <a href="#" class="google">
                   <div>
                     <img src="{% static 'images/google.png' %}">
                     <span>Continue with Google</span>
                   </div>
                 </a>
-              </div>
+              </div> -->
 
-              <p style="text-align: center;">Already have an account? <a href="{% url 'user-login' %}" style="color: #1fa8ae;"><b>Log in</b></a></p>
+              <p style="text-align: center;">Already have an account? <a href="{% url 'user-login' %}"
+                  style="color: #EC3724;"><b>Log in</b></a></p>
             </form>
-            {% if messages %}
-            {% for message in messages %}
-            {% if message.tags %}
-            <script>swal("FoodMenu!", "{{message}}", "{{message.tags}}");</script>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
+          </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-
 
   <script>
     function myfun() {
@@ -228,8 +152,6 @@
         return false
       }
 
-
-
     }
     function myvalpass() {
       var pass_way = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
@@ -243,16 +165,10 @@
       }
 
 
-
-
-
     }
     function myval() {
       var restaurant_name = document.getElementById('restaurant_name').value;
       var correct_way = /^[a-zA-Z ]*$/;
-
-
-
 
       if (restaurant_name.match(correct_way)) {
         document.getElementById("namemessage").innerHTML = ""
@@ -280,14 +196,15 @@
           document.getElementById("namemessage").innerHTML = ""
         }
       }
-
-
-
     }
     function mynum() {
       var num = document.getElementById('phone').value;
 
-      if (num.length != 10) {
+      if(isNaN(num)){
+        document.getElementById("nummessage").innerHTML = "**Phone Number contains only numbers"
+      }
+      else{
+        if (num.length != 10) {
         if (num.length == 0) {
           document.getElementById("nummessage").innerHTML = " "
         }
@@ -298,40 +215,27 @@
       else {
         document.getElementById("nummessage").innerHTML = " "
       }
+      }
     }
-
   </script>
-<script>
-  const togglePassword = document.querySelector('#togglePassword');
-  const password = document.querySelector('#password');
+  <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
 
-  togglePassword.addEventListener('click', function (e) {
+    togglePassword.addEventListener('click', function (e) {
       // toggle the type attribute
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
       password.setAttribute('type', type);
       // toggle the eye slash icon
       this.classList.toggle('fa-eye-slash');
-  });
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    });
+  </script>
+  
+  <!-- <script src="{% static 'admin/plugins/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
   <!-- Bootstrap tether Core JavaScript -->
-  <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- <script src="{% static 'admin/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script> -->
   <script src="{% static 'admin/js/app-style-switcher.js' %}"></script>
-  <script src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+  <!-- <script src="{% static 'admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js' %}"></script> -->
   <!--Wave Effects -->
   <script src="{% static 'admin/js/waves.js' %}"></script>
   <!--Menu sidebar -->
@@ -340,14 +244,13 @@
   <script src="{% static 'admin/js/custom.js' %}"></script>
   <!--This page JavaScript -->
   <!--chartis chart-->
-  <script src="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.js' %}"></script>
-  <script
-    src="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script>
+  <!-- <script src="{% static 'admin/plugins/bower_components/chartist/dist/chartist.min.js' %}"></script> -->
+  <!-- <script
+    src="{% static 'admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script> -->
   <script src="{% static 'admin/js/pages/dashboards/dashboard1.js' %}"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
-  <script src="{% static 'admin/js/char/t.js' %}"></script>
+  <!-- <script src="{% static 'admin/js/char/t.js' %}"></script> -->
   <script src="{% static 'admin/js/pie-chart.js' %}"></script>
 </body>
-
 </html>
