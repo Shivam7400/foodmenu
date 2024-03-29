@@ -1,8 +1,10 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
 
 <head>
     <title>Payment</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/FavIcon.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -10,8 +12,7 @@
 
 <body>
     <style>
-        
-
+       
         .w3-container {
             font-size: 14px;
         }
@@ -46,7 +47,7 @@
 
         .w3-blue {
             color: #fff !important;
-            background-color: #0ea8ad !important;
+            background-color: #ec3724 !important;
         }
         .css-aezqgw-button-Button {
             background-color: rgb(0 171 186) !important;
@@ -65,11 +66,10 @@
             <div class="w3-card-4">
 
                 <header class="w3-container w3-blue">
-                    <h1>Food Menu</h1>
+                    <h1>DineQr</h1>
                 </header>
 
                 <div class="w3-container">
-                    <h4>{{data.package}}</h4>
                     <p>Payment Here</p>
 
                     <!-- PAYPAL BUTTONS HERE  -->
@@ -79,7 +79,7 @@
 
                     <!-- Include the PayPal JavaScript SDK -->
                     <script
-                        src="https://www.paypal.com/sdk/js?client-id=AQkxRpmAoBFYTD0dGkWm1_D9R8emac15kbuSN7dtvpaTP-qfM1NnuX09qhQ17vt-7aofC3u1GKiWGFnr&currency=USD"></script>
+                        src="https://www.paypal.com/sdk/js?client-id={{client_id}}&currency=USD"></script>
 
                     <script>
                         // Render the PayPal button into #paypal-button-container
